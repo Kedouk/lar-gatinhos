@@ -3,3 +3,18 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #d8432e;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.button:hover {
+  background-color: #f57c1f;
+}
