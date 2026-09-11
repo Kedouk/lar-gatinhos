@@ -1,0 +1,175 @@
+main {
+  min-height: calc(100vh - 80px);
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  padding: 70px 8%;
+  min-height: 550px;
+  box-sizing: border-box;
+  background-color: #f2e2cf;
+}
+
+.hero-content {
+  max-width: 550px;
+}
+
+.hero h1 {
+  font-size: 52px;
+  line-height: 1.1;
+  margin: 0 0 24px;
+  color: #d8432e;
+}
+
+.hero p {
+  font-size: 19px;
+  line-height: 1.6;
+  margin: 0 0 32px;
+  color: #555555;
+}
+
+.hero-button {
+  display: inline-block;
+  padding: 15px 30px;
+  background-color: #d8432e;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.hero-button:hover {
+  background-color: #f57c1f;
+}
+
+.hero-image {
+  flex: 1;
+  max-width: 500px;
+}
+
+.hero-image img {
+  display: block;
+  width: 100%;
+  height: 430px;
+  object-fit: cover;
+  border-radius: 24px;
+  border: 5px solid #f57c1f;
+}
+
+.adoption {
+  padding: 80px 8%;
+  background-color: #ffffff;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.section-title h2 {
+  font-size: 36px;
+  color: #d8432e;
+  margin-bottom: 12px;
+}
+
+.section-title p {
+  font-size: 18px;
+  color: #555555;
+}
+
+.cats-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.cat-card {
+  width: 300px;
+  background-color: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 3.5px solid #5fb2be;
+}
+
+.cat-image {
+  height: 260px;
+  background-color: #e8f4f6;
+}
+
+.cat-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cat-info {
+  padding: 24px;
+}
+
+.cat-info h3 {
+  margin: 0 0 10px;
+  color: #2e2e2e;
+}
+
+.cat-info p {
+  color: #555555;
+  margin-bottom: 20px;
+}
+
+.cat-info a {
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #d8432e;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.cat-info a:hover {
+  background-color: #f57c1f;
+}
+
+@media (max-width: 768px) {
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 50px 6%;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .hero p {
+    font-size: 17px;
+  }
+
+  .hero-image {
+    width: 100%;
+    max-width: 450px;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: initial;
+    border-radius: 24px;
+  }
+
+  .cats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .adoption {
+    padding: 60px 6%;
+  }
+
+}
