@@ -1,0 +1,181 @@
+main {
+  min-height: calc(100vh - 80px);
+}
+
+.about-header {
+  padding: 70px 8%;
+  text-align: center;
+  background-color: #f2e2cf;
+}
+
+.about-header h1 {
+  margin: 0 0 15px;
+  font-size: 42px;
+  color: #d8432e;
+}
+
+.about-header p {
+  max-width: 750px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555555;
+}
+
+.about-story {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  padding: 80px 8%;
+  background-color: #ffffff;
+}
+
+.about-story-content {
+  max-width: 550px;
+}
+
+.about-story-content h2 {
+  margin: 0 0 20px;
+  font-size: 36px;
+  color: #d8432e;
+}
+
+.about-story-content p {
+  margin: 0 0 18px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555555;
+}
+
+.about-story-image {
+  flex: 1;
+  max-width: 500px;
+}
+
+.about-story-image img {
+  display: block;
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 24px;
+  border: 5px solid #f57c1f;
+}
+
+.mission {
+  padding: 80px 8%;
+  background-color: #f2e2cf;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.section-title h2 {
+  margin: 0 0 12px;
+  font-size: 36px;
+  color: #d8432e;
+}
+
+.section-title p {
+  margin: 0;
+  font-size: 18px;
+  color: #555555;
+}
+
+.mission-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.mission-card {
+  width: 300px;
+  padding: 30px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border: 3.5px solid #5fb2be;
+  border-radius: 18px;
+  text-align: center;
+}
+
+.mission-card h3 {
+  margin: 0 0 15px;
+  font-size: 24px;
+  color: #555555;
+}
+
+.mission-card p {
+  margin: 0;
+  color: #555555;
+  line-height: 1.6;
+}
+
+.about-help {
+  padding: 80px 8%;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.about-help-content {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.about-help h2 {
+  margin: 0 0 20px;
+  font-size: 36px;
+  color: #d8432e;
+}
+
+.about-help p {
+  margin: 0 0 25px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555555;
+}
+
+@media (max-width: 768px) {
+
+  .about-header {
+    padding: 50px 6%;
+  }
+
+  .about-header h1 {
+    font-size: 36px;
+  }
+
+  .about-story {
+    flex-direction: column;
+    padding: 60px 6%;
+    text-align: center;
+  }
+
+  .about-story-content {
+    max-width: 100%;
+  }
+
+  .about-story-image {
+    width: 100%;
+    max-width: 450px;
+  }
+
+  .about-story-image img {
+    height: auto;
+  }
+
+  .mission {
+    padding: 60px 6%;
+  }
+
+  .mission-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-help {
+    padding: 60px 6%;
+  }
+
+}

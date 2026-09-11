@@ -2,6 +2,9 @@ import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { Adocao } from './pages/adocao/adocao';
 import { Gato } from './pages/gato/gato';
+import { Sobre } from './pages/sobre/sobre';
+import { Ajude } from './pages/ajude/ajude';
+import { Contato } from './pages/contato/contato';
 
 export const routes: Routes = [
   {
@@ -13,7 +16,19 @@ export const routes: Routes = [
     component: Adocao
   },
   {
-    path: 'gato/:id',
+    path: 'gato',
     component: Gato
+  },
+  {
+    path: 'sobre',
+    component: Sobre
+  },
+  {
+    path: 'ajude',
+    component: Ajude
+  },
+  {
+    path: 'contato',
+    component: Contato
   }
 ];
