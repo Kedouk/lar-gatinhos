@@ -43,29 +43,36 @@
 
     <div class="cats-grid">
 
-      <div class="cat-card">
+      @for (gato of gatos; track gato.id) {
 
-        <div class="cat-image">
+        <div class="cat-card">
 
-          <img src="gato-hero.png" alt="Gatinho para adoção">
+          <div class="cat-image">
+
+            <img
+              [src]="gato.foto"
+              [alt]="'Foto de ' + gato.nome"
+            >
+
+          </div>
+
+          <div class="cat-info">
+
+            <h3>{{ gato.nome }}</h3>
+
+            <p>
+              {{ gato.descricao }}
+            </p>
+
+            <a [routerLink]="['/gato', gato.id]" class="button">
+              Quero conhecer
+            </a>
+
+          </div>
 
         </div>
 
-        <div class="cat-info">
-
-          <h3>Gatinho</h3>
-
-          <p>
-            Informações sobre o gatinho.
-          </p>
-
-          <a routerLink="/adocao" class="button">
-            Quero conhecer
-          </a>
-
-        </div>
-
-      </div>
+      }
 
     </div>
 

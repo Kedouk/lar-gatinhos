@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Header } from '../../shared/header/header';
-import { Gato, gatos } from '../../services/gatos';
+import { Gato, GatosService } from '../../services/gatos';
 
 @Component({
   selector: 'app-adocao',
@@ -11,10 +11,12 @@ import { Gato, gatos } from '../../services/gatos';
 })
 export class Adocao {
 
+  private gatosService = inject(GatosService);
+
   sexoSelecionado: string = '';
   idadeSelecionada: string = '';
 
-  gatos: Gato[] = gatos;
+  gatos: Gato[] = this.gatosService.getGatos();
 
   get gatosFiltrados(): Gato[] {
     return this.gatos.filter(gato => {

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Header } from '../../shared/header/header';
+import { Gato, GatosService } from '../../services/gatos';
 
 @Component({
   selector: 'app-home',
@@ -9,5 +10,9 @@ import { Header } from '../../shared/header/header';
   styleUrl: './home.css',
 })
 export class Home {
+
+  private gatosService = inject(GatosService);
+
+  gatos: Gato[] = this.gatosService.getGatos();
 
 }
