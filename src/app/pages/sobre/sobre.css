@@ -136,6 +136,27 @@ main {
   color: #555555;
 }
 
+.mission-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e8f4f6;
+  border-radius: 50%;
+}
+
+.mission-icon svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: #3f8ea0;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 768px) {
 
   .about-header {

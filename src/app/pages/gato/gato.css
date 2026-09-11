@@ -6,13 +6,18 @@ main {
 .back-link {
   display: inline-block;
   margin: 30px 3% 0;
-  color: #d8432e;
+  padding: 10px 18px;
+  background-color: #d8432e;
+  color: #ffffff !important;
+  border-radius: 24px;
   text-decoration: none;
   font-weight: 600;
+  transition: background-color 0.2s;
 }
 
 .back-link:hover {
-  color: #f57c1f;
+  background-color: #f57c1f;
+  color: #ffffff !important;
 }
 
 .cat-detail {
@@ -70,10 +75,43 @@ main {
   font-weight: 600;
 }
 
+.sex-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sex-badge svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: #3f8ea0;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .cat-detail-info p {
   margin: 0 0 18px;
   font-size: 18px;
   line-height: 1.7;
+  color: #555555;
+}
+
+.cat-not-found {
+  padding: 100px 8%;
+  text-align: center;
+}
+
+.cat-not-found h1 {
+  margin: 0 0 15px;
+  font-size: 36px;
+  color: #555555;
+}
+
+.cat-not-found p {
+  margin: 0 0 25px;
+  font-size: 18px;
   color: #555555;
 }
 

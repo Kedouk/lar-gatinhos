@@ -16,7 +16,7 @@ export const routes: Routes = [
     component: Adocao
   },
   {
-    path: 'gato',
+    path: 'gato/:id',
     component: Gato
   },
   {

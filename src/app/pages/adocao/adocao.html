@@ -17,17 +17,17 @@
 
     <div class="filters">
 
-      <select>
+      <select (change)="filtrarSexo($event)">
         <option value="">Todos os sexos</option>
-        <option value="femea">Fêmea</option>
-        <option value="macho">Macho</option>
+        <option value="Fêmea">Fêmea</option>
+        <option value="Macho">Macho</option>
       </select>
 
-      <select>
+      <select (change)="filtrarIdade($event)">
         <option value="">Todas as idades</option>
-        <option value="filhote">Filhote</option>
-        <option value="adulto">Adulto</option>
-        <option value="idoso">Idoso</option>
+        <option value="Filhote">Filhote</option>
+        <option value="Adulto">Adulto</option>
+        <option value="Idoso">Idoso</option>
       </select>
 
     </div>
@@ -35,32 +35,81 @@
 
     <div class="cats-grid">
 
-      <div class="cat-card">
+      @for (gato of gatosFiltrados; track gato.id) {
 
-        <div class="cat-image">
-          <img src="gato-hero.png" alt="Foto do gatinho">
-        </div>
+        <div class="cat-card">
 
-        <div class="cat-info">
+          <div class="cat-image">
 
-          <h2>Nome do gatinho</h2>
+            <img
+              [src]="gato.foto"
+              [alt]="'Foto de ' + gato.nome"
+            >
 
-          <div class="cat-details">
-            <span>Idade</span>
-            <span>Sexo</span>
           </div>
 
-          <p>
-            Breve descrição do gatinho.
-          </p>
+          <div class="cat-info">
 
-          <a href="#" class="button">
-            Quero conhecer
-          </a>
+            <h2>{{ gato.nome }}</h2>
+
+            <div class="cat-details">
+
+              <span>{{ gato.idade }}</span>
+
+              <span class="sex-badge">
+
+                @if (gato.sexo === 'Fêmea') {
+
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="10" cy="8" r="5"></circle>
+                    <path d="M10 13v8"></path>
+                    <path d="M7 18h6"></path>
+                  </svg>
+
+                } @else {
+
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="9" cy="15" r="5"></circle>
+                    <path d="M13 11l7-7"></path>
+                    <path d="M16 4h4v4"></path>
+                  </svg>
+
+                }
+
+                {{ gato.sexo }}
+
+              </span>
+
+            </div>
+
+            <p>
+              {{ gato.descricao }}
+            </p>
+
+            <a [routerLink]="['/gato', gato.id]" class="button">
+              Quero conhecer
+            </a>
+
+          </div>
 
         </div>
 
-      </div>
+      }
+
+
+      @if (gatosFiltrados.length === 0) {
+
+        <div class="no-results">
+
+          <h2>Nenhum gatinho disponível</h2>
+
+          <p>
+            Não encontramos gatinhos com os filtros selecionados.
+          </p>
+
+        </div>
+
+      }
 
     </div>
 

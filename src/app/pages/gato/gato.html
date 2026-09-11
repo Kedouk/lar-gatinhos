@@ -2,36 +2,88 @@
 
 <main>
 
-  <a href="/adocao" class="back-link">
+  <a routerLink="/adocao" class="back-link">
     ← Voltar para adoção
   </a>
 
-  <section class="cat-detail">
+  @if (gato) {
 
-    <div class="cat-detail-image">
-      <img src="gato-hero.png" alt="Foto do gatinho">
-    </div>
+    <section class="cat-detail">
 
-    <div class="cat-detail-info">
+      <div class="cat-detail-image">
 
-      <h1>Adelaide</h1>
+        <img
+          [src]="gato.foto"
+          [alt]="'Foto de ' + gato.nome"
+        >
 
-      <div class="cat-details">
-        <span>Filhote</span>
-        <span>♀ Fêmea</span>
       </div>
 
+
+      <div class="cat-detail-info">
+
+        <h1>{{ gato.nome }}</h1>
+
+        <div class="cat-details">
+
+          <span>{{ gato.idade }}</span>
+
+          <span class="sex-badge">
+
+            @if (gato.sexo === 'Fêmea') {
+
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="10" cy="8" r="5"></circle>
+                <path d="M10 13v8"></path>
+                <path d="M7 18h6"></path>
+              </svg>
+
+            } @else {
+
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="9" cy="15" r="5"></circle>
+                <path d="M13 11l7-7"></path>
+                <path d="M16 4h4v4"></path>
+              </svg>
+
+            }
+
+            {{ gato.sexo }}
+
+          </span>
+
+        </div>
+
+        <p>
+          {{ gato.descricao }}
+        </p>
+
+        <a routerLink="/contato" class="button">
+          Quero adotar
+        </a>
+
+      </div>
+
+    </section>
+
+  }
+
+  @if (!gato) {
+
+    <section class="cat-not-found">
+
+      <h1>Gatinho não encontrado</h1>
+
       <p>
-        Breve descrição do gatinho e informações importantes
-        sobre sua personalidade.
+        Não encontramos o gatinho que você está procurando.
       </p>
 
-      <a href="/contato" class="button">
-        Quero adotar
+      <a routerLink="/adocao" class="button">
+        Ver gatinhos para adoção
       </a>
 
-    </div>
+    </section>
 
-  </section>
+  }
 
 </main>
