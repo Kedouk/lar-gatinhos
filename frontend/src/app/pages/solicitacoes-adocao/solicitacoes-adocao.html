@@ -1,0 +1,242 @@
+<app-header></app-header>
+
+<main>
+
+  <section class="page-header">
+
+    <h1>Solicitações de adoção</h1>
+
+    <p>
+      Consulte os interesses de adoção recebidos pelo Lar Gatinhos.
+    </p>
+
+  </section>
+
+
+  <section class="requests">
+
+    @if (carregando()) {
+
+      <div class="message">
+
+        <p>
+          Carregando solicitações...
+        </p>
+
+      </div>
+
+    }
+
+
+    @if (!carregando() && erro()) {
+
+      <div class="message error">
+
+        <h2>Não foi possível carregar as solicitações</h2>
+
+        <p>
+          Ocorreu um erro ao buscar as solicitações de adoção.
+        </p>
+
+      </div>
+
+    }
+
+
+    @if (!carregando() && !erro() && solicitacoes().length === 0) {
+
+      <div class="message">
+
+        <h2>Nenhuma solicitação encontrada</h2>
+
+        <p>
+          Ainda não recebemos nenhuma solicitação de adoção.
+        </p>
+
+      </div>
+
+    }
+
+
+    @if (!carregando() && !erro() && solicitacoes().length > 0) {
+
+      <div class="status-filter">
+
+        <label for="status-filter">
+          Filtrar por status
+        </label>
+
+        <select
+          id="status-filter"
+          (change)="filtrarStatus($event)"
+        >
+
+          <option value="">
+            Todos os status
+          </option>
+
+          <option value="Pendente">
+            Pendente
+          </option>
+
+          <option value="Em análise">
+            Em análise
+          </option>
+
+          <option value="Aprovada">
+            Aprovada
+          </option>
+
+          <option value="Recusada">
+            Recusada
+          </option>
+
+        </select>
+
+      </div>
+
+
+      @if (solicitacoesFiltradas().length === 0) {
+
+        <div class="message">
+
+          <h2>Nenhuma solicitação encontrada</h2>
+
+          <p>
+            Não existem solicitações com o status selecionado.
+          </p>
+
+        </div>
+
+      }
+
+
+      @if (solicitacoesFiltradas().length > 0) {
+
+        <div class="requests-list">
+
+          @for (
+            solicitacao of solicitacoesFiltradas();
+            track solicitacao.id
+          ) {
+
+            <article class="request-card">
+
+              <div class="request-header">
+
+                <div>
+
+                  <h2>
+                    {{ solicitacao.gato_nome }}
+                  </h2>
+
+                  <span class="status">
+                    {{ solicitacao.status }}
+                  </span>
+
+                </div>
+
+                <span class="date">
+                  {{ solicitacao.criada_em | date:'dd/MM/yyyy HH:mm' }}
+                </span>
+
+              </div>
+
+
+              <div class="request-info">
+
+                <div class="info-item">
+
+                  <strong>Interessado</strong>
+
+                  <span>
+                    {{ solicitacao.nome }}
+                  </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                  <strong>E-mail</strong>
+
+                  <span>
+                    {{ solicitacao.email }}
+                  </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                  <strong>WhatsApp</strong>
+
+                  <span>
+                    {{ solicitacao.telefone }}
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              @if (solicitacao.mensagem) {
+
+                <div class="request-message">
+
+                  <strong>Mensagem</strong>
+
+                  <p>
+                    {{ solicitacao.mensagem }}
+                  </p>
+
+                </div>
+
+              }
+
+
+              <div class="status-control">
+
+                <label [for]="'status-' + solicitacao.id">
+                  Status da solicitação
+                </label>
+
+                <select
+                  [id]="'status-' + solicitacao.id"
+                  [value]="solicitacao.status"
+                  (change)="alterarStatus(solicitacao, $event)"
+                >
+
+                  <option value="Pendente">
+                    Pendente
+                  </option>
+
+                  <option value="Em análise">
+                    Em análise
+                  </option>
+
+                  <option value="Aprovada">
+                    Aprovada
+                  </option>
+
+                  <option value="Recusada">
+                    Recusada
+                  </option>
+
+                </select>
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      }
+
+    }
+
+  </section>
+
+</main>

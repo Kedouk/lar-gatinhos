@@ -14,6 +14,222 @@
   </section>
 
 
+  @if (gato()) {
+
+    <section class="adoption-contact">
+
+      <div class="section-title">
+
+        <h2>Quero adotar</h2>
+
+        <p>
+
+          @if (gato()!.sexo === 'Fêmea') {
+            Você demonstrou interesse em adotar a gatinha
+          } @else {
+            Você demonstrou interesse em adotar o gatinho
+          }
+
+          <strong>{{ gato()!.nome }}</strong>.
+
+        </p>
+
+      </div>
+
+
+      @if (sucessoEnvio) {
+
+        <div class="success-message">
+
+          <div class="success-title">
+
+            <h3>Solicitação enviada com sucesso!</h3>
+
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"
+              />
+            </svg>
+
+          </div>
+
+          <p>
+            Recebemos sua solicitação para adotar
+            <strong>{{ gato()!.nome }}</strong>.
+          </p>
+
+          <p>
+            Agradecemos pelo seu interesse em oferecer um lar
+            cheio de carinho. Em breve entraremos em contato
+            pelo WhatsApp ou e-mail informado.
+          </p>
+
+          <a
+            routerLink="/adocao"
+            class="button"
+          >
+            Ver outros gatinhos
+          </a>
+
+        </div>
+
+      }
+
+
+      @if (!sucessoEnvio) {
+
+        <form
+          class="adoption-form"
+          #form="ngForm"
+          (ngSubmit)="enviar(form)"
+        >
+
+          @if (form.submitted && form.invalid) {
+
+            <div class="form-error">
+              Preencha todos os campos obrigatórios antes de enviar.
+            </div>
+
+          }
+
+
+          @if (erroEnvio) {
+
+            <div class="form-error">
+              {{ erroEnvio }}
+            </div>
+
+          }
+
+
+          <div class="form-group">
+
+            <label for="nome">
+              Nome <span class="required">*</span>
+            </label>
+
+            <input
+              id="nome"
+              name="nome"
+              type="text"
+              [(ngModel)]="nome"
+              placeholder="Seu nome"
+              required
+            >
+
+            @if (form.submitted && !nome.trim()) {
+
+              <span class="field-error">
+                Este campo é obrigatório.
+              </span>
+
+            }
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="email">
+              E-mail <span class="required">*</span>
+            </label>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              [(ngModel)]="email"
+              placeholder="seuemail@exemplo.com"
+              required
+              email
+            >
+
+            @if (form.submitted && !email.trim()) {
+
+              <span class="field-error">
+                Este campo é obrigatório.
+              </span>
+
+            } @else if (form.submitted && form.controls['email']?.invalid) {
+
+              <span class="field-error">
+                Informe um e-mail válido.
+              </span>
+
+            }
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="telefone">
+              WhatsApp <span class="required">*</span>
+            </label>
+
+            <input
+              id="telefone"
+              name="telefone"
+              type="tel"
+              [(ngModel)]="telefone"
+              placeholder="(15) 99999-9999"
+              required
+            >
+
+            @if (form.submitted && !telefone.trim()) {
+
+              <span class="field-error">
+                Este campo é obrigatório.
+              </span>
+
+            }
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="mensagem">
+              Mensagem <span class="optional">(Opcional)</span>
+            </label>
+
+            <textarea
+              id="mensagem"
+              name="mensagem"
+              rows="5"
+              [(ngModel)]="mensagem"
+              placeholder="Conte um pouco sobre você e por que deseja adotar."
+            ></textarea>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="button"
+            [disabled]="enviando"
+          >
+
+            @if (enviando) {
+              Enviando...
+            } @else {
+              Enviar interesse em adoção
+            }
+
+          </button>
+
+        </form>
+
+      }
+
+    </section>
+
+  }
+
+
   <section class="contact-content">
 
     <div class="section-title">
@@ -21,8 +237,7 @@
       <h2>Fale conosco</h2>
 
       <p>
-        Em breve, você poderá encontrar aqui todos os nossos canais oficiais
-        de contato.
+        Entre em contato conosco pelos nossos canais oficiais.
       </p>
 
     </div>
@@ -35,6 +250,7 @@
         <div class="contact-icon">
 
           <svg viewBox="0 0 24 24" aria-hidden="true">
+
             <path
               d="M21 15.46v3a2 2 0 0 1-2.18 2
               19.79 19.79 0 0 1-8.63-3.07
@@ -49,6 +265,7 @@
               c.83.31 1.7.53 2.6.65
               A2 2 0 0 1 21 15.46z"
             />
+
           </svg>
 
         </div>
@@ -76,7 +293,13 @@
 
             <circle cx="12" cy="12" r="4" />
 
-            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+            <circle
+              cx="17.5"
+              cy="6.5"
+              r="1"
+              fill="currentColor"
+              stroke="none"
+            />
 
           </svg>
 

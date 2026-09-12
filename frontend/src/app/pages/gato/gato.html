@@ -106,7 +106,11 @@
 
         </div>
 
-        <a routerLink="/contato" class="button">
+        <a
+          [routerLink]="['/contato']"
+          [queryParams]="{ gato: gato()!.id }"
+          class="button"
+        >
           Quero adotar
         </a>
 

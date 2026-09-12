@@ -6,6 +6,7 @@ import { Sobre } from './pages/sobre/sobre';
 import { Ajude } from './pages/ajude/ajude';
 import { Contato } from './pages/contato/contato';
 import { CadastroGato } from './pages/cadastro-gato/cadastro-gato';
+import { SolicitacoesAdocao } from './pages/solicitacoes-adocao/solicitacoes-adocao';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -14,5 +15,6 @@ export const routes: Routes = [
   { path: 'sobre', component: Sobre },
   { path: 'ajude', component: Ajude },
   { path: 'contato', component: Contato },
-  { path: 'cadastro-gato', component: CadastroGato }
+  { path: 'cadastro-gato', component: CadastroGato },
+  { path: 'solicitacoes-adocao', component: SolicitacoesAdocao }
 ];

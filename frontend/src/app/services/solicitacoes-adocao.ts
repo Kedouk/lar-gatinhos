@@ -1,0 +1,54 @@
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface SolicitacaoAdocao {
+  id?: number;
+  gato_id: number;
+  gato_nome?: string;
+  nome: string;
+  email: string;
+  telefone: string;
+  mensagem: string;
+  status?: string;
+  criada_em?: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SolicitacoesAdocaoService {
+
+  private http = inject(HttpClient);
+
+  private apiUrl = 'http://localhost:3000/solicitacoes-adocao';
+
+  enviarSolicitacao(
+    solicitacao: SolicitacaoAdocao
+  ): Observable<SolicitacaoAdocao> {
+
+    return this.http.post<SolicitacaoAdocao>(
+      this.apiUrl,
+      solicitacao
+    );
+  }
+
+  getSolicitacoes(): Observable<SolicitacaoAdocao[]> {
+
+    return this.http.get<SolicitacaoAdocao[]>(
+      this.apiUrl
+    );
+  }
+
+  atualizarStatus(
+    id: number,
+    status: string
+  ): Observable<SolicitacaoAdocao> {
+
+    return this.http.patch<SolicitacaoAdocao>(
+      `${this.apiUrl}/${id}/status`,
+      { status }
+    );
+  }
+
+}
