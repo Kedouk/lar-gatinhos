@@ -6,30 +6,42 @@
     ← Voltar para adoção
   </a>
 
-  @if (gato) {
+  @if (carregando()) {
+
+    <section class="cat-not-found">
+
+      <p>
+        Carregando informações do gatinho...
+      </p>
+
+    </section>
+
+  }
+
+  @if (gato()) {
 
     <section class="cat-detail">
 
       <div class="cat-detail-image">
 
         <img
-          [src]="gato.foto"
-          [alt]="'Foto de ' + gato.nome"
+          [src]="gato()!.foto"
+          [alt]="'Foto de ' + gato()!.nome"
         >
 
       </div>
 
       <div class="cat-detail-info">
 
-        <h1>{{ gato.nome }}</h1>
+        <h1>{{ gato()!.nome }}</h1>
 
         <div class="cat-details">
 
-          <span>{{ gato.idade }}</span>
+          <span>{{ gato()!.idade }}</span>
 
           <span class="sex-badge">
 
-            @if (gato.sexo === 'Fêmea') {
+            @if (gato()!.sexo === 'Fêmea') {
 
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="10" cy="8" r="5"></circle>
@@ -47,28 +59,28 @@
 
             }
 
-            {{ gato.sexo }}
+            {{ gato()!.sexo }}
 
           </span>
 
         </div>
 
         <p>
-          {{ gato.descricao }}
+          {{ gato()!.descricao }}
         </p>
 
         <p class="personality">
           <strong>Personalidade:</strong>
-          {{ gato.personalidade }}
+          {{ gato()!.personalidade }}
         </p>
 
         <div class="cat-status">
 
-          @if (gato.castrado) {
+          @if (gato()!.castrado) {
 
             <span class="status-badge">
 
-              @if (gato.sexo === 'Fêmea') {
+              @if (gato()!.sexo === 'Fêmea') {
                 Castrada
               } @else {
                 Castrado
@@ -78,11 +90,11 @@
 
           }
 
-          @if (gato.vacinado) {
+          @if (gato()!.vacinado) {
 
             <span class="status-badge">
 
-              @if (gato.sexo === 'Fêmea') {
+              @if (gato()!.sexo === 'Fêmea') {
                 Vacinada
               } @else {
                 Vacinado
@@ -104,7 +116,7 @@
 
   }
 
-  @if (!gato) {
+  @if (!carregando() && erro()) {
 
     <section class="cat-not-found">
 

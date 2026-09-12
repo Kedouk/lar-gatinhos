@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
 export interface Gato {
   id: number;
@@ -18,66 +20,56 @@ export interface Gato {
 })
 export class GatosService {
 
-  private gatos: Gato[] = [
-    {
-      id: 1,
-      nome: 'Nome do gatinho',
-      idade: 'Filhote',
-      sexo: 'Fêmea',
-      descricao: 'Breve descrição do gatinho.',
-      foto: 'gato-hero.png',
-      personalidade: 'Carinhosa e brincalhona.',
-      castrado: false,
-      vacinado: true,
-      disponivel: true
-    },
-    {
-      id: 2,
-      nome: 'Nome do gatinho',
-      idade: 'Adulto',
-      sexo: 'Macho',
-      descricao: 'Breve descrição do gatinho.',
-      foto: 'gato-hero.png',
-      personalidade: 'Tranquilo e carinhoso.',
-      castrado: true,
-      vacinado: true,
-      disponivel: true
-    },
-    {
-      id: 3,
-      nome: 'Nome do gatinho',
-      idade: 'Filhote',
-      sexo: 'Macho',
-      descricao: 'Breve descrição do gatinho.',
-      foto: 'gato-hero.png',
-      personalidade: 'Brincalhão e curioso.',
-      castrado: false,
-      vacinado: true,
-      disponivel: true
+  private http = inject(HttpClient);
+
+  private apiUrl = 'http://localhost:3000/gatos';
+
+  private prepararFoto(foto: string): string {
+    if (
+      foto.startsWith('http') ||
+      foto.startsWith('data:')
+    ) {
+      return foto;
     }
-  ];
 
-  getGatos(): Gato[] {
-    return this.gatos;
+    return `/${foto}`;
   }
 
-  getGatosDisponiveis(): Gato[] {
-    return this.gatos.filter(gato => gato.disponivel);
+  private prepararGatos(gatos: Gato[]): Gato[] {
+    return gatos.map(gato => ({
+      ...gato,
+      foto: this.prepararFoto(gato.foto)
+    }));
   }
 
-  getGatoPorId(id: number): Gato | undefined {
-    return this.gatos.find(gato => gato.id === id);
+  getGatos(): Observable<Gato[]> {
+    return this.http.get<Gato[]>(this.apiUrl).pipe(
+      map(gatos => this.prepararGatos(gatos))
+    );
   }
 
-  adicionarGato(gato: Omit<Gato, 'id'>): void {
-    const novoId = this.gatos.length > 0
-      ? Math.max(...this.gatos.map(gato => gato.id)) + 1
-      : 1;
+  getGatosDisponiveis(): Observable<Gato[]> {
+    return this.getGatos().pipe(
+      map(gatos => gatos.filter(gato => gato.disponivel))
+    );
+  }
 
-    this.gatos.push({
-      id: novoId,
-      ...gato
-    });
+  getGatoPorId(id: number): Observable<Gato> {
+    return this.http.get<Gato>(`${this.apiUrl}/${id}`).pipe(
+      map(gato => ({
+        ...gato,
+        foto: this.prepararFoto(gato.foto)
+      }))
+    );
+  }
+
+  adicionarGato(gato: Omit<Gato, 'id'>): Observable<Gato> {
+    return this.http.post<Gato>(this.apiUrl, gato).pipe(
+      map(gatoCadastrado => ({
+        ...gatoCadastrado,
+        foto: this.prepararFoto(gatoCadastrado.foto)
+      }))
+    );
   }
 
 }

@@ -33,6 +33,14 @@
 
       }
 
+      @if (erroCadastro) {
+
+        <div class="form-error">
+          {{ erroCadastro }}
+        </div>
+
+      }
+
       <div class="form-group">
 
         <label for="nome">
@@ -291,8 +299,13 @@
       <button
         type="submit"
         class="button"
+        [disabled]="cadastrando"
       >
-        Cadastrar gatinho
+        @if (cadastrando) {
+          Cadastrando...
+        } @else {
+          Cadastrar gatinho
+        }
       </button>
 
     </form>

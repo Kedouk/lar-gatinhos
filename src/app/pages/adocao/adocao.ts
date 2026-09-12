@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Header } from '../../shared/header/header';
 import { Gato, GatosService } from '../../services/gatos';
@@ -10,34 +10,64 @@ import { Gato, GatosService } from '../../services/gatos';
   styleUrl: './adocao.css',
 })
 export class Adocao {
+
   private gatosService = inject(GatosService);
 
-  sexoSelecionado: string = '';
-  idadeSelecionada: string = '';
+  sexoSelecionado = signal('');
+  idadeSelecionada = signal('');
 
-  gatos: Gato[] = this.gatosService.getGatosDisponiveis();
+  gatos = signal<Gato[]>([]);
 
-  get gatosFiltrados(): Gato[] {
-    return this.gatos.filter(gato => {
+  gatosFiltrados = computed(() => {
+
+    const gatos = this.gatos();
+    const sexo = this.sexoSelecionado();
+    const idade = this.idadeSelecionada();
+
+    return gatos.filter(gato => {
+
       const correspondeSexo =
-        this.sexoSelecionado === '' ||
-        gato.sexo === this.sexoSelecionado;
+        sexo === '' ||
+        gato.sexo === sexo;
 
       const correspondeIdade =
-        this.idadeSelecionada === '' ||
-        gato.idade === this.idadeSelecionada;
+        idade === '' ||
+        gato.idade === idade;
 
       return correspondeSexo && correspondeIdade;
     });
+
+  });
+
+  constructor() {
+
+    this.gatosService.getGatosDisponiveis().subscribe({
+
+      next: (gatos) => {
+        this.gatos.set(gatos);
+      },
+
+      error: (erro) => {
+        console.error('Erro ao buscar gatinhos:', erro);
+      }
+
+    });
   }
 
-  filtrarSexo(event: Event) {
+  filtrarSexo(event: Event): void {
+
     const select = event.target as HTMLSelectElement;
-    this.sexoSelecionado = select.value;
+
+    this.sexoSelecionado.set(select.value);
+
   }
 
-  filtrarIdade(event: Event) {
+  filtrarIdade(event: Event): void {
+
     const select = event.target as HTMLSelectElement;
-    this.idadeSelecionada = select.value;
+
+    this.idadeSelecionada.set(select.value);
+
   }
+
 }

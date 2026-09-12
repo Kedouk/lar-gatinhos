@@ -35,7 +35,7 @@
 
     <div class="cats-grid">
 
-      @for (gato of gatosFiltrados; track gato.id) {
+      @for (gato of gatosFiltrados(); track gato.id) {
 
         <div class="cat-card">
 
@@ -97,7 +97,7 @@
       }
 
 
-      @if (gatosFiltrados.length === 0) {
+      @if (gatosFiltrados().length === 0) {
 
         <div class="no-results">
 

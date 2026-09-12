@@ -27,6 +27,9 @@ export class CadastroGato {
   vacinado = false;
   disponivel = true;
 
+  cadastrando = false;
+  erroCadastro = '';
+
   selecionarFoto(event: Event): void {
     const input = event.target as HTMLInputElement;
 
@@ -50,6 +53,8 @@ export class CadastroGato {
 
   cadastrar(form: NgForm): void {
 
+    this.erroCadastro = '';
+
     if (
       form.invalid ||
       !this.nome.trim() ||
@@ -59,6 +64,8 @@ export class CadastroGato {
     ) {
       return;
     }
+
+    this.cadastrando = true;
 
     this.gatosService.adicionarGato({
       nome: this.nome.trim(),
@@ -70,9 +77,19 @@ export class CadastroGato {
       castrado: this.castrado,
       vacinado: this.vacinado,
       disponivel: this.disponivel
-    });
+    }).subscribe({
+      next: () => {
+        this.router.navigate(['/adocao']);
+      },
+      error: (erro) => {
+        console.error('Erro ao cadastrar gatinho:', erro);
 
-    this.router.navigate(['/adocao']);
+        this.erroCadastro =
+          'Não foi possível cadastrar o gatinho. Tente novamente.';
+
+        this.cadastrando = false;
+      }
+    });
   }
 
 }
