@@ -10,9 +10,7 @@ import { Gato, GatosService } from '../../services/gatos';
   styleUrl: './home.css',
 })
 export class Home {
-
   private gatosService = inject(GatosService);
 
-  gatos: Gato[] = this.gatosService.getGatos();
-
+  gatos: Gato[] = this.gatosService.getGatosDisponiveis();
 }

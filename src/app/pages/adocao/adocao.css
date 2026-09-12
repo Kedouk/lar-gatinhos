@@ -36,6 +36,8 @@ main {
 
 .cat-card {
   width: 300px;
+  display: flex;
+  flex-direction: column;
   background-color: #ffffff;
   border: 3.5px solid #5fb2be;
   border-radius: 18px;
@@ -46,6 +48,7 @@ main {
 .cat-image {
   width: 100%;
   height: 260px;
+  flex-shrink: 0;
   background-color: #e8f4f6;
 }
 
@@ -57,6 +60,9 @@ main {
 }
 
 .cat-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 24px;
 }
 
@@ -101,6 +107,12 @@ main {
   margin: 0 0 20px;
   color: #555555;
   line-height: 1.6;
+  min-height: 77px;
+}
+
+.cat-info .button {
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .filters {
@@ -141,7 +153,6 @@ main {
 .no-results p {
   margin: 0;
   color: #555555;
-  font-size: 17px;
 }
 
 @media (max-width: 768px) {
@@ -173,6 +184,10 @@ main {
   .filters select {
     width: 100%;
     max-width: 300px;
+  }
+
+  .cat-info p {
+    min-height: 0;
   }
 
 }

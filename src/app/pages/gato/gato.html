@@ -19,7 +19,6 @@
 
       </div>
 
-
       <div class="cat-detail-info">
 
         <h1>{{ gato.nome }}</h1>
@@ -57,6 +56,43 @@
         <p>
           {{ gato.descricao }}
         </p>
+
+        <p class="personality">
+          <strong>Personalidade:</strong>
+          {{ gato.personalidade }}
+        </p>
+
+        <div class="cat-status">
+
+          @if (gato.castrado) {
+
+            <span class="status-badge">
+
+              @if (gato.sexo === 'Fêmea') {
+                Castrada
+              } @else {
+                Castrado
+              }
+
+            </span>
+
+          }
+
+          @if (gato.vacinado) {
+
+            <span class="status-badge">
+
+              @if (gato.sexo === 'Fêmea') {
+                Vacinada
+              } @else {
+                Vacinado
+              }
+
+            </span>
+
+          }
+
+        </div>
 
         <a routerLink="/contato" class="button">
           Quero adotar

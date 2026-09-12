@@ -30,7 +30,7 @@ main {
   align-items: center;
   justify-content: center;
   gap: 50px;
-  padding: 70px 8%;
+  padding: 100px 8% 70px;
   box-sizing: border-box;
 }
 
@@ -96,11 +96,35 @@ main {
   stroke-linejoin: round;
 }
 
-.cat-detail-info p {
-  margin: 0 0 18px;
+.cat-detail-info > p {
+  margin: 0 0 22px;
   font-size: 18px;
   line-height: 1.7;
   color: #555555;
+}
+
+.personality {
+  margin-bottom: 20px !important;
+}
+
+.personality strong {
+  color: #3f8ea0;
+}
+
+.cat-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.status-badge {
+  padding: 8px 14px;
+  background-color: #e8f4f6;
+  color: #3f8ea0;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .cat-not-found {
@@ -155,6 +179,10 @@ main {
 
   .cat-detail-info h1 {
     font-size: 34px;
+  }
+
+  .cat-status {
+    justify-content: center;
   }
 
   .cat-not-found {

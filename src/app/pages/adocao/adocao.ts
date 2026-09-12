@@ -10,17 +10,15 @@ import { Gato, GatosService } from '../../services/gatos';
   styleUrl: './adocao.css',
 })
 export class Adocao {
-
   private gatosService = inject(GatosService);
 
   sexoSelecionado: string = '';
   idadeSelecionada: string = '';
 
-  gatos: Gato[] = this.gatosService.getGatos();
+  gatos: Gato[] = this.gatosService.getGatosDisponiveis();
 
   get gatosFiltrados(): Gato[] {
     return this.gatos.filter(gato => {
-
       const correspondeSexo =
         this.sexoSelecionado === '' ||
         gato.sexo === this.sexoSelecionado;
@@ -30,7 +28,6 @@ export class Adocao {
         gato.idade === this.idadeSelecionada;
 
       return correspondeSexo && correspondeIdade;
-
     });
   }
 
@@ -43,5 +40,4 @@ export class Adocao {
     const select = event.target as HTMLSelectElement;
     this.idadeSelecionada = select.value;
   }
-
 }

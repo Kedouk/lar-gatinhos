@@ -1,0 +1,262 @@
+main {
+  min-height: calc(100vh - 80px);
+}
+
+.page-header {
+  padding: 70px 8%;
+  text-align: center;
+  background-color: #f2e2cf;
+}
+
+.page-header h1 {
+  margin: 0 0 15px;
+  font-size: 42px;
+  color: #d8432e;
+}
+
+.page-header p {
+  max-width: 750px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555555;
+}
+
+.required-info {
+  margin-top: 12px !important;
+  font-size: 14px !important;
+  color: #777777 !important;
+}
+
+.required-info span {
+  color: #d8432e;
+  font-weight: 700;
+}
+
+.form-section {
+  padding: 80px 8%;
+  background-color: #ffffff;
+}
+
+.cat-form {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border: 3px solid #5fb2be;
+  border-radius: 28px;
+  box-sizing: border-box;
+}
+
+.form-error {
+  margin-bottom: 25px;
+  padding: 14px 18px;
+  background-color: #fdecea;
+  border: 2px solid #d8432e;
+  border-radius: 8px;
+  color: #b52f20;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  color: #555555;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.required {
+  color: #d8432e;
+  font-weight: 700;
+}
+
+.field-error {
+  margin-top: 6px;
+  color: #d8432e;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #5fb2be;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #2e2e2e;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #d8432e;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group input[type="file"] {
+  display: none;
+}
+
+.photo-button {
+  display: inline-block;
+  align-self: flex-start;
+  margin-bottom: 0 !important;
+  padding: 12px 24px;
+  background-color: #d8432e;
+  color: #ffffff !important;
+  border-radius: 30px;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.photo-button:hover {
+  background-color: #f57c1f;
+}
+
+.file-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 10px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  background-color: #e8f4f6;
+  border-radius: 8px;
+  color: #3f8ea0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.file-name svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: #3f8ea0;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.file-name span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.photo-preview {
+  margin-top: 15px;
+  width: 180px;
+  height: 180px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 3px solid #5fb2be;
+  background-color: #e8f4f6;
+}
+
+.photo-preview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.form-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 5px 0 30px;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background-color: #f8fcfd;
+  border: 2px solid #e8f4f6;
+  border-radius: 10px;
+  color: #555555;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.checkbox-option:hover {
+  background-color: #e8f4f6;
+  border-color: #5fb2be;
+}
+
+.checkbox-option input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #3f8ea0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.cat-form .button {
+  border: none;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+}
+
+@media (max-width: 768px) {
+
+  .page-header {
+    padding: 50px 6%;
+  }
+
+  .page-header h1 {
+    font-size: 36px;
+  }
+
+  .form-section {
+    padding: 60px 6%;
+  }
+
+  .cat-form {
+    padding: 30px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .file-name {
+    max-width: 100%;
+  }
+
+}
