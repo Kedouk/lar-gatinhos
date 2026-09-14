@@ -35,7 +35,7 @@
 
     <div class="cats-grid">
 
-      @for (gato of gatosFiltrados(); track gato.id) {
+      @for (gato of gatosPaginados(); track gato.id) {
 
         <div class="cat-card">
 
@@ -86,7 +86,10 @@
               {{ gato.descricao }}
             </p>
 
-            <a [routerLink]="['/gato', gato.id]" class="button">
+            <a
+              [routerLink]="['/gato', gato.id]"
+              class="button"
+            >
               Quero conhecer
             </a>
 
@@ -112,6 +115,52 @@
       }
 
     </div>
+
+
+    @if (totalPaginas() > 1) {
+
+      <div class="pagination">
+
+        <button
+          type="button"
+          class="pagination-button"
+          [disabled]="paginaAtual() === 1"
+          (click)="irParaPagina(paginaAtual() - 1)"
+        >
+          Anterior
+        </button>
+
+
+        <div class="pagination-pages">
+
+          @for (pagina of paginas(); track pagina) {
+
+            <button
+              type="button"
+              class="pagination-number"
+              [class.active]="paginaAtual() === pagina"
+              (click)="irParaPagina(pagina)"
+            >
+              {{ pagina }}
+            </button>
+
+          }
+
+        </div>
+
+
+        <button
+          type="button"
+          class="pagination-button"
+          [disabled]="paginaAtual() === totalPaginas()"
+          (click)="irParaPagina(paginaAtual() + 1)"
+        >
+          Próxima
+        </button>
+
+      </div>
+
+    }
 
   </section>
 

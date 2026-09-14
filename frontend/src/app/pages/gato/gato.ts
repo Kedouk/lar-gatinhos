@@ -25,14 +25,30 @@ export class Gato {
     this.gatosService.getGatoPorId(id).subscribe({
 
       next: (gato) => {
-        this.gato.set(gato);
+
+        const foto =
+          gato.foto.startsWith('http') ||
+          gato.foto.startsWith('data:') ||
+          gato.foto.startsWith('/')
+            ? gato.foto
+            : `/${gato.foto}`;
+
+        this.gato.set({
+          ...gato,
+          foto
+        });
+
         this.carregando.set(false);
+
       },
 
       error: (erro) => {
+
         console.error('Erro ao buscar gatinho:', erro);
+
         this.erro.set(true);
         this.carregando.set(false);
+
       }
 
     });

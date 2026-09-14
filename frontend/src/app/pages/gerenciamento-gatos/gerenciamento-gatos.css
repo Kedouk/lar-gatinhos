@@ -22,44 +22,24 @@ main {
   color: #555555;
 }
 
-.requests {
+.cats-management {
   padding: 70px 8%;
   background-color: #ffffff;
 }
 
-.status-filter {
+.management-actions {
   max-width: 1000px;
   margin: 0 auto 35px;
   display: flex;
-  align-items: center;
   justify-content: flex-end;
-  gap: 12px;
 }
 
-.status-filter label {
-  color: #555555;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.status-filter select,
-.status-control select {
-  padding: 10px 14px;
-  border: 2px solid #5fb2be;
-  border-radius: 8px;
-  background-color: #ffffff;
-  color: #2e2e2e;
-  font-size: 15px;
+.management-actions .button {
+  border: none;
   cursor: pointer;
 }
 
-.status-filter select:focus,
-.status-control select:focus {
-  outline: none;
-  border-color: #d8432e;
-}
-
-.requests-list {
+.cats-list {
   max-width: 1000px;
   margin: 0 auto;
   display: flex;
@@ -67,31 +47,48 @@ main {
   gap: 25px;
 }
 
-.request-card {
-  padding: 30px 35px;
+.management-card {
+  display: flex;
+  overflow: hidden;
   background-color: #ffffff;
   border: 3px solid #5fb2be;
   border-radius: 18px;
-  box-sizing: border-box;
 }
 
-.request-header {
+.cat-image {
+  width: 300px;
+  min-height: 300px;
+  flex-shrink: 0;
+  background-color: #e8f4f6;
+}
+
+.cat-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cat-info {
+  flex: 1;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 25px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid #dddddd;
+  flex-direction: column;
+  padding: 30px 35px;
 }
 
-.request-header h2 {
-  margin: 0 0 12px;
+.cat-main-info h2 {
+  margin: 0 0 15px;
   color: #555555;
-  font-size: 25px;
+  font-size: 30px;
 }
 
-.status {
-  display: inline-block;
+.cat-details {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.cat-details span {
   padding: 7px 14px;
   background-color: #e8f4f6;
   color: #3f8ea0;
@@ -100,55 +97,112 @@ main {
   font-weight: 600;
 }
 
-.date {
-  flex-shrink: 0;
-  color: #555555;
+.cat-status {
+  margin-bottom: 22px;
+}
+
+.available,
+.unavailable {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 20px;
   font-size: 14px;
+  font-weight: 600;
 }
 
-.request-info {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-  padding: 25px 0;
+.available {
+  background-color: #e8f4f6;
+  color: #3f8ea0;
 }
 
-.info-item {
+.unavailable {
+  background-color: #fff0ed;
+  color: #d8432e;
+}
+
+.cat-health {
+  display: flex;
+  gap: 35px;
+  margin-bottom: 22px;
+  padding: 18px 0;
+  border-top: 2px solid #dddddd;
+  border-bottom: 2px solid #dddddd;
+}
+
+.cat-health div {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
-.info-item strong,
-.request-message strong,
-.status-control label {
+.cat-health strong,
+.cat-description strong {
   color: #2e2e2e;
   font-size: 15px;
 }
 
-.info-item span {
+.cat-health span {
   color: #555555;
-  line-height: 1.5;
-  word-break: break-word;
+  font-size: 15px;
 }
 
-.request-message {
-  padding: 20px 0;
-  border-top: 2px solid #dddddd;
+.cat-description {
+  margin-bottom: 25px;
 }
 
-.request-message p {
-  margin: 8px 0 0;
+.cat-description p {
+  margin: 7px 0 0;
   color: #555555;
   line-height: 1.6;
 }
 
-.status-control {
+.card-actions {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-top: 20px;
-  border-top: 2px solid #dddddd;
+  margin-top: auto;
+}
+
+.edit-button,
+.delete-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.edit-button {
+  background-color: #d8432e;
+  color: #ffffff;
+  text-decoration: none;
+  border: 2px solid #d8432e;
+}
+
+.edit-button:hover {
+  background-color: #f57c1f;
+  border-color: #f57c1f;
+}
+
+.delete-button {
+  background-color: #ffffff;
+  color: #d8432e;
+  border: 2px solid #d8432e;
+}
+
+.delete-button:hover:not(:disabled) {
+  background-color: #d8432e;
+  color: #ffffff;
+}
+
+.delete-button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .pagination {
@@ -238,45 +292,45 @@ main {
     font-size: 36px;
   }
 
-  .requests {
+  .cats-management {
     padding: 50px 6%;
   }
 
-  .status-filter {
+  .management-actions {
     justify-content: center;
-    flex-direction: column;
-    align-items: stretch;
     margin-bottom: 30px;
   }
 
-  .status-filter select {
-    width: 100%;
+  .management-card {
+    flex-direction: column;
   }
 
-  .request-card {
+  .cat-image {
+    width: 100%;
+    height: 280px;
+    min-height: 0;
+  }
+
+  .cat-info {
     padding: 25px;
   }
 
-  .request-header {
-    flex-direction: column;
-    gap: 12px;
+  .cat-main-info h2 {
+    font-size: 26px;
   }
 
-  .request-header h2 {
-    font-size: 22px;
+  .cat-health {
+    gap: 30px;
   }
 
-  .request-info {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .status-control {
+  .card-actions {
     flex-direction: column;
     align-items: stretch;
+    margin-top: 0;
   }
 
-  .status-control select {
+  .edit-button,
+  .delete-button {
     width: 100%;
   }
 

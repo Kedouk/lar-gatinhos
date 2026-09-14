@@ -42,6 +42,7 @@ main {
   margin: 0;
   font-size: 18px;
   color: #555555;
+  line-height: 1.6;
 }
 
 .section-title strong {
@@ -91,6 +92,7 @@ main {
 }
 
 .form-group input,
+.form-group select,
 .form-group textarea {
   width: 100%;
   padding: 13px 15px;
@@ -106,8 +108,13 @@ main {
 }
 
 .form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
   border-color: #5fb2be;
+}
+
+.form-group select {
+  cursor: pointer;
 }
 
 .form-group textarea {

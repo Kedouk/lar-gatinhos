@@ -7,227 +7,272 @@
     <h1>Entre em contato</h1>
 
     <p>
-      Tem alguma dúvida, quer ajudar ou deseja saber mais sobre o Lar Gatinhos?
-      Entre em contato conosco.
+      Estamos aqui para ajudar você a encontrar um novo companheiro.
     </p>
 
   </section>
 
 
-  @if (gato()) {
+  <section class="adoption-contact">
 
-    <section class="adoption-contact">
+    <div class="section-title">
 
-      <div class="section-title">
+      @if (gato()) {
 
-        <h2>Quero adotar</h2>
+        <h2>
+          Interesse em adotar <strong>{{ gato()!.nome }}</strong>?
+        </h2>
 
         <p>
-
-          @if (gato()!.sexo === 'Fêmea') {
-            Você demonstrou interesse em adotar a gatinha
-          } @else {
-            Você demonstrou interesse em adotar o gatinho
-          }
-
-          <strong>{{ gato()!.nome }}</strong>.
-
+          Preencha o formulário abaixo e conte um pouco sobre você.
         </p>
 
-      </div>
+      } @else {
+
+        <h2>Quero conversar sobre adoção</h2>
+
+        <p>
+          Entre em contato conosco e nos conte um pouco mais sobre você.
+          Podemos ajudar você a encontrar um companheiro que combine com sua família.
+        </p>
+
+      }
+
+    </div>
 
 
-      @if (sucessoEnvio) {
+    @if (sucessoEnvio) {
 
-        <div class="success-message">
+      <div class="success-message">
 
-          <div class="success-title">
+        <div class="success-title">
 
-            <h3>Solicitação enviada com sucesso!</h3>
+          <h3>Solicitação enviada com sucesso!</h3>
 
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"
-              />
-            </svg>
-
-          </div>
-
-          <p>
-            Recebemos sua solicitação para adotar
-            <strong>{{ gato()!.nome }}</strong>.
-          </p>
-
-          <p>
-            Agradecemos pelo seu interesse em oferecer um lar
-            cheio de carinho. Em breve entraremos em contato
-            pelo WhatsApp ou e-mail informado.
-          </p>
-
-          <a
-            routerLink="/adocao"
-            class="button"
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
           >
-            Ver outros gatinhos
-          </a>
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"
+            />
+          </svg>
 
         </div>
 
-      }
+        <p>
 
+          @if (gato()) {
 
-      @if (!sucessoEnvio) {
+            Recebemos sua solicitação para adotar
+            <strong>{{ gato()!.nome }}</strong>.
 
-        <form
-          class="adoption-form"
-          #form="ngForm"
-          (ngSubmit)="enviar(form)"
+          } @else {
+
+            Recebemos sua solicitação de adoção.
+
+          }
+
+        </p>
+
+        <p>
+          Agradecemos pelo seu interesse em oferecer um lar
+          cheio de carinho. Em breve entraremos em contato
+          pelo WhatsApp ou e-mail informado.
+        </p>
+
+        <a
+          routerLink="/adocao"
+          class="button"
         >
+          Ver outros gatinhos
+        </a>
 
-          @if (form.submitted && form.invalid) {
+      </div>
 
-            <div class="form-error">
-              Preencha todos os campos obrigatórios antes de enviar.
-            </div>
+    } @else {
 
-          }
+      <form
+        #form="ngForm"
+        class="adoption-form"
+        (ngSubmit)="enviar(form)"
+      >
+
+        @if (erroEnvio) {
+
+          <div class="form-error">
+            {{ erroEnvio }}
+          </div>
+
+        }
 
 
-          @if (erroEnvio) {
-
-            <div class="form-error">
-              {{ erroEnvio }}
-            </div>
-
-          }
-
+        @if (!gato()) {
 
           <div class="form-group">
 
-            <label for="nome">
-              Nome <span class="required">*</span>
+            <label for="gato">
+              Gatinho de interesse
             </label>
 
-            <input
-              id="nome"
-              name="nome"
-              type="text"
-              [(ngModel)]="nome"
-              placeholder="Seu nome"
-              required
+            <select
+              id="gato"
+              name="gato"
+              [(ngModel)]="gatoSelecionadoId"
+              (change)="selecionarGato($event)"
             >
 
-            @if (form.submitted && !nome.trim()) {
+              <option value="">
+                Ainda não decidi
+              </option>
 
-              <span class="field-error">
-                Este campo é obrigatório.
-              </span>
+              @for (gatoDisponivel of gatos(); track gatoDisponivel.id) {
 
-            }
+                <option [value]="gatoDisponivel.id">
+                  {{ gatoDisponivel.nome }}
+                </option>
 
-          </div>
+              }
 
-
-          <div class="form-group">
-
-            <label for="email">
-              E-mail <span class="required">*</span>
-            </label>
-
-            <input
-              id="email"
-              name="email"
-              type="email"
-              [(ngModel)]="email"
-              placeholder="seuemail@exemplo.com"
-              required
-              email
-            >
-
-            @if (form.submitted && !email.trim()) {
-
-              <span class="field-error">
-                Este campo é obrigatório.
-              </span>
-
-            } @else if (form.submitted && form.controls['email']?.invalid) {
-
-              <span class="field-error">
-                Informe um e-mail válido.
-              </span>
-
-            }
+            </select>
 
           </div>
 
-
-          <div class="form-group">
-
-            <label for="telefone">
-              WhatsApp <span class="required">*</span>
-            </label>
-
-            <input
-              id="telefone"
-              name="telefone"
-              type="tel"
-              [(ngModel)]="telefone"
-              placeholder="(15) 99999-9999"
-              required
-            >
-
-            @if (form.submitted && !telefone.trim()) {
-
-              <span class="field-error">
-                Este campo é obrigatório.
-              </span>
-
-            }
-
-          </div>
+        }
 
 
-          <div class="form-group">
+        <div class="form-group">
 
-            <label for="mensagem">
-              Mensagem <span class="optional">(Opcional)</span>
-            </label>
+          <label for="nome">
+            Nome
+            <span class="required">*</span>
+          </label>
 
-            <textarea
-              id="mensagem"
-              name="mensagem"
-              rows="5"
-              [(ngModel)]="mensagem"
-              placeholder="Conte um pouco sobre você e por que deseja adotar."
-            ></textarea>
-
-          </div>
-
-
-          <button
-            type="submit"
-            class="button"
-            [disabled]="enviando"
+          <input
+            id="nome"
+            name="nome"
+            type="text"
+            [(ngModel)]="nome"
+            required
+            minlength="3"
+            #nomeField="ngModel"
           >
 
-            @if (enviando) {
-              Enviando...
-            } @else {
-              Enviar interesse em adoção
-            }
+          @if (
+            nomeField.invalid &&
+            (nomeField.touched || form.submitted)
+          ) {
 
-          </button>
+            <span class="field-error">
+              Informe seu nome.
+            </span>
 
-        </form>
+          }
 
-      }
+        </div>
 
-    </section>
 
-  }
+        <div class="form-group">
+
+          <label for="email">
+            E-mail
+            <span class="required">*</span>
+          </label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            [(ngModel)]="email"
+            required
+            email
+            #emailField="ngModel"
+          >
+
+          @if (
+            emailField.invalid &&
+            (emailField.touched || form.submitted)
+          ) {
+
+            <span class="field-error">
+              Informe um e-mail válido.
+            </span>
+
+          }
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="telefone">
+            WhatsApp
+            <span class="required">*</span>
+          </label>
+
+          <input
+            id="telefone"
+            name="telefone"
+            type="tel"
+            inputmode="numeric"
+            maxlength="11"
+            [(ngModel)]="telefone"
+            (input)="somenteNumeros($event)"
+            required
+            pattern="[0-9]{10,11}"
+            #telefoneField="ngModel"
+          >
+
+          @if (
+            telefoneField.invalid &&
+            (telefoneField.touched || form.submitted)
+          ) {
+
+            <span class="field-error">
+              Informe um WhatsApp válido com DDD.
+            </span>
+
+          }
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="mensagem">
+            Conte um pouco sobre você
+            <span class="optional">(opcional)</span>
+          </label>
+
+          <textarea
+            id="mensagem"
+            name="mensagem"
+            [(ngModel)]="mensagem"
+            rows="5"
+          ></textarea>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="button"
+          [disabled]="enviando"
+        >
+
+          @if (enviando) {
+            Enviando...
+          } @else {
+            Enviar solicitação
+          }
+
+        </button>
+
+      </form>
+
+    }
+
+  </section>
 
 
   <section class="contact-content">
@@ -237,7 +282,7 @@
       <h2>Fale conosco</h2>
 
       <p>
-        Entre em contato conosco pelos nossos canais oficiais.
+        Estamos à disposição para tirar suas dúvidas.
       </p>
 
     </div>
@@ -249,23 +294,11 @@
 
         <div class="contact-icon">
 
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-
-            <path
-              d="M21 15.46v3a2 2 0 0 1-2.18 2
-              19.79 19.79 0 0 1-8.63-3.07
-              19.5 19.5 0 0 1-6-6
-              19.79 19.79 0 0 1-3.07-8.67
-              A2 2 0 0 1 3.12 0.54h3
-              a2 2 0 0 1 2 1.72
-              c.12.9.34 1.77.65 2.6
-              a2 2 0 0 1-.45 2.11L7.05 8.23
-              a16 16 0 0 0 6 6l1.26-1.26
-              a2 2 0 0 1 2.11-.45
-              c.83.31 1.7.53 2.6.65
-              A2 2 0 0 1 21 15.46z"
-            />
-
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.1 5.18 2 2 0 0 1 5.11 3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L9.09 10.91a16 16 0 0 0 4 4l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 15.89z"></path>
           </svg>
 
         </div>
@@ -276,10 +309,6 @@
           Entre em contato conosco pelo WhatsApp.
         </p>
 
-        <a href="#" class="button">
-          Falar pelo WhatsApp
-        </a>
-
       </div>
 
 
@@ -287,47 +316,19 @@
 
         <div class="contact-icon">
 
-          <svg viewBox="0 0 24 24" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <rect
+              x="3"
+              y="5"
+              width="18"
+              height="14"
+              rx="2"
+            ></rect>
 
-            <rect x="3" y="3" width="18" height="18" rx="5" />
-
-            <circle cx="12" cy="12" r="4" />
-
-            <circle
-              cx="17.5"
-              cy="6.5"
-              r="1"
-              fill="currentColor"
-              stroke="none"
-            />
-
-          </svg>
-
-        </div>
-
-        <h3>Instagram</h3>
-
-        <p>
-          Acompanhe o trabalho do Lar Gatinhos e conheça nossos gatos.
-        </p>
-
-        <a href="#" class="button">
-          Acessar Instagram
-        </a>
-
-      </div>
-
-
-      <div class="contact-card">
-
-        <div class="contact-icon">
-
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-
-            <rect x="3" y="5" width="18" height="14" rx="2" />
-
-            <path d="M3 7l9 6 9-6" />
-
+            <path d="M3 7l9 6 9-6"></path>
           </svg>
 
         </div>
@@ -335,12 +336,8 @@
         <h3>E-mail</h3>
 
         <p>
-          Envie sua mensagem por e-mail para falar conosco.
+          Envie sua mensagem por e-mail.
         </p>
-
-        <a href="#" class="button">
-          Enviar e-mail
-        </a>
 
       </div>
 

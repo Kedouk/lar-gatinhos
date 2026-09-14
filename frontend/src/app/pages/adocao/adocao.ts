@@ -18,10 +18,16 @@ export class Adocao {
 
   gatos = signal<Gato[]>([]);
 
+  paginaAtual = signal(1);
+
+  readonly gatosPorPagina = 12;
+
   gatosFiltrados = computed(() => {
 
     const gatos = this.gatos();
+
     const sexo = this.sexoSelecionado();
+
     const idade = this.idadeSelecionada();
 
     return gatos.filter(gato => {
@@ -39,12 +45,38 @@ export class Adocao {
 
   });
 
+  totalPaginas = computed(() =>
+    Math.ceil(
+      this.gatosFiltrados().length / this.gatosPorPagina
+    )
+  );
+
+  gatosPaginados = computed(() => {
+
+    const inicio =
+      (this.paginaAtual() - 1) * this.gatosPorPagina;
+
+    const fim =
+      inicio + this.gatosPorPagina;
+
+    return this.gatosFiltrados().slice(inicio, fim);
+
+  });
+
+  paginas = computed(() =>
+    Array.from(
+      { length: this.totalPaginas() },
+      (_, indice) => indice + 1
+    )
+  );
+
   constructor() {
 
     this.gatosService.getGatosDisponiveis().subscribe({
 
       next: (gatos) => {
         this.gatos.set(gatos);
+        this.paginaAtual.set(1);
       },
 
       error: (erro) => {
@@ -59,6 +91,7 @@ export class Adocao {
     const select = event.target as HTMLSelectElement;
 
     this.sexoSelecionado.set(select.value);
+    this.paginaAtual.set(1);
 
   }
 
@@ -67,6 +100,25 @@ export class Adocao {
     const select = event.target as HTMLSelectElement;
 
     this.idadeSelecionada.set(select.value);
+    this.paginaAtual.set(1);
+
+  }
+
+  irParaPagina(pagina: number): void {
+
+    if (
+      pagina < 1 ||
+      pagina > this.totalPaginas()
+    ) {
+      return;
+    }
+
+    this.paginaAtual.set(pagina);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
 
   }
 

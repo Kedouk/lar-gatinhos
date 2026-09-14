@@ -1,0 +1,265 @@
+<app-header></app-header>
+
+<main>
+
+  <section class="page-header">
+
+    <h1>Gerenciamento de gatinhos</h1>
+
+    <p>
+      Consulte e gerencie os gatinhos cadastrados no Lar Gatinhos.
+    </p>
+
+  </section>
+
+
+  <section class="cats-management">
+
+    <div class="management-actions">
+
+      <a
+        routerLink="/cadastro-gato"
+        class="button"
+      >
+        + Cadastrar novo gatinho
+      </a>
+
+    </div>
+
+
+    @if (erroExclusao()) {
+
+      <div class="message error">
+
+        <h2>Não foi possível excluir o gatinho</h2>
+
+        <p>
+          {{ erroExclusao() }}
+        </p>
+
+      </div>
+
+    }
+
+
+    @if (carregando()) {
+
+      <div class="message">
+
+        <p>
+          Carregando gatinhos...
+        </p>
+
+      </div>
+
+    } @else if (erro()) {
+
+      <div class="message error">
+
+        <h2>Não foi possível carregar os gatinhos</h2>
+
+        <p>
+          Ocorreu um erro ao buscar os gatinhos cadastrados.
+        </p>
+
+      </div>
+
+    } @else if (gatos().length === 0) {
+
+      <div class="message">
+
+        <h2>Nenhum gatinho cadastrado</h2>
+
+        <p>
+          Ainda não há gatinhos cadastrados no sistema.
+        </p>
+
+      </div>
+
+    } @else {
+
+      <div class="cats-list">
+
+        @for (gato of gatosPaginados(); track gato.id) {
+
+          <article class="management-card">
+
+            <div class="cat-image">
+
+              <img
+                [src]="gato.foto"
+                [alt]="'Foto de ' + gato.nome"
+              >
+
+            </div>
+
+
+            <div class="cat-info">
+
+              <div class="cat-main-info">
+
+                <h2>
+                  {{ gato.nome }}
+                </h2>
+
+                <div class="cat-details">
+
+                  <span>
+                    {{ gato.idade }}
+                  </span>
+
+                  <span>
+                    {{ gato.sexo }}
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="cat-status">
+
+                @if (gato.disponivel) {
+
+                  <span class="available">
+                    Disponível para adoção
+                  </span>
+
+                } @else {
+
+                  <span class="unavailable">
+                    Indisponível para adoção
+                  </span>
+
+                }
+
+              </div>
+
+
+              <div class="cat-health">
+
+                <div>
+
+                  <strong>Castrado</strong>
+
+                  @if (gato.castrado) {
+                    <span>Sim</span>
+                  } @else {
+                    <span>Não</span>
+                  }
+
+                </div>
+
+
+                <div>
+
+                  <strong>Vacinado</strong>
+
+                  @if (gato.vacinado) {
+                    <span>Sim</span>
+                  } @else {
+                    <span>Não</span>
+                  }
+
+                </div>
+
+              </div>
+
+
+              <div class="cat-description">
+
+                <strong>Descrição</strong>
+
+                <p>
+                  {{ gato.descricao || 'Nenhuma descrição cadastrada.' }}
+                </p>
+
+              </div>
+
+
+              <div class="card-actions">
+
+                <a
+                  [routerLink]="['/editar-gato', gato.id]"
+                  class="edit-button"
+                >
+                  Editar gatinho
+                </a>
+
+
+                <button
+                  type="button"
+                  class="delete-button"
+                  [disabled]="excluindoId() === gato.id"
+                  (click)="excluirGato(gato)"
+                >
+
+                  @if (excluindoId() === gato.id) {
+                    Excluindo...
+                  } @else {
+                    Excluir gatinho
+                  }
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+
+      @if (totalPaginas() > 1) {
+
+        <div class="pagination">
+
+          <button
+            type="button"
+            class="pagination-button"
+            [disabled]="paginaAtual() === 1"
+            (click)="irParaPagina(paginaAtual() - 1)"
+          >
+            Anterior
+          </button>
+
+
+          <div class="pagination-pages">
+
+            @for (pagina of paginas(); track pagina) {
+
+              <button
+                type="button"
+                class="pagination-number"
+                [class.active]="paginaAtual() === pagina"
+                (click)="irParaPagina(pagina)"
+              >
+                {{ pagina }}
+              </button>
+
+            }
+
+          </div>
+
+
+          <button
+            type="button"
+            class="pagination-button"
+            [disabled]="paginaAtual() === totalPaginas()"
+            (click)="irParaPagina(paginaAtual() + 1)"
+          >
+            Próxima
+          </button>
+
+        </div>
+
+      }
+
+    }
+
+  </section>
+
+</main>

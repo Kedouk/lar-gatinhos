@@ -17,7 +17,10 @@ export class Contato {
   private gatosService = inject(GatosService);
   private solicitacoesService = inject(SolicitacoesAdocaoService);
 
+  gatos = signal<Gato[]>([]);
   gato = signal<Gato | undefined>(undefined);
+
+  gatoSelecionadoId = '';
 
   nome = '';
   email = '';
@@ -32,21 +35,68 @@ export class Contato {
 
     const id = Number(this.route.snapshot.queryParamMap.get('gato'));
 
-    if (!id) {
+    if (id) {
+
+      this.gatosService.getGatoPorId(id).subscribe({
+
+        next: (gato) => {
+          this.gato.set(gato);
+        },
+
+        error: (erro) => {
+          console.error('Erro ao buscar gatinho:', erro);
+        }
+
+      });
+
       return;
     }
 
-    this.gatosService.getGatoPorId(id).subscribe({
+    this.gatosService.getGatosDisponiveis().subscribe({
 
-      next: (gato) => {
-        this.gato.set(gato);
+      next: (gatos) => {
+        this.gatos.set(gatos);
       },
 
       error: (erro) => {
-        console.error('Erro ao buscar gatinho:', erro);
+        console.error('Erro ao buscar gatinhos:', erro);
       }
 
     });
+  }
+
+  selecionarGato(event: Event): void {
+
+    const select = event.target as HTMLSelectElement;
+
+    this.gatoSelecionadoId = select.value;
+
+    if (!this.gatoSelecionadoId) {
+      this.gato.set(undefined);
+      return;
+    }
+
+    const gatoId = Number(this.gatoSelecionadoId);
+
+    const gatoSelecionado = this.gatos().find(
+      gato => gato.id === gatoId
+    );
+
+    this.gato.set(gatoSelecionado);
+
+  }
+
+  somenteNumeros(event: Event): void {
+
+    const input = event.target as HTMLInputElement;
+
+    const numeros = input.value
+      .replace(/\D/g, '')
+      .slice(0, 11);
+
+    input.value = numeros;
+    this.telefone = numeros;
+
   }
 
   enviar(form: NgForm): void {
@@ -54,15 +104,25 @@ export class Contato {
     this.erroEnvio = '';
     this.sucessoEnvio = false;
 
-    if (form.invalid || !this.gato()) {
+    if (
+      form.invalid ||
+      (
+        !this.gato() &&
+        this.gatoSelecionadoId !== ''
+      )
+    ) {
       return;
     }
 
     this.enviando = true;
 
+    const gatoId = this.gato()
+      ? this.gato()!.id
+      : null;
+
     this.solicitacoesService.enviarSolicitacao({
 
-      gato_id: this.gato()!.id,
+      gato_id: gatoId,
       nome: this.nome.trim(),
       email: this.email.trim(),
       telefone: this.telefone.trim(),

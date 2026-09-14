@@ -18,9 +18,12 @@ export class SolicitacoesAdocao {
 
   solicitacoes = signal<SolicitacaoAdocao[]>([]);
   statusSelecionado = signal('');
-
   carregando = signal(true);
   erro = signal(false);
+
+  paginaAtual = signal(1);
+
+  readonly solicitacoesPorPagina = 12;
 
   solicitacoesFiltradas = computed(() => {
 
@@ -37,10 +40,35 @@ export class SolicitacoesAdocao {
 
   });
 
+  totalPaginas = computed(() =>
+    Math.ceil(
+      this.solicitacoesFiltradas().length /
+      this.solicitacoesPorPagina
+    )
+  );
+
+  solicitacoesPaginadas = computed(() => {
+
+    const inicio =
+      (this.paginaAtual() - 1) *
+      this.solicitacoesPorPagina;
+
+    const fim =
+      inicio + this.solicitacoesPorPagina;
+
+    return this.solicitacoesFiltradas().slice(inicio, fim);
+
+  });
+
+  paginas = computed(() =>
+    Array.from(
+      { length: this.totalPaginas() },
+      (_, indice) => indice + 1
+    )
+  );
+
   constructor() {
-
     this.carregarSolicitacoes();
-
   }
 
   carregarSolicitacoes(): void {
@@ -51,14 +79,20 @@ export class SolicitacoesAdocao {
     this.solicitacoesService.getSolicitacoes().subscribe({
 
       next: (solicitacoes) => {
+
         this.solicitacoes.set(solicitacoes);
+        this.paginaAtual.set(1);
         this.carregando.set(false);
+
       },
 
       error: (erro) => {
+
         console.error('Erro ao buscar solicitações:', erro);
+
         this.erro.set(true);
         this.carregando.set(false);
+
       }
 
     });
@@ -70,6 +104,25 @@ export class SolicitacoesAdocao {
     const select = event.target as HTMLSelectElement;
 
     this.statusSelecionado.set(select.value);
+    this.paginaAtual.set(1);
+
+  }
+
+  irParaPagina(pagina: number): void {
+
+    if (
+      pagina < 1 ||
+      pagina > this.totalPaginas()
+    ) {
+      return;
+    }
+
+    this.paginaAtual.set(pagina);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
 
   }
 

@@ -4,74 +4,103 @@
 
   <section class="page-header">
 
-    <h1>Cadastrar gatinho</h1>
+    @if (modoEdicao) {
 
-    <p>
-      Cadastre as informações de um novo gatinho para disponibilizá-lo
-      para adoção.
-    </p>
+      <h1>Editar gatinho</h1>
 
-    <p class="required-info">
-      Campos marcados com <span>*</span> são obrigatórios.
-    </p>
+      <p>
+        Atualize as informações do gatinho cadastrado.
+      </p>
+
+    } @else {
+
+      <h1>Cadastrar gatinho</h1>
+
+      <p>
+        Cadastre um novo gatinho para disponibilizá-lo para adoção.
+      </p>
+
+    }
 
   </section>
 
+
   <section class="form-section">
 
-    <form
-      class="cat-form"
-      #form="ngForm"
-      (ngSubmit)="cadastrar(form)"
-    >
+    @if (carregando()) {
 
-      @if (form.submitted && form.invalid) {
+      <div class="message">
 
-        <div class="form-error">
-          Preencha todos os campos obrigatórios antes de cadastrar o gatinho.
-        </div>
-
-      }
-
-      @if (erroCadastro) {
-
-        <div class="form-error">
-          {{ erroCadastro }}
-        </div>
-
-      }
-
-      <div class="form-group">
-
-        <label for="nome">
-          Nome <span class="required">*</span>
-        </label>
-
-        <input
-          id="nome"
-          name="nome"
-          type="text"
-          [(ngModel)]="nome"
-          placeholder="Nome do gatinho"
-          required
-        >
-
-        @if (form.submitted && !nome.trim()) {
-
-          <span class="field-error">
-            Este campo é obrigatório.
-          </span>
-
-        }
+        <p>
+          Carregando dados do gatinho...
+        </p>
 
       </div>
 
-      <div class="form-row">
+    } @else if (erroCarregamento()) {
+
+      <div class="message error">
+
+        <h2>Não foi possível carregar o gatinho</h2>
+
+        <p>
+          {{ erroCarregamento() }}
+        </p>
+
+      </div>
+
+    } @else {
+
+      <form
+        #form="ngForm"
+        class="cat-form"
+        (ngSubmit)="cadastrar(form)"
+      >
+
+        @if (erroCadastro) {
+
+          <div class="form-error">
+            {{ erroCadastro }}
+          </div>
+
+        }
+
+
+        <div class="form-group">
+
+          <label for="nome">
+            Nome
+            <span class="required">*</span>
+          </label>
+
+          <input
+            id="nome"
+            name="nome"
+            type="text"
+            [(ngModel)]="nome"
+            required
+            #nomeField="ngModel"
+          >
+
+          @if (
+            nomeField.invalid &&
+            (nomeField.touched || form.submitted)
+          ) {
+
+            <span class="field-error">
+              Informe o nome do gatinho.
+            </span>
+
+          }
+
+        </div>
+
 
         <div class="form-group">
 
           <label for="idade">
-            Idade <span class="required">*</span>
+            Idade
+            <span class="required">*</span>
           </label>
 
           <select
@@ -79,6 +108,7 @@
             name="idade"
             [(ngModel)]="idade"
             required
+            #idadeField="ngModel"
           >
 
             <option value="">
@@ -99,20 +129,25 @@
 
           </select>
 
-          @if (form.submitted && !idade) {
+          @if (
+            idadeField.invalid &&
+            (idadeField.touched || form.submitted)
+          ) {
 
             <span class="field-error">
-              Este campo é obrigatório.
+              Selecione a idade.
             </span>
 
           }
 
         </div>
 
+
         <div class="form-group">
 
           <label for="sexo">
-            Sexo <span class="required">*</span>
+            Sexo
+            <span class="required">*</span>
           </label>
 
           <select
@@ -120,6 +155,7 @@
             name="sexo"
             [(ngModel)]="sexo"
             required
+            #sexoField="ngModel"
           >
 
             <option value="">
@@ -136,179 +172,181 @@
 
           </select>
 
-          @if (form.submitted && !sexo) {
+          @if (
+            sexoField.invalid &&
+            (sexoField.touched || form.submitted)
+          ) {
 
             <span class="field-error">
-              Este campo é obrigatório.
+              Selecione o sexo.
             </span>
 
           }
 
         </div>
 
-      </div>
 
-      <div class="form-group">
+        <div class="form-group">
 
-        <label for="descricao">
-          Descrição
-        </label>
+          <label for="descricao">
+            Descrição
+            <span class="optional">(opcional)</span>
+          </label>
 
-        <textarea
-          id="descricao"
-          name="descricao"
-          rows="4"
-          [(ngModel)]="descricao"
-          placeholder="Conte um pouco sobre o gatinho"
-        ></textarea>
+          <textarea
+            id="descricao"
+            name="descricao"
+            [(ngModel)]="descricao"
+            rows="4"
+          ></textarea>
 
-      </div>
+        </div>
 
-      <div class="form-group">
 
-        <label for="personalidade">
-          Personalidade
-        </label>
+        <div class="form-group">
 
-        <textarea
-          id="personalidade"
-          name="personalidade"
-          rows="3"
-          [(ngModel)]="personalidade"
-          placeholder="Ex.: Carinhoso, brincalhão e tranquilo"
-        ></textarea>
+          <label for="personalidade">
+            Personalidade
+            <span class="optional">(opcional)</span>
+          </label>
 
-      </div>
+          <textarea
+            id="personalidade"
+            name="personalidade"
+            [(ngModel)]="personalidade"
+            rows="4"
+          ></textarea>
 
-      <div class="form-group">
+        </div>
 
-        <label for="foto">
-          Foto <span class="required">*</span>
-        </label>
 
-        <label for="foto" class="photo-button">
-          Selecionar foto
-        </label>
+        <div class="form-group">
 
-        <input
-          id="foto"
-          name="foto"
-          type="file"
-          accept="image/*"
-          (change)="selecionarFoto($event)"
-          required
-        >
+          <label for="foto">
+            Foto
+            <span class="required">*</span>
+          </label>
 
-        @if (nomeArquivo) {
+          <input
+            id="foto"
+            name="foto"
+            type="file"
+            accept="image/*"
+            (change)="selecionarFoto($event)"
+            [required]="!modoEdicao"
+            ngModel
+          >
 
-          <div class="file-name">
+          @if (nomeArquivo) {
 
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <path d="M14 2v6h6"></path>
-            </svg>
-
-            <span>
+            <span class="file-name">
               {{ nomeArquivo }}
             </span>
 
-          </div>
+          }
 
-        }
+          @if (fotoPreview) {
 
-        @if (form.submitted && !foto) {
+            <div class="photo-preview">
 
-          <span class="field-error">
-            Este campo é obrigatório.
-          </span>
+              <img
+                [src]="fotoPreview"
+                alt="Pré-visualização da foto"
+              >
 
-        }
+            </div>
 
-        @if (fotoPreview) {
+          }
 
-          <div class="photo-preview">
+          @if (!foto && !modoEdicao && form.submitted) {
 
-            <img
-              [src]="fotoPreview"
-              alt="Prévia da foto do gatinho"
+            <span class="field-error">
+              Selecione uma foto.
+            </span>
+
+          }
+
+        </div>
+
+
+        <div class="checkbox-group">
+
+          <label class="checkbox-label">
+
+            <input
+              type="checkbox"
+              name="castrado"
+              [(ngModel)]="castrado"
             >
 
-          </div>
-
-        }
-
-      </div>
-
-      <div class="form-options">
-
-        <label class="checkbox-option">
-
-          <input
-            type="checkbox"
-            name="castrado"
-            [(ngModel)]="castrado"
-          >
-
-          <span>
-            @if (sexo === 'Fêmea') {
-              Castrada
-            } @else {
+            <span>
               Castrado
-            }
-          </span>
+            </span>
 
-        </label>
+          </label>
 
-        <label class="checkbox-option">
 
-          <input
-            type="checkbox"
-            name="vacinado"
-            [(ngModel)]="vacinado"
-          >
+          <label class="checkbox-label">
 
-          <span>
-            @if (sexo === 'Fêmea') {
-              Vacinada
-            } @else {
+            <input
+              type="checkbox"
+              name="vacinado"
+              [(ngModel)]="vacinado"
+            >
+
+            <span>
               Vacinado
+            </span>
+
+          </label>
+
+
+          <label class="checkbox-label">
+
+            <input
+              type="checkbox"
+              name="disponivel"
+              [(ngModel)]="disponivel"
+            >
+
+            <span>
+              Disponível para adoção
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="button"
+          [disabled]="cadastrando()"
+        >
+
+          @if (cadastrando()) {
+
+            @if (modoEdicao) {
+              Salvando...
+            } @else {
+              Cadastrando...
             }
-          </span>
 
-        </label>
+          } @else {
 
-        <label class="checkbox-option">
+            @if (modoEdicao) {
+              Salvar alterações
+            } @else {
+              Cadastrar gatinho
+            }
 
-          <input
-            type="checkbox"
-            name="disponivel"
-            [(ngModel)]="disponivel"
-          >
+          }
 
-          <span>
-            Disponível para adoção
-          </span>
+        </button>
 
-        </label>
+      </form>
 
-      </div>
-
-      <button
-        type="submit"
-        class="button"
-        [disabled]="cadastrando"
-      >
-        @if (cadastrando) {
-          Cadastrando...
-        } @else {
-          Cadastrar gatinho
-        }
-      </button>
-
-    </form>
+    }
 
   </section>
 

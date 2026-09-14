@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 export interface SolicitacaoAdocao {
   id?: number;
-  gato_id: number;
+  gato_id: number | null;
   gato_nome?: string;
   nome: string;
   email: string;
