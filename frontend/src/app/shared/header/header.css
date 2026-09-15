@@ -19,7 +19,8 @@ nav {
   gap: 12px;
 }
 
-nav a {
+nav a,
+.logout-button {
   display: inline-block;
   padding: 9px 16px;
   border: 2px solid #3f8ea0;
@@ -27,11 +28,15 @@ nav a {
   text-decoration: none;
   background-color: #3f8ea0;
   color: #ffffff !important;
+  font-family: inherit;
+  font-size: 16px;
   font-weight: 600;
+  cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s;
 }
 
-nav a:hover {
+nav a:hover,
+.logout-button:hover {
   background-color: #5fb2be;
   border-color: #5fb2be;
   color: #ffffff !important;
@@ -39,7 +44,10 @@ nav a:hover {
 
 nav a:focus,
 nav a:focus-visible,
-nav a:active {
+nav a:active,
+.logout-button:focus,
+.logout-button:focus-visible,
+.logout-button:active {
   background-color: #3f8ea0;
   border-color: #3f8ea0;
   color: #ffffff !important;
@@ -64,7 +72,8 @@ nav a:active {
     justify-content: center;
   }
 
-  nav a {
+  nav a,
+  .logout-button {
     padding: 8px 13px;
   }
 

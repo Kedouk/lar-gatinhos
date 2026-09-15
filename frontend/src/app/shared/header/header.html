@@ -16,6 +16,18 @@
     <a routerLink="/ajude">Ajude</a>
     <a routerLink="/contato">Contato</a>
 
+    @if (estaLogado) {
+
+      <button
+        type="button"
+        class="logout-button"
+        (click)="sair()"
+      >
+        Sair
+      </button>
+
+    }
+
   </nav>
 
 </header>

@@ -1,0 +1,93 @@
+<main class="login-page">
+
+  <section class="login-card">
+
+    <div class="login-header">
+
+      <h1>Área administrativa</h1>
+
+      <p>
+        Entre para gerenciar os gatinhos e as solicitações de adoção.
+      </p>
+
+    </div>
+
+
+    @if (erroLogin) {
+
+      <div class="login-error">
+        {{ erroLogin }}
+      </div>
+
+    }
+
+
+    <form
+      #form="ngForm"
+      (ngSubmit)="entrar(form)"
+    >
+
+      <div class="form-group">
+
+        <label for="email">
+          E-mail
+        </label>
+
+        <input
+          id="email"
+          name="email"
+          type="email"
+          [(ngModel)]="email"
+          required
+          email
+          autocomplete="username"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="senha">
+          Senha
+        </label>
+
+        <input
+          id="senha"
+          name="senha"
+          type="password"
+          [(ngModel)]="senha"
+          required
+          autocomplete="current-password"
+        >
+
+      </div>
+
+
+      <button
+        type="submit"
+        class="login-button"
+        [disabled]="form.invalid || entrando"
+      >
+
+        @if (entrando) {
+          Entrando...
+        } @else {
+          Entrar
+        }
+
+      </button>
+
+    </form>
+
+
+    <a
+      routerLink="/"
+      class="back-link"
+    >
+      Voltar para o site
+    </a>
+
+  </section>
+
+</main>
