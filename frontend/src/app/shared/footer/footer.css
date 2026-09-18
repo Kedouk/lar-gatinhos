@@ -1,59 +1,95 @@
 .footer {
+
   padding: 20px 4%;
+
   background-color: #2e2e2e;
+
   color: #ffffff;
+
 }
 
 .footer-content {
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   gap: 20px;
+
 }
 
 .footer-logo img {
+
   display: block;
+
   width: 70px;
+
   height: auto;
+
   border-radius: 12px;
+
 }
 
 .footer-links {
+
   display: flex;
+
   gap: 22px;
+
   flex-wrap: wrap;
+
   justify-content: center;
+
 }
 
 .footer-links a {
+
   color: #ffffff;
+
   text-decoration: none;
+
   font-weight: 600;
+
 }
 
 .footer-links a:hover {
+
   color: #f57c1f;
+
 }
 
 .footer p {
+
   margin: 0;
+
   font-size: 14px;
+
   color: #dddddd;
+
 }
 
 @media (max-width: 768px) {
 
   .footer {
+
     padding: 20px 6%;
+
   }
 
   .footer-content {
+
     flex-direction: column;
+
     text-align: center;
+
   }
 
   .footer-links {
+
     gap: 15px;
+
   }
 
 }
