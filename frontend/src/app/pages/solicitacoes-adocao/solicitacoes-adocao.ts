@@ -25,6 +25,8 @@ export class SolicitacoesAdocao {
 
   readonly solicitacoesPorPagina = 12;
 
+  atualizandoId = signal<number | null>(null);
+
   solicitacoesFiltradas = computed(() => {
 
     const solicitacoes = this.solicitacoes();
@@ -68,7 +70,9 @@ export class SolicitacoesAdocao {
   );
 
   constructor() {
+
     this.carregarSolicitacoes();
+
   }
 
   carregarSolicitacoes(): void {
@@ -88,7 +92,10 @@ export class SolicitacoesAdocao {
 
       error: (erro) => {
 
-        console.error('Erro ao buscar solicitações:', erro);
+        console.error(
+          'Erro ao buscar solicitações:',
+          erro
+        );
 
         this.erro.set(true);
         this.carregando.set(false);
@@ -134,12 +141,21 @@ export class SolicitacoesAdocao {
     const select = event.target as HTMLSelectElement;
     const novoStatus = select.value;
 
-    if (!solicitacao.id || !novoStatus) {
+    if (
+      !solicitacao.id ||
+      !novoStatus ||
+      this.atualizandoId() !== null
+    ) {
       return;
     }
 
+    this.atualizandoId.set(solicitacao.id);
+
     this.solicitacoesService
-      .atualizarStatus(solicitacao.id, novoStatus)
+      .atualizarStatus(
+        solicitacao.id,
+        novoStatus
+      )
       .subscribe({
 
         next: (solicitacaoAtualizada) => {
@@ -155,11 +171,18 @@ export class SolicitacoesAdocao {
             )
           );
 
+          this.atualizandoId.set(null);
+
         },
 
         error: (erro) => {
 
-          console.error('Erro ao atualizar status:', erro);
+          console.error(
+            'Erro ao atualizar status:',
+            erro
+          );
+
+          this.atualizandoId.set(null);
 
           this.carregarSolicitacoes();
 

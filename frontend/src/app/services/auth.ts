@@ -13,6 +13,10 @@ export interface LoginResposta {
   administrador: Administrador;
 }
 
+interface TokenPayload {
+  exp?: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,6 +39,7 @@ export class AuthService {
       }
     ).pipe(
       tap(resposta => {
+
         localStorage.setItem(
           'token',
           resposta.token
@@ -44,6 +49,7 @@ export class AuthService {
           'administrador',
           JSON.stringify(resposta.administrador)
         );
+
       })
     );
 
@@ -51,7 +57,43 @@ export class AuthService {
 
   estaAutenticado(): boolean {
 
-    return !!localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+
+      const partes = token.split('.');
+
+      if (partes.length !== 3) {
+        this.logout();
+        return false;
+      }
+
+      const payload: TokenPayload = JSON.parse(
+        atob(partes[1].replace(/-/g, '+').replace(/_/g, '/'))
+      );
+
+      if (
+        payload.exp &&
+        payload.exp * 1000 <= Date.now()
+      ) {
+
+        this.logout();
+        return false;
+
+      }
+
+      return true;
+
+    } catch {
+
+      this.logout();
+      return false;
+
+    }
 
   }
 

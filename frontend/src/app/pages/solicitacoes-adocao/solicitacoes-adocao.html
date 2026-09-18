@@ -214,8 +214,17 @@
                 <select
                   [id]="'status-' + solicitacao.id"
                   [value]="solicitacao.status"
+                  [disabled]="atualizandoId() !== null"
                   (change)="alterarStatus(solicitacao, $event)"
                 >
+
+                  @if (atualizandoId() === solicitacao.id) {
+
+                    <option [value]="solicitacao.status">
+                      Atualizando...
+                    </option>
+
+                  }
 
                   <option value="Pendente">
                     Pendente
