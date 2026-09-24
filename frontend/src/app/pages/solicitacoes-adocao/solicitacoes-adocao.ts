@@ -26,6 +26,7 @@ export class SolicitacoesAdocao {
   readonly solicitacoesPorPagina = 12;
 
   atualizandoId = signal<number | null>(null);
+  excluindoId = signal<number | null>(null);
 
   solicitacoesFiltradas = computed(() => {
 
@@ -144,7 +145,8 @@ export class SolicitacoesAdocao {
     if (
       !solicitacao.id ||
       !novoStatus ||
-      this.atualizandoId() !== null
+      this.atualizandoId() !== null ||
+      this.excluindoId() !== null
     ) {
       return;
     }
@@ -185,6 +187,74 @@ export class SolicitacoesAdocao {
           this.atualizandoId.set(null);
 
           this.carregarSolicitacoes();
+
+        }
+
+      });
+
+  }
+
+  excluirSolicitacao(
+    solicitacao: SolicitacaoAdocao
+  ): void {
+
+    if (
+      !solicitacao.id ||
+      this.atualizandoId() !== null ||
+      this.excluindoId() !== null
+    ) {
+      return;
+    }
+
+    const confirmar = window.confirm(
+      'Tem certeza que deseja excluir esta solicitação de adoção?'
+    );
+
+    if (!confirmar) {
+      return;
+    }
+
+    this.excluindoId.set(solicitacao.id);
+
+    this.solicitacoesService
+      .excluirSolicitacao(solicitacao.id)
+      .subscribe({
+
+        next: () => {
+
+          this.solicitacoes.update(solicitacoes =>
+            solicitacoes.filter(
+              item => item.id !== solicitacao.id
+            )
+          );
+
+          this.excluindoId.set(null);
+
+          const totalPaginas = this.totalPaginas();
+
+          if (
+            this.paginaAtual() > totalPaginas &&
+            totalPaginas > 0
+          ) {
+            this.paginaAtual.set(totalPaginas);
+          }
+
+        },
+
+        error: (erro) => {
+
+          console.error(
+            'Erro ao excluir solicitação:',
+            erro
+          );
+
+          this.excluindoId.set(null);
+
+          const mensagem =
+            erro.error?.message ||
+            'Não foi possível excluir a solicitação. Tente novamente.';
+
+          window.alert(mensagem);
 
         }
 

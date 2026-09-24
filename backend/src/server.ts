@@ -699,6 +699,54 @@ app.patch('/solicitacoes-adocao/:id/status', autenticar, async (req, res) => {
 
 });
 
+app.delete('/solicitacoes-adocao/:id', autenticar, async (req, res) => {
+
+  try {
+
+    const id = Number(req.params.id);
+
+    if (!Number.isInteger(id)) {
+
+      return res.status(400).json({
+        message: 'ID da solicitação inválido.'
+      });
+
+    }
+
+    const resultado = await pool.query(`
+
+      delete from solicitacoes_adocao
+
+      where id = $1
+
+      returning id
+
+    `, [id]);
+
+    if (resultado.rows.length === 0) {
+
+      return res.status(404).json({
+        message: 'Solicitação não encontrada.'
+      });
+
+    }
+
+    res.json({
+      message: 'Solicitação excluída com sucesso.'
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      message: 'Erro ao excluir a solicitação de adoção.'
+    });
+
+  }
+
+});
+
 app.listen(PORT, () => {
 
   console.log(`Servidor rodando em http://localhost:${PORT}`);

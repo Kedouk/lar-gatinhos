@@ -51,4 +51,13 @@ export class SolicitacoesAdocaoService {
     );
   }
 
+  excluirSolicitacao(
+    id: number
+  ): Observable<void> {
+
+    return this.http.delete<void>(
+      `${this.apiUrl}/${id}`
+    );
+  }
+
 }

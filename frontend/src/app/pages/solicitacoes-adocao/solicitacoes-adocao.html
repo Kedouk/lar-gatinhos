@@ -12,7 +12,6 @@
 
   </section>
 
-
   <section class="requests">
 
     @if (carregando()) {
@@ -26,7 +25,6 @@
       </div>
 
     }
-
 
     @if (!carregando() && erro()) {
 
@@ -42,7 +40,6 @@
 
     }
 
-
     @if (!carregando() && !erro() && solicitacoes().length === 0) {
 
       <div class="message">
@@ -56,7 +53,6 @@
       </div>
 
     }
-
 
     @if (!carregando() && !erro() && solicitacoes().length > 0) {
 
@@ -95,7 +91,6 @@
 
       </div>
 
-
       @if (solicitacoesFiltradas().length === 0) {
 
         <div class="message">
@@ -109,7 +104,6 @@
         </div>
 
       }
-
 
       @if (solicitacoesFiltradas().length > 0) {
 
@@ -152,7 +146,6 @@
 
               </div>
 
-
               <div class="request-info">
 
                 <div class="info-item">
@@ -165,7 +158,6 @@
 
                 </div>
 
-
                 <div class="info-item">
 
                   <strong>E-mail</strong>
@@ -175,7 +167,6 @@
                   </span>
 
                 </div>
-
 
                 <div class="info-item">
 
@@ -188,7 +179,6 @@
                 </div>
 
               </div>
-
 
               @if (solicitacao.mensagem) {
 
@@ -204,7 +194,6 @@
 
               }
 
-
               <div class="status-control">
 
                 <label [for]="'status-' + solicitacao.id">
@@ -214,7 +203,10 @@
                 <select
                   [id]="'status-' + solicitacao.id"
                   [value]="solicitacao.status"
-                  [disabled]="atualizandoId() !== null"
+                  [disabled]="
+                    atualizandoId() !== null ||
+                    excluindoId() !== null
+                  "
                   (change)="alterarStatus(solicitacao, $event)"
                 >
 
@@ -246,12 +238,33 @@
 
               </div>
 
+              <div class="request-actions">
+
+                <button
+                  type="button"
+                  class="delete-button"
+                  [disabled]="
+                    atualizandoId() !== null ||
+                    excluindoId() !== null
+                  "
+                  (click)="excluirSolicitacao(solicitacao)"
+                >
+
+                  @if (excluindoId() === solicitacao.id) {
+                    Excluindo...
+                  } @else {
+                    Excluir solicitação
+                  }
+
+                </button>
+
+              </div>
+
             </article>
 
           }
 
         </div>
-
 
         @if (totalPaginas() > 1) {
 
@@ -265,7 +278,6 @@
             >
               Anterior
             </button>
-
 
             <div class="pagination-pages">
 
@@ -283,7 +295,6 @@
               }
 
             </div>
-
 
             <button
               type="button"
