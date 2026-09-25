@@ -1,13 +1,31 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+
 import { RouterOutlet } from '@angular/router';
+
 import { Footer } from './shared/footer/footer';
+
+import { AdminHeader } from './shared/admin-header/admin-header';
+
+import { AuthService } from './services/auth';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Footer],
+  imports: [
+    RouterOutlet,
+    Footer,
+    AdminHeader
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
+
+  private authService = inject(AuthService);
+
   protected readonly title = signal('frontend');
+
+  estaAutenticado(): boolean {
+    return this.authService.estaAutenticado();
+  }
+
 }

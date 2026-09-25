@@ -2,7 +2,7 @@
 
   width: 100%;
 
-  background-color: #f2e2cf;
+  background-color: #666666;
 
   box-sizing: border-box;
 
@@ -14,7 +14,7 @@
 
   margin: 0 auto;
 
-  padding: 14px 6% 16px;
+  padding: 16px 6% 18px;
 
   display: flex;
 
@@ -28,9 +28,9 @@
 
 .admin-title {
 
-  color: #555555;
+  color: #ffffff;
 
-  font-size: 24px;
+  font-size: 21px;
 
   font-weight: 700;
 
@@ -58,15 +58,15 @@
 
   justify-content: center;
 
-  min-width: 200px;
+  min-width: 210px;
 
   padding: 9px 20px;
 
   border: 2px solid #3f8ea0;
 
-  border-radius: 22px;
+  border-radius: 7px;
 
-  background-color: #ffffff;
+  background-color: #e8f4f6;
 
   color: #3f8ea0;
 
@@ -77,25 +77,30 @@
   text-decoration: none;
 
   transition:
+
     background-color 0.2s ease,
+
     color 0.2s ease,
+
     border-color 0.2s ease;
 
 }
 
 .admin-navigation a:hover {
 
-  background-color: #e8f4f7;
+  background-color: #d5edf1;
+
+  color: #3f8ea0;
 
 }
 
 .admin-navigation a.active {
 
+  background-color: #e8f4f6;
+
+  color: #3f8ea0;
+
   border-color: #3f8ea0;
-
-  background-color: #3f8ea0;
-
-  color: #ffffff;
 
 }
 
@@ -103,7 +108,7 @@
 
   .admin-header-content {
 
-    padding: 14px 5% 12px;
+    padding: 14px 5% 16px;
 
     gap: 10px;
 
@@ -111,7 +116,7 @@
 
   .admin-title {
 
-    font-size: 21px;
+    font-size: 20px;
 
   }
 
@@ -129,7 +134,7 @@
 
     width: 100%;
 
-    max-width: 300px;
+    max-width: 320px;
 
   }
 
