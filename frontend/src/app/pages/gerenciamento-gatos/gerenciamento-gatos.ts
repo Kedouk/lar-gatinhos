@@ -1,12 +1,18 @@
 import { Component, computed, inject, signal } from '@angular/core';
+
 import { HttpErrorResponse } from '@angular/common/http';
+
 import { RouterLink } from '@angular/router';
+
 import { Header } from '../../shared/header/header';
+
+import { AdminHeader } from '../../shared/admin-header/admin-header';
+
 import { Gato, GatosService } from '../../services/gatos';
 
 @Component({
   selector: 'app-gerenciamento-gatos',
-  imports: [Header, RouterLink],
+  imports: [Header, AdminHeader, RouterLink],
   templateUrl: './gerenciamento-gatos.html',
   styleUrl: './gerenciamento-gatos.css',
 })
@@ -15,7 +21,9 @@ export class GerenciamentoGatos {
   private gatosService = inject(GatosService);
 
   gatos = signal<Gato[]>([]);
+
   carregando = signal(true);
+
   erro = signal(false);
 
   paginaAtual = signal(1);
@@ -23,6 +31,7 @@ export class GerenciamentoGatos {
   readonly gatosPorPagina = 12;
 
   excluindoId = signal<number | null>(null);
+
   erroExclusao = signal('');
 
   totalPaginas = computed(() =>
@@ -49,12 +58,15 @@ export class GerenciamentoGatos {
   );
 
   constructor() {
+
     this.carregarGatos();
+
   }
 
   carregarGatos(): void {
 
     this.carregando.set(true);
+
     this.erro.set(false);
 
     this.gatosService.getGatos().subscribe({
@@ -62,7 +74,9 @@ export class GerenciamentoGatos {
       next: (gatos) => {
 
         this.gatos.set(gatos);
+
         this.paginaAtual.set(1);
+
         this.carregando.set(false);
 
       },
@@ -72,6 +86,7 @@ export class GerenciamentoGatos {
         console.error('Erro ao buscar os gatos:', erro);
 
         this.erro.set(true);
+
         this.carregando.set(false);
 
       }
@@ -86,7 +101,9 @@ export class GerenciamentoGatos {
       pagina < 1 ||
       pagina > this.totalPaginas()
     ) {
+
       return;
+
     }
 
     this.paginaAtual.set(pagina);
@@ -105,10 +122,13 @@ export class GerenciamentoGatos {
     );
 
     if (!confirmar) {
+
       return;
+
     }
 
     this.excluindoId.set(gato.id);
+
     this.erroExclusao.set('');
 
     this.gatosService.excluirGato(gato.id).subscribe({
@@ -127,7 +147,9 @@ export class GerenciamentoGatos {
           this.paginaAtual() > totalPaginas &&
           totalPaginas > 0
         ) {
+
           this.paginaAtual.set(totalPaginas);
+
         }
 
       },
@@ -141,6 +163,7 @@ export class GerenciamentoGatos {
           'Não foi possível excluir o gatinho. Tente novamente.';
 
         this.erroExclusao.set(mensagem);
+
         this.excluindoId.set(null);
 
         window.alert(mensagem);

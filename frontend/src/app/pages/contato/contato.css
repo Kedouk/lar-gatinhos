@@ -1,5 +1,6 @@
 main {
   min-height: calc(100vh - 80px);
+  background-color: #ffffff;
 }
 
 .contact-header {
@@ -15,70 +16,69 @@ main {
 }
 
 .contact-header p {
-  max-width: 750px;
-  margin: 0 auto;
+  margin: 0;
   font-size: 18px;
   line-height: 1.6;
   color: #555555;
 }
 
 .adoption-contact {
-  padding: 80px 8%;
-  background-color: #ffffff;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 70px 8%;
 }
 
 .section-title {
+  margin-bottom: 40px;
   text-align: center;
-  margin-bottom: 45px;
 }
 
 .section-title h2 {
   margin: 0 0 12px;
-  font-size: 36px;
-  color: #d8432e;
+  color: #555555;
+  font-size: 30px;
 }
 
 .section-title p {
   margin: 0;
-  font-size: 18px;
   color: #555555;
   line-height: 1.6;
 }
 
-.section-title strong {
-  color: #3f8ea0;
+.adoption-form {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
 }
 
-.adoption-form {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 40px;
-  box-sizing: border-box;
-  background-color: #ffffff;
+.form-section {
+  padding: 30px;
   border: 3px solid #5fb2be;
   border-radius: 18px;
+  background-color: #ffffff;
 }
 
-.form-error {
-  margin-bottom: 24px;
-  padding: 14px 16px;
-  background-color: #fff0ed;
-  border-radius: 10px;
-  color: #d8432e;
-  font-size: 15px;
-  line-height: 1.5;
+.form-section h3 {
+  margin: 0 0 25px;
+  color: #3f8ea0;
+  font-size: 22px;
 }
 
 .form-group {
-  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 16px;
-  font-weight: 600;
   color: #2e2e2e;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .required {
@@ -86,23 +86,23 @@ main {
 }
 
 .optional {
-  font-size: 14px;
+  color: #777777;
+  font-size: 13px;
   font-weight: 400;
-  color: #555555;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
   width: 100%;
-  padding: 13px 15px;
   box-sizing: border-box;
+  padding: 12px 14px;
   border: 2px solid #dddddd;
   border-radius: 10px;
   background-color: #ffffff;
-  color: #2e2e2e;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
+  color: #555555;
+  font-family: inherit;
+  font-size: 15px;
   outline: none;
   transition: border-color 0.2s;
 }
@@ -113,41 +113,83 @@ main {
   border-color: #5fb2be;
 }
 
-.form-group select {
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 25px;
+  margin-top: 5px;
+}
+
+.radio-option {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px;
+  margin: 0 !important;
+  color: #555555 !important;
+  font-weight: 400 !important;
   cursor: pointer;
 }
 
-.form-group textarea {
-  resize: vertical;
-  min-height: 120px;
+.radio-option input {
+  width: auto;
+  margin: 0;
+  accent-color: #3f8ea0;
+}
+
+.selected-cat {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background-color: #e8f4f6;
+  color: #555555;
+}
+
+.selected-cat strong {
+  color: #3f8ea0;
 }
 
 .field-error {
-  display: block;
-  margin-top: 7px;
   color: #d8432e;
-  font-size: 14px;
+  font-size: 13px;
 }
 
-.adoption-form .button {
+.form-error {
+  padding: 15px 18px;
+  border: 2px solid #d8432e;
+  border-radius: 10px;
+  background-color: #fff0ed;
+  color: #d8432e;
+  line-height: 1.5;
+}
+
+.adoption-form > .button {
+  align-self: center;
   border: none;
   cursor: pointer;
 }
 
-.adoption-form .button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+.adoption-form > .button:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 .success-message {
-  max-width: 650px;
-  margin: 0 auto;
-  padding: 45px 40px;
-  box-sizing: border-box;
-  background-color: #ffffff;
+  padding: 40px;
+  text-align: center;
   border: 3px solid #5fb2be;
   border-radius: 18px;
-  text-align: center;
+  background-color: #ffffff;
 }
 
 .success-title {
@@ -155,94 +197,88 @@ main {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .success-title h3 {
   margin: 0;
-  font-size: 30px;
-  color: #555555;
+  color: #3f8ea0;
+  font-size: 25px;
 }
 
 .success-title svg {
   width: 28px;
   height: 28px;
-  flex-shrink: 0;
-  fill: #d8432e;
-  stroke: none;
+  fill: none;
+  stroke: #3f8ea0;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .success-message p {
-  max-width: 520px;
-  margin: 0 auto 15px;
+  margin: 0 0 15px;
   color: #555555;
-  font-size: 17px;
   line-height: 1.6;
-}
-
-.success-message p strong {
-  color: #3f8ea0;
 }
 
 .success-message .button {
+  display: inline-flex;
   margin-top: 15px;
-  border: none;
-  cursor: pointer;
 }
 
 .contact-content {
-  padding: 80px 8%;
-  background-color: #ffffff;
+  padding: 70px 8%;
+  background-color: #f2e2cf;
 }
 
 .contact-grid {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
 }
 
 .contact-card {
-  width: 300px;
   padding: 30px;
-  box-sizing: border-box;
-  background-color: #ffffff;
-  border: 3.5px solid #5fb2be;
-  border-radius: 18px;
   text-align: center;
-}
-
-.contact-card h3 {
-  margin: 0 0 15px;
-  font-size: 24px;
-  color: #555555;
-}
-
-.contact-card p {
-  margin: 0 0 22px;
-  color: #555555;
-  line-height: 1.6;
+  border: 3px solid #5fb2be;
+  border-radius: 18px;
+  background-color: #ffffff;
 }
 
 .contact-icon {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 20px;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #e8f4f6;
   border-radius: 50%;
-  color: #3f8ea0;
+  background-color: #e8f4f6;
 }
 
 .contact-icon svg {
-  width: 34px;
-  height: 34px;
+  width: 25px;
+  height: 25px;
   fill: none;
   stroke: #3f8ea0;
-  stroke-width: 1.8;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.contact-card h3 {
+  margin: 0 0 10px;
+  color: #555555;
+  font-size: 20px;
+}
+
+.contact-card p {
+  margin: 0;
+  color: #555555;
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {
@@ -256,37 +292,33 @@ main {
   }
 
   .adoption-contact {
-    padding: 60px 6%;
+    padding: 50px 6%;
   }
 
-  .adoption-form {
+  .form-section {
     padding: 25px;
   }
 
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
   .success-message {
-    padding: 35px 25px;
-  }
-
-  .success-title {
-    gap: 10px;
-  }
-
-  .success-title h3 {
-    font-size: 25px;
-  }
-
-  .success-title svg {
-    width: 26px;
-    height: 26px;
+    padding: 30px 25px;
   }
 
   .contact-content {
-    padding: 60px 6%;
+    padding: 50px 6%;
   }
 
   .contact-grid {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
   }
 
 }

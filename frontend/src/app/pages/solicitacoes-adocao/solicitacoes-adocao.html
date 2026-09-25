@@ -1,318 +1,544 @@
 <app-header></app-header>
 
+<app-admin-header></app-admin-header>
+
 <main>
 
   <section class="page-header">
 
-    <h1>Solicitações de adoção</h1>
+    <div>
 
-    <p>
-      Consulte os interesses de adoção recebidos pelo Lar Gatinhos.
-    </p>
+      <h1>Solicitações de adoção</h1>
+
+      <p>
+        Consulte e acompanhe as solicitações recebidas.
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      class="refresh-button"
+      (click)="carregarSolicitacoes()"
+    >
+      Atualizar
+    </button>
 
   </section>
 
-  <section class="requests">
 
-    @if (carregando()) {
+  @if (erro()) {
 
-      <div class="message">
+    <div class="error-message">
+      {{ erro() }}
+    </div>
 
-        <p>
-          Carregando solicitações...
-        </p>
+  }
 
-      </div>
 
-    }
+  @if (carregando()) {
 
-    @if (!carregando() && erro()) {
+    <section class="empty-state">
 
-      <div class="message error">
+      <p>
+        Carregando solicitações...
+      </p>
 
-        <h2>Não foi possível carregar as solicitações</h2>
+    </section>
 
-        <p>
-          Ocorreu um erro ao buscar as solicitações de adoção.
-        </p>
+  } @else if (solicitacoes().length === 0) {
 
-      </div>
+    <section class="empty-state">
 
-    }
+      <h2>Nenhuma solicitação</h2>
 
-    @if (!carregando() && !erro() && solicitacoes().length === 0) {
+      <p>
+        Ainda não existem solicitações de adoção.
+      </p>
 
-      <div class="message">
+    </section>
 
-        <h2>Nenhuma solicitação encontrada</h2>
+  } @else {
 
-        <p>
-          Ainda não recebemos nenhuma solicitação de adoção.
-        </p>
+    <section class="requests">
 
-      </div>
+      @for (
+        solicitacao of solicitacoes();
+        track solicitacao.id
+      ) {
 
-    }
+        <article class="request-card">
 
-    @if (!carregando() && !erro() && solicitacoes().length > 0) {
+          <div class="request-header">
 
-      <div class="status-filter">
+            <div>
 
-        <label for="status-filter">
-          Filtrar por status
-        </label>
+              <h2>
+                {{ solicitacao.nome }}
+              </h2>
 
-        <select
-          id="status-filter"
-          (change)="filtrarStatus($event)"
-        >
+              <p class="cat-name">
 
-          <option value="">
-            Todos os status
-          </option>
+                @if (solicitacao.gato_nome) {
 
-          <option value="Pendente">
-            Pendente
-          </option>
+                  Interesse em:
+                  <strong>
+                    {{ solicitacao.gato_nome }}
+                  </strong>
 
-          <option value="Em análise">
-            Em análise
-          </option>
+                } @else {
 
-          <option value="Aprovada">
-            Aprovada
-          </option>
+                  Ainda não escolheu um gatinho
 
-          <option value="Recusada">
-            Recusada
-          </option>
+                }
 
-        </select>
+              </p>
 
-      </div>
+            </div>
 
-      @if (solicitacoesFiltradas().length === 0) {
+            <span
+              class="status"
+              [class.pending]="solicitacao.status === 'Pendente'"
+              [class.analysis]="solicitacao.status === 'Em análise'"
+              [class.approved]="solicitacao.status === 'Aprovada'"
+              [class.refused]="solicitacao.status === 'Recusada'"
+            >
+              {{ solicitacao.status }}
+            </span>
 
-        <div class="message">
+          </div>
 
-          <h2>Nenhuma solicitação encontrada</h2>
 
-          <p>
-            Não existem solicitações com o status selecionado.
-          </p>
+          <div class="request-summary">
 
-        </div>
+            <div>
+
+              <strong>WhatsApp</strong>
+
+              <span>
+                {{ solicitacao.telefone }}
+              </span>
+
+            </div>
+
+            <div>
+
+              <strong>E-mail</strong>
+
+              <span>
+                {{ solicitacao.email }}
+              </span>
+
+            </div>
+
+            <div>
+
+              <strong>Cidade</strong>
+
+              <span>
+                {{ solicitacao.cidade }}
+              </span>
+
+            </div>
+
+            <div>
+
+              <strong>Idade</strong>
+
+              <span>
+                {{ solicitacao.idade }} anos
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="request-actions">
+
+            <button
+              type="button"
+              class="button secondary"
+              (click)="selecionarSolicitacao(solicitacao)"
+            >
+              Ver detalhes
+            </button>
+
+            <button
+              type="button"
+              class="button danger"
+              (click)="excluirSolicitacao(solicitacao)"
+            >
+              Excluir
+            </button>
+
+          </div>
+
+        </article>
 
       }
 
-      @if (solicitacoesFiltradas().length > 0) {
+    </section>
 
-        <div class="requests-list">
+  }
 
-          @for (
-            solicitacao of solicitacoesPaginadas();
-            track solicitacao.id
-          ) {
 
-            <article class="request-card">
+  @if (solicitacaoSelecionada()) {
 
-              <div class="request-header">
+    <div
+      class="modal-backdrop"
+      (click)="fecharDetalhes()"
+    >
 
-                <div>
+      <section
+        class="modal"
+        (click)="$event.stopPropagation()"
+      >
 
-                  @if (solicitacao.gato_nome) {
+        <div class="modal-header">
 
-                    <h2>
-                      {{ solicitacao.gato_nome }}
-                    </h2>
+          <div>
 
-                  } @else {
+            <h2>
+              Detalhes da solicitação
+            </h2>
 
-                    <h2>
-                      Interesse geral em adoção
-                    </h2>
+            <p>
+              {{ solicitacaoSelecionada()!.nome }}
+            </p>
 
-                  }
+          </div>
 
-                  <span class="status">
-                    {{ solicitacao.status }}
-                  </span>
+          <button
+            type="button"
+            class="close-button"
+            (click)="fecharDetalhes()"
+            aria-label="Fechar"
+          >
+            ×
+          </button>
 
-                </div>
+        </div>
 
-                <span class="date">
-                  {{ solicitacao.criada_em | date:'dd/MM/yyyy HH:mm' }}
+
+        <div class="modal-content">
+
+          <section class="detail-section">
+
+            <h3>Gato de interesse</h3>
+
+            <p>
+
+              @if (solicitacaoSelecionada()!.gato_nome) {
+
+                {{ solicitacaoSelecionada()!.gato_nome }}
+
+              } @else {
+
+                Nenhum gatinho selecionado
+
+              }
+
+            </p>
+
+          </section>
+
+
+          <section class="detail-section">
+
+            <h3>Dados do interessado</h3>
+
+            <div class="detail-grid">
+
+              <div>
+
+                <strong>Nome</strong>
+
+                <span>
+                  {{ solicitacaoSelecionada()!.nome }}
                 </span>
 
               </div>
 
-              <div class="request-info">
+              <div>
 
-                <div class="info-item">
+                <strong>Idade</strong>
 
-                  <strong>Interessado</strong>
-
-                  <span>
-                    {{ solicitacao.nome }}
-                  </span>
-
-                </div>
-
-                <div class="info-item">
-
-                  <strong>E-mail</strong>
-
-                  <span>
-                    {{ solicitacao.email }}
-                  </span>
-
-                </div>
-
-                <div class="info-item">
-
-                  <strong>WhatsApp</strong>
-
-                  <span>
-                    {{ solicitacao.telefone }}
-                  </span>
-
-                </div>
+                <span>
+                  {{ solicitacaoSelecionada()!.idade }} anos
+                </span>
 
               </div>
 
-              @if (solicitacao.mensagem) {
+              <div>
 
-                <div class="request-message">
+                <strong>WhatsApp</strong>
 
-                  <strong>Mensagem</strong>
+                <span>
+                  {{ solicitacaoSelecionada()!.telefone }}
+                </span>
+
+              </div>
+
+              <div>
+
+                <strong>E-mail</strong>
+
+                <span>
+                  {{ solicitacaoSelecionada()!.email }}
+                </span>
+
+              </div>
+
+              <div>
+
+                <strong>Cidade</strong>
+
+                <span>
+                  {{ solicitacaoSelecionada()!.cidade }}
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <section class="detail-section">
+
+            <h3>Moradia e segurança</h3>
+
+            <div class="detail-grid">
+
+              <div>
+
+                <strong>Tipo de moradia</strong>
+
+                <span>
+                  {{ solicitacaoSelecionada()!.tipo_moradia }}
+                </span>
+
+              </div>
+
+              <div>
+
+                <strong>Tipo de imóvel</strong>
+
+                <span>
+                  {{ solicitacaoSelecionada()!.tipo_imovel }}
+                </span>
+
+              </div>
+
+              <div>
+
+                <strong>Casa telada</strong>
+
+                <span>
+                  {{ solicitacaoSelecionada()!.casa_telada ? 'Sim' : 'Não' }}
+                </span>
+
+              </div>
+
+              <div>
+
+                <strong>Moradia segura</strong>
+
+                <span>
+                  {{ solicitacaoSelecionada()!.moradia_segura ? 'Sim' : 'Não' }}
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <section class="detail-section">
+
+            <h3>Pessoas que moram na casa</h3>
+
+            <div class="detail-grid">
+
+              <div>
+
+                <strong>Quantidade de moradores</strong>
+
+                <span>
+                  {{ solicitacaoSelecionada()!.quantidade_moradores }}
+                </span>
+
+              </div>
+
+              <div>
+
+                <strong>Todos estão de acordo?</strong>
+
+                <span>
+                  {{ solicitacaoSelecionada()!.todos_de_acordo ? 'Sim' : 'Não' }}
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <section class="detail-section">
+
+            <h3>Outros animais</h3>
+
+            <p>
+
+              {{
+                solicitacaoSelecionada()!.possui_outros_animais
+                  ? 'Possui outros animais.'
+                  : 'Não possui outros animais.'
+              }}
+
+            </p>
+
+          </section>
+
+
+          <section class="detail-section">
+
+            <h3>Compromisso com a adoção</h3>
+
+            <div class="detail-grid">
+
+              <div>
+
+                <strong>
+                  Compromisso de muitos anos
+                </strong>
+
+                <span>
+                  {{
+                    solicitacaoSelecionada()!.compromisso_longo_prazo
+                      ? 'Sim'
+                      : 'Não'
+                  }}
+                </span>
+
+              </div>
+
+              <div>
+
+                <strong>
+                  Respeitar o tempo de adaptação
+                </strong>
+
+                <span>
+                  {{
+                    solicitacaoSelecionada()!.respeita_tempo_adaptacao
+                      ? 'Sim'
+                      : 'Não'
+                  }}
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          @if (
+            solicitacaoSelecionada()!.motivo_adocao ||
+            solicitacaoSelecionada()!.sobre_adotante
+          ) {
+
+            <section class="detail-section">
+
+              <h3>Sobre a adoção</h3>
+
+              @if (solicitacaoSelecionada()!.motivo_adocao) {
+
+                <div class="text-detail">
+
+                  <strong>Motivo da adoção</strong>
 
                   <p>
-                    {{ solicitacao.mensagem }}
+                    {{ solicitacaoSelecionada()!.motivo_adocao }}
                   </p>
 
                 </div>
 
               }
 
-              <div class="status-control">
+              @if (solicitacaoSelecionada()!.sobre_adotante) {
 
-                <label [for]="'status-' + solicitacao.id">
-                  Status da solicitação
-                </label>
+                <div class="text-detail">
 
-                <select
-                  [id]="'status-' + solicitacao.id"
-                  [value]="solicitacao.status"
-                  [disabled]="
-                    atualizandoId() !== null ||
-                    excluindoId() !== null
-                  "
-                  (change)="alterarStatus(solicitacao, $event)"
-                >
+                  <strong>
+                    Sobre o adotante
+                  </strong>
 
-                  @if (atualizandoId() === solicitacao.id) {
+                  <p>
+                    {{ solicitacaoSelecionada()!.sobre_adotante }}
+                  </p>
 
-                    <option [value]="solicitacao.status">
-                      Atualizando...
-                    </option>
-
-                  }
-
-                  <option value="Pendente">
-                    Pendente
-                  </option>
-
-                  <option value="Em análise">
-                    Em análise
-                  </option>
-
-                  <option value="Aprovada">
-                    Aprovada
-                  </option>
-
-                  <option value="Recusada">
-                    Recusada
-                  </option>
-
-                </select>
-
-              </div>
-
-              <div class="request-actions">
-
-                <button
-                  type="button"
-                  class="delete-button"
-                  [disabled]="
-                    atualizandoId() !== null ||
-                    excluindoId() !== null
-                  "
-                  (click)="excluirSolicitacao(solicitacao)"
-                >
-
-                  @if (excluindoId() === solicitacao.id) {
-                    Excluindo...
-                  } @else {
-                    Excluir solicitação
-                  }
-
-                </button>
-
-              </div>
-
-            </article>
-
-          }
-
-        </div>
-
-        @if (totalPaginas() > 1) {
-
-          <div class="pagination">
-
-            <button
-              type="button"
-              class="pagination-button"
-              [disabled]="paginaAtual() === 1"
-              (click)="irParaPagina(paginaAtual() - 1)"
-            >
-              Anterior
-            </button>
-
-            <div class="pagination-pages">
-
-              @for (pagina of paginas(); track pagina) {
-
-                <button
-                  type="button"
-                  class="pagination-number"
-                  [class.active]="paginaAtual() === pagina"
-                  (click)="irParaPagina(pagina)"
-                >
-                  {{ pagina }}
-                </button>
+                </div>
 
               }
 
+            </section>
+
+          }
+
+
+          <section class="detail-section">
+
+            <h3>Status da solicitação</h3>
+
+            <div class="status-actions">
+
+              <button
+                type="button"
+                [class.active]="solicitacaoSelecionada()!.status === 'Pendente'"
+                (click)="atualizarStatus(solicitacaoSelecionada()!, 'Pendente')"
+              >
+                Pendente
+              </button>
+
+              <button
+                type="button"
+                [class.active]="solicitacaoSelecionada()!.status === 'Em análise'"
+                (click)="atualizarStatus(solicitacaoSelecionada()!, 'Em análise')"
+              >
+                Em análise
+              </button>
+
+              <button
+                type="button"
+                [class.active]="solicitacaoSelecionada()!.status === 'Aprovada'"
+                (click)="atualizarStatus(solicitacaoSelecionada()!, 'Aprovada')"
+              >
+                Aprovada
+              </button>
+
+              <button
+                type="button"
+                [class.active]="solicitacaoSelecionada()!.status === 'Recusada'"
+                (click)="atualizarStatus(solicitacaoSelecionada()!, 'Recusada')"
+              >
+                Recusada
+              </button>
+
             </div>
 
-            <button
-              type="button"
-              class="pagination-button"
-              [disabled]="paginaAtual() === totalPaginas()"
-              (click)="irParaPagina(paginaAtual() + 1)"
-            >
-              Próxima
-            </button>
+          </section>
 
-          </div>
+        </div>
 
-        }
+      </section>
 
-      }
+    </div>
 
-    }
-
-  </section>
+  }
 
 </main>

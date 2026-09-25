@@ -347,7 +347,6 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
     const resultado = await pool.query(`
 
       update gatos
-
       set
         nome = $1,
         idade = $2,
@@ -487,7 +486,20 @@ app.post('/solicitacoes-adocao', async (req, res) => {
       nome,
       email,
       telefone,
-      mensagem
+      mensagem,
+      cidade,
+      idade,
+      tipo_moradia,
+      tipo_imovel,
+      casa_telada,
+      moradia_segura,
+      quantidade_moradores,
+      todos_de_acordo,
+      possui_outros_animais,
+      compromisso_longo_prazo,
+      respeita_tempo_adaptacao,
+      motivo_adocao,
+      sobre_adotante
     } = req.body;
 
     const gatoId =
@@ -497,15 +509,32 @@ app.post('/solicitacoes-adocao', async (req, res) => {
         ? null
         : Number(gato_id);
 
+    const idadeNumerica = Number(idade);
+    const quantidadeMoradoresNumerica =
+      Number(quantidade_moradores);
+
     if (
       (gatoId !== null && !Number.isInteger(gatoId)) ||
       !nome?.trim() ||
       !email?.trim() ||
-      !telefone?.trim()
+      !telefone?.trim() ||
+      !cidade?.trim() ||
+      !Number.isInteger(idadeNumerica) ||
+      idadeNumerica < 18 ||
+      !tipo_moradia?.trim() ||
+      !tipo_imovel?.trim() ||
+      typeof casa_telada !== 'boolean' ||
+      typeof moradia_segura !== 'boolean' ||
+      !Number.isInteger(quantidadeMoradoresNumerica) ||
+      quantidadeMoradoresNumerica < 1 ||
+      typeof todos_de_acordo !== 'boolean' ||
+      typeof possui_outros_animais !== 'boolean' ||
+      typeof compromisso_longo_prazo !== 'boolean' ||
+      typeof respeita_tempo_adaptacao !== 'boolean'
     ) {
 
       return res.status(400).json({
-        message: 'Nome, e-mail e telefone são obrigatórios.'
+        message: 'Preencha corretamente todos os campos obrigatórios.'
       });
 
     }
@@ -549,10 +578,28 @@ app.post('/solicitacoes-adocao', async (req, res) => {
         nome,
         email,
         telefone,
-        mensagem
+        mensagem,
+        cidade,
+        idade,
+        tipo_moradia,
+        tipo_imovel,
+        casa_telada,
+        moradia_segura,
+        quantidade_moradores,
+        todos_de_acordo,
+        possui_outros_animais,
+        compromisso_longo_prazo,
+        respeita_tempo_adaptacao,
+        motivo_adocao,
+        sobre_adotante
       )
 
-      values ($1, $2, $3, $4, $5)
+      values (
+        $1, $2, $3, $4, $5,
+        $6, $7, $8, $9, $10,
+        $11, $12, $13, $14, $15,
+        $16, $17, $18
+      )
 
       returning
         id,
@@ -561,6 +608,19 @@ app.post('/solicitacoes-adocao', async (req, res) => {
         email,
         telefone,
         mensagem,
+        cidade,
+        idade,
+        tipo_moradia,
+        tipo_imovel,
+        casa_telada,
+        moradia_segura,
+        quantidade_moradores,
+        todos_de_acordo,
+        possui_outros_animais,
+        compromisso_longo_prazo,
+        respeita_tempo_adaptacao,
+        motivo_adocao,
+        sobre_adotante,
         status,
         criada_em
 
@@ -569,7 +629,20 @@ app.post('/solicitacoes-adocao', async (req, res) => {
       nome.trim(),
       email.trim(),
       telefone.trim(),
-      mensagem?.trim() || ''
+      mensagem?.trim() || '',
+      cidade.trim(),
+      idadeNumerica,
+      tipo_moradia.trim(),
+      tipo_imovel.trim(),
+      casa_telada,
+      moradia_segura,
+      quantidadeMoradoresNumerica,
+      todos_de_acordo,
+      possui_outros_animais,
+      compromisso_longo_prazo,
+      respeita_tempo_adaptacao,
+      motivo_adocao?.trim() || '',
+      sobre_adotante?.trim() || ''
     ]);
 
     res.status(201).json(resultado.rows[0]);
@@ -600,6 +673,19 @@ app.get('/solicitacoes-adocao', autenticar, async (_req, res) => {
         solicitacoes_adocao.email,
         solicitacoes_adocao.telefone,
         solicitacoes_adocao.mensagem,
+        solicitacoes_adocao.cidade,
+        solicitacoes_adocao.idade,
+        solicitacoes_adocao.tipo_moradia,
+        solicitacoes_adocao.tipo_imovel,
+        solicitacoes_adocao.casa_telada,
+        solicitacoes_adocao.moradia_segura,
+        solicitacoes_adocao.quantidade_moradores,
+        solicitacoes_adocao.todos_de_acordo,
+        solicitacoes_adocao.possui_outros_animais,
+        solicitacoes_adocao.compromisso_longo_prazo,
+        solicitacoes_adocao.respeita_tempo_adaptacao,
+        solicitacoes_adocao.motivo_adocao,
+        solicitacoes_adocao.sobre_adotante,
         solicitacoes_adocao.status,
         solicitacoes_adocao.criada_em
 
@@ -632,7 +718,9 @@ app.patch('/solicitacoes-adocao/:id/status', autenticar, async (req, res) => {
 
     const id = Number(req.params.id);
 
-    const { status } = req.body;
+    const {
+      status
+    } = req.body;
 
     const statusPermitidos = [
       'Pendente',
@@ -672,6 +760,19 @@ app.patch('/solicitacoes-adocao/:id/status', autenticar, async (req, res) => {
         email,
         telefone,
         mensagem,
+        cidade,
+        idade,
+        tipo_moradia,
+        tipo_imovel,
+        casa_telada,
+        moradia_segura,
+        quantidade_moradores,
+        todos_de_acordo,
+        possui_outros_animais,
+        compromisso_longo_prazo,
+        respeita_tempo_adaptacao,
+        motivo_adocao,
+        sobre_adotante,
         status,
         criada_em
 

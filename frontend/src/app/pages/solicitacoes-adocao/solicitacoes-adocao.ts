@@ -1,74 +1,42 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { Header } from '../../shared/header/header';
+import { Component, inject, signal } from '@angular/core';
+
 import {
   SolicitacaoAdocao,
   SolicitacoesAdocaoService
 } from '../../services/solicitacoes-adocao';
 
+import { Header } from '../../shared/header/header';
+
+import { AdminHeader } from '../../shared/admin-header/admin-header';
+
 @Component({
   selector: 'app-solicitacoes-adocao',
-  imports: [DatePipe, Header],
+
+  imports: [
+    Header,
+    AdminHeader
+  ],
+
   templateUrl: './solicitacoes-adocao.html',
+
   styleUrl: './solicitacoes-adocao.css',
 })
+
 export class SolicitacoesAdocao {
 
-  private solicitacoesService = inject(SolicitacoesAdocaoService);
+  private solicitacoesService =
+    inject(SolicitacoesAdocaoService);
 
-  solicitacoes = signal<SolicitacaoAdocao[]>([]);
-  statusSelecionado = signal('');
+  solicitacoes =
+    signal<SolicitacaoAdocao[]>([]);
+
   carregando = signal(true);
-  erro = signal(false);
 
-  paginaAtual = signal(1);
+  erro = signal('');
 
-  readonly solicitacoesPorPagina = 12;
+  solicitacaoSelecionada =
+    signal<SolicitacaoAdocao | null>(null);
 
-  atualizandoId = signal<number | null>(null);
-  excluindoId = signal<number | null>(null);
-
-  solicitacoesFiltradas = computed(() => {
-
-    const solicitacoes = this.solicitacoes();
-    const status = this.statusSelecionado();
-
-    if (!status) {
-      return solicitacoes;
-    }
-
-    return solicitacoes.filter(
-      solicitacao => solicitacao.status === status
-    );
-
-  });
-
-  totalPaginas = computed(() =>
-    Math.ceil(
-      this.solicitacoesFiltradas().length /
-      this.solicitacoesPorPagina
-    )
-  );
-
-  solicitacoesPaginadas = computed(() => {
-
-    const inicio =
-      (this.paginaAtual() - 1) *
-      this.solicitacoesPorPagina;
-
-    const fim =
-      inicio + this.solicitacoesPorPagina;
-
-    return this.solicitacoesFiltradas().slice(inicio, fim);
-
-  });
-
-  paginas = computed(() =>
-    Array.from(
-      { length: this.totalPaginas() },
-      (_, indice) => indice + 1
-    )
-  );
 
   constructor() {
 
@@ -76,104 +44,100 @@ export class SolicitacoesAdocao {
 
   }
 
+
   carregarSolicitacoes(): void {
 
     this.carregando.set(true);
-    this.erro.set(false);
 
-    this.solicitacoesService.getSolicitacoes().subscribe({
+    this.erro.set('');
 
-      next: (solicitacoes) => {
+    this.solicitacoesService
+      .getSolicitacoes()
+      .subscribe({
 
-        this.solicitacoes.set(solicitacoes);
-        this.paginaAtual.set(1);
-        this.carregando.set(false);
+        next: (solicitacoes) => {
 
-      },
+          this.solicitacoes.set(
+            solicitacoes
+          );
 
-      error: (erro) => {
+          this.carregando.set(false);
 
-        console.error(
-          'Erro ao buscar solicitações:',
-          erro
-        );
+        },
 
-        this.erro.set(true);
-        this.carregando.set(false);
+        error: (erro) => {
 
-      }
+          console.error(
+            'Erro ao buscar solicitações:',
+            erro
+          );
 
-    });
+          this.erro.set(
+            'Não foi possível carregar as solicitações de adoção.'
+          );
 
-  }
+          this.carregando.set(false);
 
-  filtrarStatus(event: Event): void {
+        }
 
-    const select = event.target as HTMLSelectElement;
-
-    this.statusSelecionado.set(select.value);
-    this.paginaAtual.set(1);
-
-  }
-
-  irParaPagina(pagina: number): void {
-
-    if (
-      pagina < 1 ||
-      pagina > this.totalPaginas()
-    ) {
-      return;
-    }
-
-    this.paginaAtual.set(pagina);
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+      });
 
   }
 
-  alterarStatus(
-    solicitacao: SolicitacaoAdocao,
-    event: Event
+
+  selecionarSolicitacao(
+    solicitacao: SolicitacaoAdocao
   ): void {
 
-    const select = event.target as HTMLSelectElement;
-    const novoStatus = select.value;
+    this.solicitacaoSelecionada.set(
+      solicitacao
+    );
 
-    if (
-      !solicitacao.id ||
-      !novoStatus ||
-      this.atualizandoId() !== null ||
-      this.excluindoId() !== null
-    ) {
+  }
+
+
+  fecharDetalhes(): void {
+
+    this.solicitacaoSelecionada.set(null);
+
+  }
+
+
+  atualizarStatus(
+    solicitacao: SolicitacaoAdocao,
+    status: string
+  ): void {
+
+    if (!solicitacao.id) {
+
       return;
-    }
 
-    this.atualizandoId.set(solicitacao.id);
+    }
 
     this.solicitacoesService
       .atualizarStatus(
         solicitacao.id,
-        novoStatus
+        status
       )
       .subscribe({
 
         next: (solicitacaoAtualizada) => {
 
-          this.solicitacoes.update(solicitacoes =>
-            solicitacoes.map(item =>
-              item.id === solicitacaoAtualizada.id
-                ? {
-                    ...item,
-                    status: solicitacaoAtualizada.status
-                  }
-                : item
-            )
+          this.solicitacoes.update(
+            lista =>
+              lista.map(item =>
+                item.id === solicitacaoAtualizada.id
+                  ? {
+                      ...item,
+                      ...solicitacaoAtualizada
+                    }
+                  : item
+              )
           );
 
-          this.atualizandoId.set(null);
+          this.solicitacaoSelecionada.set(
+            solicitacaoAtualizada
+          );
 
         },
 
@@ -184,9 +148,9 @@ export class SolicitacoesAdocao {
             erro
           );
 
-          this.atualizandoId.set(null);
-
-          this.carregarSolicitacoes();
+          this.erro.set(
+            'Não foi possível atualizar o status da solicitação.'
+          );
 
         }
 
@@ -194,50 +158,46 @@ export class SolicitacoesAdocao {
 
   }
 
+
   excluirSolicitacao(
     solicitacao: SolicitacaoAdocao
   ): void {
 
-    if (
-      !solicitacao.id ||
-      this.atualizandoId() !== null ||
-      this.excluindoId() !== null
-    ) {
+    if (!solicitacao.id) {
+
       return;
+
     }
 
     const confirmar = window.confirm(
-      'Tem certeza que deseja excluir esta solicitação de adoção?'
+      'Deseja realmente excluir esta solicitação de adoção?'
     );
 
     if (!confirmar) {
+
       return;
+
     }
 
-    this.excluindoId.set(solicitacao.id);
-
     this.solicitacoesService
-      .excluirSolicitacao(solicitacao.id)
+      .excluirSolicitacao(
+        solicitacao.id
+      )
       .subscribe({
 
         next: () => {
 
-          this.solicitacoes.update(solicitacoes =>
-            solicitacoes.filter(
-              item => item.id !== solicitacao.id
-            )
+          this.solicitacoes.update(
+            lista =>
+              lista.filter(
+                item =>
+                  item.id !== solicitacao.id
+              )
           );
 
-          this.excluindoId.set(null);
-
-          const totalPaginas = this.totalPaginas();
-
-          if (
-            this.paginaAtual() > totalPaginas &&
-            totalPaginas > 0
-          ) {
-            this.paginaAtual.set(totalPaginas);
-          }
+          this.solicitacaoSelecionada.set(
+            null
+          );
 
         },
 
@@ -248,13 +208,9 @@ export class SolicitacoesAdocao {
             erro
           );
 
-          this.excluindoId.set(null);
-
-          const mensagem =
-            erro.error?.message ||
-            'Não foi possível excluir a solicitação. Tente novamente.';
-
-          window.alert(mensagem);
+          this.erro.set(
+            'Não foi possível excluir a solicitação.'
+          );
 
         }
 

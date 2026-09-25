@@ -120,7 +120,32 @@ main {
 }
 
 .form-group input[type="file"] {
-  display: none;
+  display: block;
+  width: auto;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: #555555;
+  cursor: pointer;
+}
+
+.form-group input[type="file"]::file-selector-button {
+  margin-right: 10px;
+  padding: 11px 20px;
+  border: none;
+  border-radius: 30px;
+  background-color: #3f8ea0;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.form-group input[type="file"]::file-selector-button:hover {
+  background-color: #5fb2be;
 }
 
 .photo-button {
@@ -128,7 +153,7 @@ main {
   align-self: flex-start;
   margin-bottom: 0 !important;
   padding: 12px 24px;
-  background-color: #d8432e;
+  background-color: #3f8ea0;
   color: #ffffff !important;
   border-radius: 30px;
   font-size: 16px !important;
@@ -138,7 +163,7 @@ main {
 }
 
 .photo-button:hover {
-  background-color: #f57c1f;
+  background-color: #5fb2be;
 }
 
 .file-name {
@@ -227,13 +252,13 @@ main {
 }
 
 .cat-form .button {
+  margin-top: 10px;
   border: none;
   cursor: pointer;
   font-family: Arial, sans-serif;
 }
 
 @media (max-width: 768px) {
-
   .page-header {
     padding: 50px 6%;
   }
@@ -258,5 +283,4 @@ main {
   .file-name {
     max-width: 100%;
   }
-
 }

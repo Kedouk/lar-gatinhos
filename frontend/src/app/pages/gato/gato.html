@@ -37,7 +37,15 @@
 
         <div class="cat-details">
 
-          <span>{{ gato()!.idade }}</span>
+          <span>
+            @if (gato()!.idade === 'Adulto' && gato()!.sexo === 'Fêmea') {
+              Adulta
+            } @else if (gato()!.idade === 'Idoso' && gato()!.sexo === 'Fêmea') {
+              Idosa
+            } @else {
+              {{ gato()!.idade }}
+            }
+          </span>
 
           <span class="sex-badge">
 
