@@ -158,7 +158,9 @@ app.get('/gatos', async (_req, res) => {
         foto,
         castrado,
         vacinado,
-        disponivel
+        disponivel,
+        fiv,
+        felv
       from gatos
       order by id
 
@@ -204,7 +206,9 @@ app.get('/gatos/:id', async (req, res) => {
         foto,
         castrado,
         vacinado,
-        disponivel
+        disponivel,
+        fiv,
+        felv
       from gatos
       where id = $1
 
@@ -245,13 +249,22 @@ app.post('/gatos', autenticar, async (req, res) => {
       foto,
       castrado,
       vacinado,
-      disponivel
+      disponivel,
+      fiv,
+      felv
     } = req.body;
 
-    if (!nome || !idade || !sexo || !foto) {
+    if (
+      !nome ||
+      !idade ||
+      !sexo ||
+      !foto ||
+      !fiv ||
+      !felv
+    ) {
 
       return res.status(400).json({
-        message: 'Nome, idade, sexo e foto são obrigatórios.'
+        message: 'Nome, idade, sexo, foto, FIV e FeLV são obrigatórios.'
       });
 
     }
@@ -267,10 +280,24 @@ app.post('/gatos', autenticar, async (req, res) => {
         foto,
         castrado,
         vacinado,
-        disponivel
+        disponivel,
+        fiv,
+        felv
       )
 
-      values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      values (
+        $1,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6,
+        $7,
+        $8,
+        $9,
+        $10,
+        $11
+      )
 
       returning
         id,
@@ -282,7 +309,9 @@ app.post('/gatos', autenticar, async (req, res) => {
         foto,
         castrado,
         vacinado,
-        disponivel
+        disponivel,
+        fiv,
+        felv
 
     `, [
       nome.trim(),
@@ -293,7 +322,9 @@ app.post('/gatos', autenticar, async (req, res) => {
       foto,
       castrado ?? false,
       vacinado ?? false,
-      disponivel ?? true
+      disponivel ?? true,
+      fiv,
+      felv
     ]);
 
     res.status(201).json(resultado.rows[0]);
@@ -325,7 +356,9 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
       foto,
       castrado,
       vacinado,
-      disponivel
+      disponivel,
+      fiv,
+      felv
     } = req.body;
 
     if (!Number.isInteger(id)) {
@@ -336,10 +369,17 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
 
     }
 
-    if (!nome || !idade || !sexo || !foto) {
+    if (
+      !nome ||
+      !idade ||
+      !sexo ||
+      !foto ||
+      !fiv ||
+      !felv
+    ) {
 
       return res.status(400).json({
-        message: 'Nome, idade, sexo e foto são obrigatórios.'
+        message: 'Nome, idade, sexo, foto, FIV e FeLV são obrigatórios.'
       });
 
     }
@@ -347,6 +387,7 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
     const resultado = await pool.query(`
 
       update gatos
+
       set
         nome = $1,
         idade = $2,
@@ -356,9 +397,11 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
         foto = $6,
         castrado = $7,
         vacinado = $8,
-        disponivel = $9
+        disponivel = $9,
+        fiv = $10,
+        felv = $11
 
-      where id = $10
+      where id = $12
 
       returning
         id,
@@ -370,7 +413,9 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
         foto,
         castrado,
         vacinado,
-        disponivel
+        disponivel,
+        fiv,
+        felv
 
     `, [
       nome.trim(),
@@ -382,6 +427,8 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
       castrado ?? false,
       vacinado ?? false,
       disponivel ?? true,
+      fiv,
+      felv,
       id
     ]);
 
@@ -510,6 +557,7 @@ app.post('/solicitacoes-adocao', async (req, res) => {
         : Number(gato_id);
 
     const idadeNumerica = Number(idade);
+
     const quantidadeMoradoresNumerica =
       Number(quantidade_moradores);
 
@@ -841,7 +889,7 @@ app.delete('/solicitacoes-adocao/:id', autenticar, async (req, res) => {
     console.error(error);
 
     res.status(500).json({
-      message: 'Erro ao excluir a solicitação de adoção.'
+      message: 'Erro ao excluir a solicitação.'
     });
 
   }

@@ -98,6 +98,49 @@
 
         <div class="form-group">
 
+          <label for="sexo">
+            Sexo
+            <span class="required">*</span>
+          </label>
+
+          <select
+            id="sexo"
+            name="sexo"
+            [(ngModel)]="sexo"
+            required
+            #sexoField="ngModel"
+          >
+
+            <option value="">
+              Selecione
+            </option>
+
+            <option value="Fêmea">
+              Fêmea
+            </option>
+
+            <option value="Macho">
+              Macho
+            </option>
+
+          </select>
+
+          @if (
+            sexoField.invalid &&
+            (sexoField.touched || form.submitted)
+          ) {
+
+            <span class="field-error">
+              Selecione o sexo.
+            </span>
+
+          }
+
+        </div>
+
+
+        <div class="form-group">
+
           <label for="idade">
             Idade
             <span class="required">*</span>
@@ -136,49 +179,6 @@
 
             <span class="field-error">
               Selecione a idade.
-            </span>
-
-          }
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="sexo">
-            Sexo
-            <span class="required">*</span>
-          </label>
-
-          <select
-            id="sexo"
-            name="sexo"
-            [(ngModel)]="sexo"
-            required
-            #sexoField="ngModel"
-          >
-
-            <option value="">
-              Selecione
-            </option>
-
-            <option value="Fêmea">
-              Fêmea
-            </option>
-
-            <option value="Macho">
-              Macho
-            </option>
-
-          </select>
-
-          @if (
-            sexoField.invalid &&
-            (sexoField.touched || form.submitted)
-          ) {
-
-            <span class="field-error">
-              Selecione o sexo.
             </span>
 
           }
@@ -269,6 +269,96 @@
         </div>
 
 
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label for="fiv">
+              FIV
+              <span class="required">*</span>
+            </label>
+
+            <select
+              id="fiv"
+              name="fiv"
+              [(ngModel)]="fiv"
+              required
+              #fivField="ngModel"
+            >
+
+              <option value="">
+                Selecione
+              </option>
+
+              <option value="Negativo">
+                Negativo
+              </option>
+
+              <option value="Positivo">
+                Positivo
+              </option>
+
+            </select>
+
+            @if (
+              fivField.invalid &&
+              (fivField.touched || form.submitted)
+            ) {
+
+              <span class="field-error">
+                Informe o resultado de FIV.
+              </span>
+
+            }
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="felv">
+              FeLV
+              <span class="required">*</span>
+            </label>
+
+            <select
+              id="felv"
+              name="felv"
+              [(ngModel)]="felv"
+              required
+              #felvField="ngModel"
+            >
+
+              <option value="">
+                Selecione
+              </option>
+
+              <option value="Negativo">
+                Negativo
+              </option>
+
+              <option value="Positivo">
+                Positivo
+              </option>
+
+            </select>
+
+            @if (
+              felvField.invalid &&
+              (felvField.touched || form.submitted)
+            ) {
+
+              <span class="field-error">
+                Informe o resultado de FeLV.
+              </span>
+
+            }
+
+          </div>
+
+        </div>
+
+
         <div class="checkbox-group">
 
           <label class="checkbox-label">
@@ -280,7 +370,11 @@
             >
 
             <span>
-              Castrado
+              @if (sexo === 'Fêmea') {
+                Castrada
+              } @else {
+                Castrado
+              }
             </span>
 
           </label>
@@ -295,7 +389,11 @@
             >
 
             <span>
-              Vacinado
+              @if (sexo === 'Fêmea') {
+                Vacinada
+              } @else {
+                Vacinado
+              }
             </span>
 
           </label>

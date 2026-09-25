@@ -6,6 +6,7 @@
     ← Voltar para adoção
   </a>
 
+
   @if (carregando()) {
 
     <section class="cat-not-found">
@@ -17,6 +18,7 @@
     </section>
 
   }
+
 
   @if (gato()) {
 
@@ -31,38 +33,85 @@
 
       </div>
 
+
       <div class="cat-detail-info">
 
         <h1>{{ gato()!.nome }}</h1>
 
+
         <div class="cat-details">
 
           <span>
-            @if (gato()!.idade === 'Adulto' && gato()!.sexo === 'Fêmea') {
+
+            @if (
+              gato()!.idade === 'Adulto' &&
+              gato()!.sexo === 'Fêmea'
+            ) {
+
               Adulta
-            } @else if (gato()!.idade === 'Idoso' && gato()!.sexo === 'Fêmea') {
+
+            } @else if (
+              gato()!.idade === 'Idoso' &&
+              gato()!.sexo === 'Fêmea'
+            ) {
+
               Idosa
+
             } @else {
+
               {{ gato()!.idade }}
+
             }
+
           </span>
+
 
           <span class="sex-badge">
 
             @if (gato()!.sexo === 'Fêmea') {
 
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="10" cy="8" r="5"></circle>
-                <path d="M10 13v8"></path>
-                <path d="M7 18h6"></path>
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+
+                <circle
+                  cx="10"
+                  cy="8"
+                  r="5"
+                ></circle>
+
+                <path
+                  d="M10 13v8"
+                ></path>
+
+                <path
+                  d="M7 18h6"
+                ></path>
+
               </svg>
 
             } @else {
 
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="9" cy="15" r="5"></circle>
-                <path d="M13 11l7-7"></path>
-                <path d="M16 4h4v4"></path>
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+
+                <circle
+                  cx="9"
+                  cy="15"
+                  r="5"
+                ></circle>
+
+                <path
+                  d="M13 11l7-7"
+                ></path>
+
+                <path
+                  d="M16 4h4v4"
+                ></path>
+
               </svg>
 
             }
@@ -73,14 +122,6 @@
 
         </div>
 
-        <p>
-          {{ gato()!.descricao }}
-        </p>
-
-        <p class="personality">
-          <strong>Personalidade:</strong>
-          {{ gato()!.personalidade }}
-        </p>
 
         <div class="cat-status">
 
@@ -98,6 +139,7 @@
 
           }
 
+
           @if (gato()!.vacinado) {
 
             <span class="status-badge">
@@ -112,10 +154,43 @@
 
           }
 
+
+          @if (gato()!.fiv) {
+
+            <span class="status-badge">
+              FIV {{ gato()!.fiv }}
+            </span>
+
+          }
+
+
+          @if (gato()!.felv) {
+
+            <span class="status-badge">
+              FeLV {{ gato()!.felv }}
+            </span>
+
+          }
+
         </div>
 
+
+        <p>
+          {{ gato()!.descricao }}
+        </p>
+
+
+        <p class="personality">
+
+          <strong>Personalidade:</strong>
+
+          {{ gato()!.personalidade }}
+
+        </p>
+
+
         <a
-          [routerLink]="['/contato']"
+          [routerLink]="['/formulario-adocao']"
           [queryParams]="{ gato: gato()!.id }"
           class="button"
         >
@@ -128,6 +203,7 @@
 
   }
 
+
   @if (!carregando() && erro()) {
 
     <section class="cat-not-found">
@@ -138,7 +214,10 @@
         Não encontramos o gatinho que você está procurando.
       </p>
 
-      <a routerLink="/adocao" class="button">
+      <a
+        routerLink="/adocao"
+        class="button"
+      >
         Ver gatinhos para adoção
       </a>
 

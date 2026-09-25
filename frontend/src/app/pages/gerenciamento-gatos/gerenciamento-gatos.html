@@ -26,7 +26,6 @@
 
   <section class="cats-management">
 
-
     @if (erroExclusao()) {
 
       <div class="message error">
@@ -102,15 +101,127 @@
                   {{ gato.nome }}
                 </h2>
 
+
                 <div class="cat-details">
 
-                  <span>
-                    {{ gato.idade }}
+                  <span class="sex-badge">
+
+                    @if (gato.sexo === 'Fêmea') {
+
+                      <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <circle
+                          cx="10"
+                          cy="8"
+                          r="5"
+                        ></circle>
+
+                        <path d="M10 13v8"></path>
+
+                        <path d="M7 18h6"></path>
+                      </svg>
+
+                    } @else {
+
+                      <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <circle
+                          cx="9"
+                          cy="15"
+                          r="5"
+                        ></circle>
+
+                        <path d="M13 11l7-7"></path>
+
+                        <path d="M16 4h4v4"></path>
+                      </svg>
+
+                    }
+
+                    {{ gato.sexo }}
+
                   </span>
 
-                  <span>
-                    {{ gato.sexo }}
+
+                  <span class="age-badge">
+
+                    @if (
+                      gato.idade === 'Adulto' &&
+                      gato.sexo === 'Fêmea'
+                    ) {
+
+                      Adulta
+
+                    } @else if (
+                      gato.idade === 'Idoso' &&
+                      gato.sexo === 'Fêmea'
+                    ) {
+
+                      Idosa
+
+                    } @else {
+
+                      {{ gato.idade }}
+
+                    }
+
                   </span>
+
+                </div>
+
+
+                <div class="cat-tags">
+
+                  @if (gato.castrado) {
+
+                    <span class="cat-tag">
+
+                      @if (gato.sexo === 'Fêmea') {
+                        Castrada
+                      } @else {
+                        Castrado
+                      }
+
+                    </span>
+
+                  }
+
+
+                  @if (gato.vacinado) {
+
+                    <span class="cat-tag">
+
+                      @if (gato.sexo === 'Fêmea') {
+                        Vacinada
+                      } @else {
+                        Vacinado
+                      }
+
+                    </span>
+
+                  }
+
+
+                  @if (gato.fiv) {
+
+                    <span class="cat-tag">
+                      FIV {{ gato.fiv }}
+                    </span>
+
+                  }
+
+
+                  @if (gato.felv) {
+
+                    <span class="cat-tag">
+                      FeLV {{ gato.felv }}
+                    </span>
+
+                  }
 
                 </div>
 
@@ -132,36 +243,6 @@
                   </span>
 
                 }
-
-              </div>
-
-
-              <div class="cat-health">
-
-                <div>
-
-                  <strong>Castrado</strong>
-
-                  @if (gato.castrado) {
-                    <span>Sim</span>
-                  } @else {
-                    <span>Não</span>
-                  }
-
-                </div>
-
-
-                <div>
-
-                  <strong>Vacinado</strong>
-
-                  @if (gato.vacinado) {
-                    <span>Sim</span>
-                  } @else {
-                    <span>Não</span>
-                  }
-
-                </div>
 
               </div>
 

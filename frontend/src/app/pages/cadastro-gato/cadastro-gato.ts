@@ -26,18 +26,25 @@ export class CadastroGato {
   foto = '';
   fotoPreview = '';
   nomeArquivo = '';
+
   castrado = false;
   vacinado = false;
   disponivel = true;
 
+  fiv = '';
+  felv = '';
+
   cadastrando = signal(false);
   carregando = signal(false);
+
   erroCadastro = '';
   erroCarregamento = signal('');
 
   constructor() {
 
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = Number(
+      this.route.snapshot.paramMap.get('id')
+    );
 
     if (!id) {
       return;
@@ -65,35 +72,41 @@ export class CadastroGato {
         this.sexo = gato.sexo;
         this.descricao = gato.descricao;
         this.personalidade = gato.personalidade;
+
         this.foto = gato.foto;
         this.fotoPreview = gato.foto;
+
         this.castrado = gato.castrado;
         this.vacinado = gato.vacinado;
         this.disponivel = gato.disponivel;
 
-        this.carregando.set(false);
+        this.fiv = gato.fiv;
+        this.felv = gato.felv;
 
+        this.carregando.set(false);
       },
 
       error: (erro) => {
 
-        console.error('Erro ao buscar gatinho:', erro);
+        console.error(
+          'Erro ao buscar gatinho:',
+          erro
+        );
 
         this.erroCarregamento.set(
           'Não foi possível carregar os dados do gatinho.'
         );
 
         this.carregando.set(false);
-
       }
 
     });
-
   }
 
   selecionarFoto(event: Event): void {
 
-    const input = event.target as HTMLInputElement;
+    const input =
+      event.target as HTMLInputElement;
 
     if (!input.files || input.files.length === 0) {
       return;
@@ -107,9 +120,11 @@ export class CadastroGato {
 
     reader.onload = () => {
 
-      this.fotoPreview = reader.result as string;
-      this.foto = this.fotoPreview;
+      this.fotoPreview =
+        reader.result as string;
 
+      this.foto =
+        this.fotoPreview;
     };
 
     reader.readAsDataURL(arquivo);
@@ -132,36 +147,62 @@ export class CadastroGato {
     this.cadastrando.set(true);
 
     const gato = {
+
       nome: this.nome.trim(),
+
       idade: this.idade,
+
       sexo: this.sexo,
+
       descricao: this.descricao.trim(),
+
       foto: this.foto,
-      personalidade: this.personalidade.trim(),
+
+      personalidade:
+        this.personalidade.trim(),
+
       castrado: this.castrado,
+
       vacinado: this.vacinado,
-      disponivel: this.disponivel
+
+      disponivel: this.disponivel,
+
+      fiv: this.fiv,
+
+      felv: this.felv
+
     };
 
     if (this.modoEdicao) {
 
       this.gatosService
-        .atualizarGato(this.idGato!, gato)
+
+        .atualizarGato(
+          this.idGato!,
+          gato
+        )
+
         .subscribe({
 
           next: () => {
-            this.router.navigate(['/adocao']);
+
+            this.router.navigate([
+              '/adocao'
+            ]);
+
           },
 
           error: (erro) => {
 
-            console.error('Erro ao atualizar gatinho:', erro);
+            console.error(
+              'Erro ao atualizar gatinho:',
+              erro
+            );
 
             this.erroCadastro =
               'Não foi possível atualizar o gatinho. Tente novamente.';
 
             this.cadastrando.set(false);
-
           }
 
         });
@@ -170,26 +211,33 @@ export class CadastroGato {
     }
 
     this.gatosService
+
       .adicionarGato(gato)
+
       .subscribe({
 
         next: () => {
-          this.router.navigate(['/adocao']);
+
+          this.router.navigate([
+            '/adocao'
+          ]);
+
         },
 
         error: (erro) => {
 
-          console.error('Erro ao cadastrar gatinho:', erro);
+          console.error(
+            'Erro ao cadastrar gatinho:',
+            erro
+          );
 
           this.erroCadastro =
             'Não foi possível cadastrar o gatinho. Tente novamente.';
 
           this.cadastrando.set(false);
-
         }
 
       });
-
   }
 
 }

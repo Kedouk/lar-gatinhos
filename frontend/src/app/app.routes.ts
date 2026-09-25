@@ -10,6 +10,8 @@ import { CadastroGato } from './pages/cadastro-gato/cadastro-gato';
 
 import { Contato } from './pages/contato/contato';
 
+import { FormularioAdocao } from './pages/formulario-adocao/formulario-adocao';
+
 import { Gato } from './pages/gato/gato';
 
 import { GerenciamentoGatos } from './pages/gerenciamento-gatos/gerenciamento-gatos';
@@ -55,6 +57,11 @@ export const routes: Routes = [
   {
     path: 'contato',
     component: Contato
+  },
+
+  {
+    path: 'formulario-adocao',
+    component: FormularioAdocao
   },
 
   {

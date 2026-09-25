@@ -4,826 +4,157 @@
 
   <section class="contact-header">
 
-    <h1>Formulário de adoção</h1>
+    <h1>Entre em contato</h1>
 
     <p>
-      Preencha as informações abaixo para iniciar o processo de adoção.
+      Acompanhe o Lar Gatinhos e fale conosco pelos nossos canais.
     </p>
 
   </section>
 
 
-  <section class="adoption-contact">
+  <section class="contact-content">
 
-    @if (sucessoEnvio) {
+    <div class="contact-grid">
 
-      <div class="success-message">
 
-        <div class="success-title">
+      <div class="contact-card">
 
-          <h2>Solicitação enviada com sucesso!</h2>
+        <div class="contact-icon">
+
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <rect
+              x="3"
+              y="3"
+              width="18"
+              height="18"
+              rx="5"
+              ry="5"
+            ></rect>
+
+            <circle
+              cx="12"
+              cy="12"
+              r="4"
+            ></circle>
+
+            <circle
+              cx="17.5"
+              cy="6.5"
+              r="1"
+              fill="#3f8ea0"
+              stroke="none"
+            ></circle>
+
+          </svg>
+
+        </div>
+
+
+        <h3>Instagram</h3>
+
+        <p>
+          Acompanhe o Lar Gatinhos e entre em contato conosco pelo Instagram.
+        </p>
+
+        <a
+          href="https://www.instagram.com/largatinhosorocaba/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="button"
+        >
+          Acessar Instagram
+        </a>
+
+      </div>
+
+
+      <div class="contact-card">
+
+        <div class="contact-icon">
 
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
           >
             <path
-              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"
-            />
+              d="M4 4h16v13H8l-4 3V4z"
+            ></path>
+
+            <path
+              d="M8 9h8"
+            ></path>
+
+            <path
+              d="M8 13h5"
+            ></path>
+
           </svg>
 
         </div>
 
-        <p>
-          Recebemos sua solicitação de adoção.
-        </p>
+
+        <h3>Facebook</h3>
 
         <p>
-          Agradecemos pelo seu interesse. Em breve entraremos em contato
-          pelo WhatsApp ou e-mail informado.
+          Acompanhe o Lar Gatinhos e veja nossas novidades pelo Facebook.
         </p>
 
         <a
-          routerLink="/adocao"
+          href="https://www.facebook.com/p/Lar-Gatinhos-Sorocaba-61565746620611/?locale=pt_BR"
+          target="_blank"
+          rel="noopener noreferrer"
           class="button"
         >
-          Ver gatinhos para adoção
+          Acessar Facebook
         </a>
 
       </div>
 
-    } @else {
 
-      <form
-        #form="ngForm"
-        class="adoption-form"
-        (ngSubmit)="enviar(form)"
-      >
+      <div class="contact-card">
 
-        @if (erroEnvio) {
+        <div class="contact-icon">
 
-          <div class="form-error">
-            {{ erroEnvio }}
-          </div>
-
-        }
-
-
-        <section class="form-section">
-
-          <div class="section-title">
-
-            <h2>1. Gatinho de interesse</h2>
-
-            <p>
-              Se você já escolheu um gatinho, selecione-o abaixo.
-            </p>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="gato">
-              Gatinho de interesse
-            </label>
-
-            @if (gato()) {
-
-              <div class="selected-cat">
-                {{ gato()!.nome }}
-              </div>
-
-            } @else {
-
-              <select
-                id="gato"
-                name="gato"
-                [(ngModel)]="gatoSelecionadoId"
-                (change)="selecionarGato($event)"
-              >
-
-                <option value="">
-                  Ainda não decidi
-                </option>
-
-                @for (
-                  gatoDisponivel of gatos();
-                  track gatoDisponivel.id
-                ) {
-
-                  <option [value]="gatoDisponivel.id">
-                    {{ gatoDisponivel.nome }}
-                  </option>
-
-                }
-
-              </select>
-
-            }
-
-          </div>
-
-        </section>
-
-
-        <section class="form-section">
-
-          <div class="section-title">
-
-            <h2>2. Dados do interessado</h2>
-
-            <p>
-              Precisamos dessas informações para entrar em contato com você.
-            </p>
-
-          </div>
-
-
-          <div class="form-row">
-
-            <div class="form-group">
-
-              <label for="nome">
-                Nome
-                <span class="required">*</span>
-              </label>
-
-              <input
-                id="nome"
-                name="nome"
-                type="text"
-                [(ngModel)]="nome"
-                required
-                minlength="3"
-                #nomeField="ngModel"
-              >
-
-              @if (
-                nomeField.invalid &&
-                (nomeField.touched || form.submitted)
-              ) {
-
-                <span class="field-error">
-                  Informe seu nome.
-                </span>
-
-              }
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label for="idade">
-                Idade
-                <span class="required">*</span>
-              </label>
-
-              <input
-                id="idade"
-                name="idade"
-                type="number"
-                [(ngModel)]="idade"
-                required
-                min="18"
-                #idadeField="ngModel"
-              >
-
-              @if (
-                idadeField.invalid &&
-                (idadeField.touched || form.submitted)
-              ) {
-
-                <span class="field-error">
-                  Informe uma idade válida. A adoção é destinada a maiores de 18 anos.
-                </span>
-
-              }
-
-            </div>
-
-          </div>
-
-
-          <div class="form-row">
-
-            <div class="form-group">
-
-              <label for="telefone">
-                WhatsApp
-                <span class="required">*</span>
-              </label>
-
-              <input
-                id="telefone"
-                name="telefone"
-                type="tel"
-                inputmode="numeric"
-                maxlength="11"
-                [(ngModel)]="telefone"
-                (input)="somenteNumeros($event)"
-                required
-                pattern="[0-9]{10,11}"
-                #telefoneField="ngModel"
-              >
-
-              @if (
-                telefoneField.invalid &&
-                (telefoneField.touched || form.submitted)
-              ) {
-
-                <span class="field-error">
-                  Informe um WhatsApp válido com DDD.
-                </span>
-
-              }
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label for="email">
-                E-mail
-                <span class="required">*</span>
-              </label>
-
-              <input
-                id="email"
-                name="email"
-                type="email"
-                [(ngModel)]="email"
-                required
-                email
-                #emailField="ngModel"
-              >
-
-              @if (
-                emailField.invalid &&
-                (emailField.touched || form.submitted)
-              ) {
-
-                <span class="field-error">
-                  Informe um e-mail válido.
-                </span>
-
-              }
-
-            </div>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="cidade">
-              Cidade
-              <span class="required">*</span>
-            </label>
-
-            <input
-              id="cidade"
-              name="cidade"
-              type="text"
-              [(ngModel)]="cidade"
-              required
-              #cidadeField="ngModel"
-            >
-
-            @if (
-              cidadeField.invalid &&
-              (cidadeField.touched || form.submitted)
-            ) {
-
-              <span class="field-error">
-                Informe sua cidade.
-              </span>
-
-            }
-
-          </div>
-
-        </section>
-
-
-        <section class="form-section">
-
-          <div class="section-title">
-
-            <h2>3. Moradia e segurança</h2>
-
-            <p>
-              Essas informações são importantes para garantir a segurança do gatinho.
-            </p>
-
-          </div>
-
-
-          <div class="form-row">
-
-            <div class="form-group">
-
-              <label for="tipoMoradia">
-                Tipo de moradia
-                <span class="required">*</span>
-              </label>
-
-              <select
-                id="tipoMoradia"
-                name="tipoMoradia"
-                [(ngModel)]="tipoMoradia"
-                required
-                #tipoMoradiaField="ngModel"
-              >
-
-                <option value="">
-                  Selecione
-                </option>
-
-                <option value="Própria">
-                  Própria
-                </option>
-
-                <option value="Alugada">
-                  Alugada
-                </option>
-
-                <option value="Cedida">
-                  Cedida
-                </option>
-
-              </select>
-
-              @if (
-                tipoMoradiaField.invalid &&
-                (tipoMoradiaField.touched || form.submitted)
-              ) {
-
-                <span class="field-error">
-                  Selecione o tipo de moradia.
-                </span>
-
-              }
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label for="tipoImovel">
-                Tipo de imóvel
-                <span class="required">*</span>
-              </label>
-
-              <select
-                id="tipoImovel"
-                name="tipoImovel"
-                [(ngModel)]="tipoImovel"
-                required
-                #tipoImovelField="ngModel"
-              >
-
-                <option value="">
-                  Selecione
-                </option>
-
-                <option value="Casa">
-                  Casa
-                </option>
-
-                <option value="Apartamento">
-                  Apartamento
-                </option>
-
-                <option value="Outro">
-                  Outro
-                </option>
-
-              </select>
-
-              @if (
-                tipoImovelField.invalid &&
-                (tipoImovelField.touched || form.submitted)
-              ) {
-
-                <span class="field-error">
-                  Selecione o tipo de imóvel.
-                </span>
-
-              }
-
-            </div>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              A casa possui telas nas janelas, varandas e demais pontos de fuga?
-              <span class="required">*</span>
-            </label>
-
-            <div class="radio-group">
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="casaTelada"
-                  [value]="true"
-                  [(ngModel)]="casaTelada"
-                  required
-                >
-
-                <span>Sim</span>
-
-              </label>
-
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="casaTelada"
-                  [value]="false"
-                  [(ngModel)]="casaTelada"
-                  required
-                >
-
-                <span>Não</span>
-
-              </label>
-
-            </div>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              A moradia é segura para o gato, sem acesso às ruas?
-              <span class="required">*</span>
-            </label>
-
-            <div class="radio-group">
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="moradiaSegura"
-                  [value]="true"
-                  [(ngModel)]="moradiaSegura"
-                  required
-                >
-
-                <span>Sim</span>
-
-              </label>
-
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="moradiaSegura"
-                  [value]="false"
-                  [(ngModel)]="moradiaSegura"
-                  required
-                >
-
-                <span>Não</span>
-
-              </label>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <section class="form-section">
-
-          <div class="section-title">
-
-            <h2>4. Pessoas que moram na casa</h2>
-
-            <p>
-              Queremos saber um pouco sobre as pessoas que farão parte da convivência com o gato.
-            </p>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="quantidadeMoradores">
-              Quantas pessoas moram na residência?
-              <span class="required">*</span>
-            </label>
-
-            <input
-              id="quantidadeMoradores"
-              name="quantidadeMoradores"
-              type="number"
-              min="1"
-              [(ngModel)]="quantidadeMoradores"
-              required
-              #moradoresField="ngModel"
-            >
-
-            @if (
-              moradoresField.invalid &&
-              (moradoresField.touched || form.submitted)
-            ) {
-
-              <span class="field-error">
-                Informe quantas pessoas moram na residência.
-              </span>
-
-            }
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Todas as pessoas estão de acordo com a adoção?
-              <span class="required">*</span>
-            </label>
-
-            <div class="radio-group">
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="todosDeAcordo"
-                  [value]="true"
-                  [(ngModel)]="todosDeAcordo"
-                  required
-                >
-
-                <span>Sim</span>
-
-              </label>
-
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="todosDeAcordo"
-                  [value]="false"
-                  [(ngModel)]="todosDeAcordo"
-                  required
-                >
-
-                <span>Não</span>
-
-              </label>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <section class="form-section">
-
-          <div class="section-title">
-
-            <h2>5. Outros animais</h2>
-
-            <p>
-              Essa informação nos ajuda a entender melhor a realidade da residência.
-            </p>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Possui outros animais?
-              <span class="required">*</span>
-            </label>
-
-            <div class="radio-group">
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="possuiOutrosAnimais"
-                  [value]="true"
-                  [(ngModel)]="possuiOutrosAnimais"
-                  required
-                >
-
-                <span>Sim</span>
-
-              </label>
-
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="possuiOutrosAnimais"
-                  [value]="false"
-                  [(ngModel)]="possuiOutrosAnimais"
-                  required
-                >
-
-                <span>Não</span>
-
-              </label>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <section class="form-section">
-
-          <div class="section-title">
-
-            <h2>6. Compromisso com a adoção</h2>
-
-            <p>
-              A adoção é um compromisso de longo prazo e exige responsabilidade.
-            </p>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Está ciente de que a adoção envolve um compromisso de muitos anos?
-              <span class="required">*</span>
-            </label>
-
-            <div class="radio-group">
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="compromissoLongoPrazo"
-                  [value]="true"
-                  [(ngModel)]="compromissoLongoPrazo"
-                  required
-                >
-
-                <span>Sim</span>
-
-              </label>
-
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="compromissoLongoPrazo"
-                  [value]="false"
-                  [(ngModel)]="compromissoLongoPrazo"
-                  required
-                >
-
-                <span>Não</span>
-
-              </label>
-
-            </div>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Está disposto(a) a respeitar o tempo de adaptação do gato?
-              <span class="required">*</span>
-            </label>
-
-            <div class="radio-group">
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="respeitaTempoAdaptacao"
-                  [value]="true"
-                  [(ngModel)]="respeitaTempoAdaptacao"
-                  required
-                >
-
-                <span>Sim</span>
-
-              </label>
-
-
-              <label class="radio-option">
-
-                <input
-                  type="radio"
-                  name="respeitaTempoAdaptacao"
-                  [value]="false"
-                  [(ngModel)]="respeitaTempoAdaptacao"
-                  required
-                >
-
-                <span>Não</span>
-
-              </label>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <section class="form-section">
-
-          <div class="section-title">
-
-            <h2>7. Sobre a adoção</h2>
-
-            <p>
-              Conte um pouco mais sobre seu interesse na adoção.
-            </p>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="motivoAdocao">
-              Motivo da adoção
-              <span class="optional">(opcional)</span>
-            </label>
-
-            <textarea
-              id="motivoAdocao"
-              name="motivoAdocao"
-              [(ngModel)]="motivoAdocao"
-              rows="4"
-            ></textarea>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="sobreAdotante">
-              Conte um pouco mais sobre você
-              <span class="optional">(opcional)</span>
-            </label>
-
-            <textarea
-              id="sobreAdotante"
-              name="sobreAdotante"
-              [(ngModel)]="sobreAdotante"
-              rows="5"
-            ></textarea>
-
-          </div>
-
-        </section>
-
-
-        <div class="form-submit">
-
-          <button
-            type="submit"
-            class="button"
-            [disabled]="enviando"
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
           >
+            <path
+              d="M20 11.5a8.5 8.5 0 0 1-12.8 7.3L4 20l1.3-3.1A8.5 8.5 0 1 1 20 11.5z"
+            ></path>
 
-            @if (enviando) {
-              Enviando...
-            } @else {
-              Enviar solicitação de adoção
-            }
+            <path
+              d="M8.5 8.5c.3-.3.7-.3 1 0l1 1c.3.3.3.7.1 1l-.6.8c.8 1.4 1.9 2.5 3.3 3.3l.8-.6c.3-.2.7-.2 1 .1l1 1c.3.3.3.7 0 1-.5.5-1.2.8-1.9.7-3.2-.5-6.7-4-7.2-7.2-.1-.7.2-1.4.7-1.9z"
+            ></path>
 
-          </button>
+          </svg>
 
         </div>
 
-      </form>
 
-    }
+        <h3>WhatsApp</h3>
+
+        <p>
+          Entre em contato diretamente com o Lar Gatinhos pelo WhatsApp.
+        </p>
+
+        <a
+          href="SEU_LINK_DO_WHATSAPP"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="button"
+        >
+          Falar pelo WhatsApp
+        </a>
+
+      </div>
+
+
+    </div>
 
   </section>
 

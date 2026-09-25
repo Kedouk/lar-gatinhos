@@ -1,593 +1,400 @@
 main {
-
   min-height: calc(100vh - 80px);
-
   background-color: #ffffff;
-
 }
 
 .page-header {
-
   max-width: 1200px;
-
   margin: 0 auto;
-
   padding: 50px 6%;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   gap: 30px;
-
 }
 
 .page-header h1 {
-
   margin: 0 0 8px;
-
   color: #555555;
-
   font-size: 32px;
-
 }
 
 .page-header p {
-
   margin: 0;
-
   color: #777777;
-
   font-size: 16px;
-
   line-height: 1.5;
-
 }
 
 .page-header .button {
-
   flex-shrink: 0;
-
   border: none;
-
   cursor: pointer;
-
   text-decoration: none;
-
 }
 
 
 .cats-management {
-
   padding: 20px 6% 70px;
-
   background-color: #ffffff;
-
 }
 
 .cats-list {
-
   max-width: 1000px;
-
   margin: 0 auto;
-
   display: flex;
-
   flex-direction: column;
-
   gap: 25px;
-
 }
 
 .management-card {
-
   display: flex;
-
   overflow: hidden;
-
   background-color: #ffffff;
-
   border: 3px solid #5fb2be;
-
   border-radius: 18px;
-
 }
 
 .cat-image {
-
   width: 300px;
-
   min-height: 300px;
-
   flex-shrink: 0;
-
   background-color: #e8f4f6;
-
 }
 
 .cat-image img {
-
   display: block;
-
   width: 100%;
-
   height: 100%;
-
   object-fit: cover;
-
 }
 
 .cat-info {
-
   flex: 1;
-
   display: flex;
-
   flex-direction: column;
-
   padding: 30px 35px;
-
 }
 
 .cat-main-info h2 {
-
   margin: 0 0 15px;
-
   color: #555555;
-
   font-size: 30px;
-
 }
 
+
+/* Sexo e idade */
+
 .cat-details {
-
   display: flex;
-
+  align-items: center;
   gap: 12px;
-
-  margin-bottom: 18px;
-
+  margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 
 .cat-details span {
-
-  padding: 7px 14px;
-
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 15px;
   background-color: #e8f4f6;
-
   color: #3f8ea0;
-
   border-radius: 20px;
-
-  font-size: 14px;
-
-  font-weight: 600;
-
+  font-size: 16px;
+  font-weight: 700;
 }
 
+.sex-badge svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: #3f8ea0;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* Tags menores */
+
+.cat-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.cat-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 11px;
+  border-radius: 20px;
+  background-color: #e8f4f6;
+  color: #3f8ea0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+/* Status de adoção */
+
 .cat-status {
-
   margin-bottom: 22px;
-
 }
 
 .available,
 .unavailable {
-
   display: inline-block;
-
-  padding: 8px 14px;
-
+  padding: 9px 15px;
   border-radius: 20px;
-
   font-size: 14px;
-
-  font-weight: 600;
-
+  font-weight: 700;
 }
+
+
+/* Disponível: verde */
 
 .available {
-
-  background-color: #e8f4f6;
-
-  color: #3f8ea0;
-
+  background-color: #e8f5e9;
+  color: #2e7d32;
 }
+
+
+/* Indisponível: amarelo */
 
 .unavailable {
-
-  background-color: #fff0ed;
-
-  color: #d8432e;
-
+  background-color: #fff8e1;
+  color: #b8860b;
 }
 
-.cat-health {
-
-  display: flex;
-
-  gap: 35px;
-
-  margin-bottom: 22px;
-
-  padding: 18px 0;
-
-  border-top: 2px solid #dddddd;
-
-  border-bottom: 2px solid #dddddd;
-
-}
-
-.cat-health div {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 5px;
-
-}
-
-.cat-health strong,
-.cat-description strong {
-
-  color: #2e2e2e;
-
-  font-size: 15px;
-
-}
-
-.cat-health span {
-
-  color: #555555;
-
-  font-size: 15px;
-
-}
 
 .cat-description {
-
   margin-bottom: 25px;
+}
 
+.cat-description strong {
+  color: #2e2e2e;
+  font-size: 15px;
 }
 
 .cat-description p {
-
   margin: 7px 0 0;
-
   color: #555555;
-
   line-height: 1.6;
-
 }
 
 .card-actions {
-
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
   margin-top: auto;
-
 }
 
 .edit-button,
 .delete-button {
-
   display: inline-flex;
-
   align-items: center;
-
   justify-content: center;
-
   padding: 12px 24px;
-
   border-radius: 30px;
-
   font-size: 16px;
-
   font-weight: 600;
-
   cursor: pointer;
-
   box-sizing: border-box;
-
   transition: background-color 0.2s, color 0.2s;
-
 }
 
 .edit-button {
-
   background-color: #d8432e;
-
   color: #ffffff;
-
   text-decoration: none;
-
   border: 2px solid #d8432e;
-
 }
 
 .edit-button:hover {
-
   background-color: #f57c1f;
-
   border-color: #f57c1f;
-
 }
 
 .delete-button {
-
   background-color: #ffffff;
-
   color: #d8432e;
-
   border: 2px solid #d8432e;
-
 }
 
 .delete-button:hover:not(:disabled) {
-
   background-color: #d8432e;
-
   color: #ffffff;
-
 }
 
 .delete-button:disabled {
-
   opacity: 0.5;
-
   cursor: default;
-
 }
 
+
 .pagination {
-
   max-width: 1000px;
-
   margin: 40px auto 0;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 20px;
-
 }
 
 .pagination-pages {
-
   display: flex;
-
   align-items: center;
-
   gap: 8px;
-
 }
 
 .pagination-button,
 .pagination-number {
-
   min-width: 42px;
-
   height: 42px;
-
   padding: 0 14px;
-
   border: 2px solid #3f8ea0;
-
   border-radius: 25px;
-
   background-color: #ffffff;
-
   color: #3f8ea0;
-
   font-size: 15px;
-
   font-weight: 600;
-
   cursor: pointer;
-
   transition: background-color 0.2s, color 0.2s;
-
 }
 
 .pagination-button:hover:not(:disabled),
 .pagination-number:hover {
-
   background-color: #3f8ea0;
-
   color: #ffffff;
-
 }
 
 .pagination-number.active {
-
   background-color: #3f8ea0;
-
   color: #ffffff;
-
 }
 
 .pagination-button:disabled {
-
   opacity: 0.45;
-
   cursor: default;
-
 }
 
+
 .message {
-
   max-width: 700px;
-
   margin: 0 auto;
-
   padding: 40px;
-
   box-sizing: border-box;
-
   text-align: center;
-
   border: 3px solid #5fb2be;
-
   border-radius: 18px;
-
   background-color: #ffffff;
-
 }
 
 .message h2 {
-
   margin: 0 0 12px;
-
   color: #555555;
-
   font-size: 25px;
-
 }
 
 .message p {
-
   margin: 0;
-
   color: #555555;
-
   line-height: 1.6;
-
 }
 
 .message.error {
-
   border-color: #d8432e;
-
 }
 
 .message.error h2 {
-
   color: #d8432e;
-
 }
+
 
 @media (max-width: 768px) {
 
   .page-header {
-
     padding: 40px 6%;
-
     align-items: flex-start;
-
     flex-direction: column;
-
   }
 
   .page-header h1 {
-
     font-size: 30px;
-
   }
 
   .page-header .button {
-
     align-self: flex-start;
-
   }
 
   .cats-management {
-
     padding: 20px 6% 50px;
-
   }
 
   .management-card {
-
     flex-direction: column;
-
   }
 
   .cat-image {
-
     width: 100%;
-
     height: 280px;
-
     min-height: 0;
-
   }
 
   .cat-info {
-
     padding: 25px;
-
   }
 
   .cat-main-info h2 {
-
     font-size: 26px;
-
   }
 
-  .cat-health {
+  .cat-details span {
+    font-size: 15px;
+    padding: 8px 13px;
+  }
 
-    gap: 30px;
+  .cat-tags {
+    gap: 6px;
+  }
 
+  .cat-tag {
+    font-size: 12px;
+    padding: 5px 10px;
   }
 
   .card-actions {
-
     flex-direction: column;
-
     align-items: stretch;
-
     margin-top: 0;
-
   }
 
   .edit-button,
   .delete-button {
-
     width: 100%;
-
   }
 
   .pagination {
-
     gap: 10px;
-
     margin-top: 35px;
-
   }
 
   .pagination-pages {
-
     gap: 5px;
-
   }
 
   .pagination-button,
   .pagination-number {
-
     min-width: 38px;
-
     height: 38px;
-
     padding: 0 10px;
-
     font-size: 14px;
-
   }
 
   .message {
-
     padding: 30px 25px;
-
   }
 
 }
