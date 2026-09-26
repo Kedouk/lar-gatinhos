@@ -6,14 +6,15 @@ import { RouterLink } from '@angular/router';
 
 import { Header } from '../../shared/header/header';
 
-import { AdminHeader } from '../../shared/admin-header/admin-header';
-
 import { Gato, GatosService } from '../../services/gatos';
 
 @Component({
   selector: 'app-gerenciamento-gatos',
-  imports: [Header, AdminHeader, RouterLink],
+
+  imports: [Header, RouterLink],
+
   templateUrl: './gerenciamento-gatos.html',
+
   styleUrl: './gerenciamento-gatos.css',
 })
 export class GerenciamentoGatos {
@@ -34,9 +35,13 @@ export class GerenciamentoGatos {
 
   erroExclusao = signal('');
 
+
   totalPaginas = computed(() =>
-    Math.ceil(this.gatos().length / this.gatosPorPagina)
+    Math.ceil(
+      this.gatos().length / this.gatosPorPagina
+    )
   );
+
 
   gatosPaginados = computed(() => {
 
@@ -50,6 +55,7 @@ export class GerenciamentoGatos {
 
   });
 
+
   paginas = computed(() =>
     Array.from(
       { length: this.totalPaginas() },
@@ -57,11 +63,13 @@ export class GerenciamentoGatos {
     )
   );
 
+
   constructor() {
 
     this.carregarGatos();
 
   }
+
 
   carregarGatos(): void {
 
@@ -83,7 +91,10 @@ export class GerenciamentoGatos {
 
       error: (erro) => {
 
-        console.error('Erro ao buscar os gatos:', erro);
+        console.error(
+          'Erro ao buscar os gatos:',
+          erro
+        );
 
         this.erro.set(true);
 
@@ -94,6 +105,7 @@ export class GerenciamentoGatos {
     });
 
   }
+
 
   irParaPagina(pagina: number): void {
 
@@ -109,11 +121,15 @@ export class GerenciamentoGatos {
     this.paginaAtual.set(pagina);
 
     window.scrollTo({
+
       top: 0,
+
       behavior: 'smooth'
+
     });
 
   }
+
 
   excluirGato(gato: Gato): void {
 
@@ -131,46 +147,55 @@ export class GerenciamentoGatos {
 
     this.erroExclusao.set('');
 
-    this.gatosService.excluirGato(gato.id).subscribe({
 
-      next: () => {
+    this.gatosService
+      .excluirGato(gato.id)
+      .subscribe({
 
-        this.gatos.update(gatos =>
-          gatos.filter(item => item.id !== gato.id)
-        );
+        next: () => {
 
-        this.excluindoId.set(null);
+          this.gatos.update(gatos =>
+            gatos.filter(
+              item => item.id !== gato.id
+            )
+          );
 
-        const totalPaginas = this.totalPaginas();
+          this.excluindoId.set(null);
 
-        if (
-          this.paginaAtual() > totalPaginas &&
-          totalPaginas > 0
-        ) {
+          const totalPaginas =
+            this.totalPaginas();
 
-          this.paginaAtual.set(totalPaginas);
+          if (
+            this.paginaAtual() > totalPaginas &&
+            totalPaginas > 0
+          ) {
+
+            this.paginaAtual.set(totalPaginas);
+
+          }
+
+        },
+
+        error: (erro: HttpErrorResponse) => {
+
+          console.error(
+            'Erro ao excluir gatinho:',
+            erro
+          );
+
+          const mensagem =
+            erro.error?.message ||
+            'Não foi possível excluir o gatinho. Tente novamente.';
+
+          this.erroExclusao.set(mensagem);
+
+          this.excluindoId.set(null);
+
+          window.alert(mensagem);
 
         }
 
-      },
-
-      error: (erro: HttpErrorResponse) => {
-
-        console.error('Erro ao excluir gatinho:', erro);
-
-        const mensagem =
-          erro.error?.message ||
-          'Não foi possível excluir o gatinho. Tente novamente.';
-
-        this.erroExclusao.set(mensagem);
-
-        this.excluindoId.set(null);
-
-        window.alert(mensagem);
-
-      }
-
-    });
+      });
 
   }
 

@@ -794,6 +794,43 @@
           </section>
 
 
+          <div class="adoption-notice">
+
+            <label class="notice-checkbox">
+
+              <input
+                type="checkbox"
+                name="aceitouTermos"
+                [(ngModel)]="aceitouTermos"
+                required
+                #aceitouTermosField="ngModel"
+              >
+
+              <span>
+                Li e estou ciente de que o preenchimento deste formulário
+                não garante a adoção. As informações serão analisadas pelo
+                Lar Gatinhos, que poderá entrar em contato para obter
+                informações adicionais e solicitar fotos da residência.
+                O mesmo gatinho pode ter interesse de outras pessoas.
+              </span>
+
+            </label>
+
+
+            @if (
+              aceitouTermosField.invalid &&
+              (aceitouTermosField.touched || form.submitted)
+            ) {
+
+              <span class="field-error">
+                É necessário ler e confirmar estas informações antes de enviar.
+              </span>
+
+            }
+
+          </div>
+
+
           <div class="form-submit">
 
             <button

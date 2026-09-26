@@ -4,18 +4,18 @@ import { RouterOutlet } from '@angular/router';
 
 import { Footer } from './shared/footer/footer';
 
-import { AdminHeader } from './shared/admin-header/admin-header';
-
 import { AuthService } from './services/auth';
 
 @Component({
   selector: 'app-root',
+
   imports: [
     RouterOutlet,
-    Footer,
-    AdminHeader
+    Footer
   ],
+
   templateUrl: './app.html',
+
   styleUrl: './app.css'
 })
 export class App {

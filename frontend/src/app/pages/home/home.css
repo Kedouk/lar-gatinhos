@@ -10,7 +10,12 @@ main {
   padding: 70px 8%;
   min-height: 550px;
   box-sizing: border-box;
-  background-color: #f2e2cf;
+  background: linear-gradient(
+    120deg,
+    #f2e2cf 0%,
+    #e9cdb0 45%,
+    #dcb58f 100%
+  );
 }
 
 .hero-content {
@@ -43,11 +48,10 @@ main {
   object-fit: cover;
   box-sizing: border-box;
   border-radius: 24px;
-  border: 5px solid #f57c1f;
 }
 
 .adoption {
-  padding: 70px 8%;
+  padding: 45px 8%;
   background-color: #ffffff;
 }
 
@@ -105,8 +109,81 @@ main {
 }
 
 .cat-info h3 {
-  margin: 0 0 10px;
+  margin: 0 0 15px;
   color: #555555;
+  font-size: 24px;
+}
+
+.cat-details {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.cat-details span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 15px;
+  background-color: #e8f4f6;
+  color: #3f8ea0;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sex-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px !important;
+  font-size: 16px !important;
+}
+
+.age-badge {
+  padding: 10px 16px !important;
+  font-size: 16px !important;
+}
+
+.sex-badge svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: #3f8ea0;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cat-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.cat-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: #e8f4f6;
+  color: #3f8ea0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cat-tag.fiv-negativo,
+.cat-tag.felv-negativo {
+  background-color: #e8f4f6;
+  color: #3f8ea0;
+}
+
+.cat-tag.fiv-positivo,
+.cat-tag.felv-positivo {
+  background-color: #f2e2cf;
+  color: #d8432e;
 }
 
 .cat-info p {
@@ -118,7 +195,25 @@ main {
 
 .cat-info .button {
   margin-top: auto;
-  align-self: flex-start;
+  align-self: center;
+}
+
+.adoption-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 35px;
+}
+
+.adoption-more .button {
+  background-color: #3f8ea0;
+  color: #ffffff;
+  text-decoration: none;
+  border: 2px solid #3f8ea0;
+}
+
+.adoption-more .button:hover {
+  background-color: #5fb2be;
+  border-color: #5fb2be;
 }
 
 .about {
@@ -129,7 +224,12 @@ main {
   padding: 70px 8%;
   min-height: 500px;
   box-sizing: border-box;
-  background-color: #f2e2cf;
+  background: linear-gradient(
+    120deg,
+    #f2e2cf 0%,
+    #e9cdb0 45%,
+    #dcb58f 100%
+  );
 }
 
 .about-content {
@@ -161,11 +261,10 @@ main {
   object-fit: cover;
   box-sizing: border-box;
   border-radius: 24px;
-  border: 5px solid #f57c1f;
 }
 
 .help {
-  padding: 70px 8%;
+  padding: 45px 8%;
   background-color: #ffffff;
 }
 
@@ -257,7 +356,7 @@ main {
   }
 
   .adoption {
-    padding: 60px 6%;
+    padding: 45px 6%;
   }
 
   .about {
@@ -281,7 +380,7 @@ main {
   }
 
   .help {
-    padding: 60px 6%;
+    padding: 45px 6%;
   }
 
   .help-grid {

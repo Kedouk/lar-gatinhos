@@ -6,11 +6,10 @@
 
     <div class="hero-content">
 
-      <h1>Um lar pode mudar uma vida</h1>
+      <h1>Encontre seu novo companheiro</h1>
 
       <p>
-        Conheça os gatinhos que estão esperando por uma família
-        cheia de amor.
+        Nossos gatinhos esperam por uma família responsável, um lar seguro e muito carinho. Conheça alguns dos gatinhos que estão prontos para encontrar seu novo lar.
       </p>
 
       <a routerLink="/adocao" class="button">
@@ -35,7 +34,7 @@
       <h2>Gatinhos para adoção</h2>
 
       <p>
-        Conheça alguns dos gatinhos que estão esperando por uma família.
+        Conheça os gatinhos que sonham com um lar cheio de carinho.
       </p>
 
     </div>
@@ -58,13 +57,118 @@
 
             </div>
 
+
             <div class="cat-info">
 
               <h3>{{ gato.nome }}</h3>
 
+
+              <div class="cat-details">
+
+                <span class="sex-badge">
+
+                  @if (gato.sexo === 'Fêmea') {
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="10" cy="8" r="5"></circle>
+                      <path d="M10 13v8"></path>
+                      <path d="M7 18h6"></path>
+                    </svg>
+
+                  } @else {
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="9" cy="15" r="5"></circle>
+                      <path d="M13 11l7-7"></path>
+                      <path d="M16 4h4v4"></path>
+                    </svg>
+
+                  }
+
+                  {{ gato.sexo }}
+
+                </span>
+
+
+                <span class="age-badge">
+
+                  @if (gato.sexo === 'Fêmea') {
+
+                    @if (gato.idade === 'Adulto') {
+                      Adulta
+                    } @else if (gato.idade === 'Idoso') {
+                      Idosa
+                    } @else {
+                      {{ gato.idade }}
+                    }
+
+                  } @else {
+
+                    {{ gato.idade }}
+
+                  }
+
+                </span>
+
+              </div>
+
+
+              <div class="cat-tags">
+
+                @if (gato.castrado) {
+
+                  <span class="cat-tag">
+
+                    @if (gato.sexo === 'Fêmea') {
+                      Castrada
+                    } @else {
+                      Castrado
+                    }
+
+                  </span>
+
+                }
+
+
+                @if (gato.vacinado) {
+
+                  <span class="cat-tag">
+
+                    @if (gato.sexo === 'Fêmea') {
+                      Vacinada
+                    } @else {
+                      Vacinado
+                    }
+
+                  </span>
+
+                }
+
+
+                @if (gato.fiv) {
+
+                  <span class="cat-tag">
+                    FIV {{ gato.fiv }}
+                  </span>
+
+                }
+
+
+                @if (gato.felv) {
+
+                  <span class="cat-tag">
+                    FeLV {{ gato.felv }}
+                  </span>
+
+                }
+
+              </div>
+
+
               <p>
                 {{ gato.descricao }}
               </p>
+
 
               <a
                 [routerLink]="['/gato', gato.id]"
@@ -78,6 +182,18 @@
           </div>
 
         }
+
+      </div>
+
+
+      <div class="adoption-more">
+
+        <a
+          routerLink="/adocao"
+          class="button"
+        >
+          Ver todos os gatinhos
+        </a>
 
       </div>
 
@@ -120,7 +236,7 @@
 
     <div class="about-image">
 
-      <img src="gato-hero.png" alt="Gato">
+      <img src="sobre-nos.png" alt="Gatos brincando">
 
     </div>
 

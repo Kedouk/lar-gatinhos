@@ -3,9 +3,14 @@ main {
 }
 
 .adoption-header {
-  padding: 70px 8%;
+  padding: 45px 8%;
   text-align: center;
-  background-color: #f2e2cf;
+  background: linear-gradient(
+    120deg,
+    #f2e2cf 0%,
+    #e9cdb0 45%,
+    #dcb58f 100%
+  );
 }
 
 .adoption-header h1 {
@@ -22,12 +27,15 @@ main {
 }
 
 .cats {
-  padding: 80px 8%;
+  padding: 45px 5%;
   background-color: #ffffff;
   min-height: 400px;
 }
 
 .cats-grid {
+  width: 100%;
+  max-width: 1290px;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -249,7 +257,7 @@ main {
 @media (max-width: 768px) {
 
   .adoption-header {
-    padding: 50px 6%;
+    padding: 45px 6%;
   }
 
   .adoption-header h1 {
@@ -257,12 +265,18 @@ main {
   }
 
   .cats {
-    padding: 60px 6%;
+    padding: 45px 6%;
   }
 
   .cats-grid {
+    width: 100%;
+    max-width: 300px;
     flex-direction: column;
     align-items: center;
+  }
+
+  .cat-card {
+    width: 300px;
   }
 
   .filters {

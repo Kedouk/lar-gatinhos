@@ -4,9 +4,14 @@ main {
 }
 
 .contact-header {
-  padding: 70px 8%;
+  padding: 45px 8%;
   text-align: center;
-  background-color: #f2e2cf;
+  background: linear-gradient(
+    120deg,
+    #f2e2cf 0%,
+    #e9cdb0 45%,
+    #dcb58f 100%
+  );
 }
 
 .contact-header h1 {
@@ -23,7 +28,7 @@ main {
 }
 
 .contact-content {
-  padding: 70px 8%;
+  padding: 45px 8%;
   background-color: #ffffff;
 }
 
@@ -106,7 +111,7 @@ main {
 @media (max-width: 768px) {
 
   .contact-header {
-    padding: 50px 6%;
+    padding: 45px 6%;
   }
 
   .contact-header h1 {
@@ -114,7 +119,7 @@ main {
   }
 
   .contact-content {
-    padding: 60px 6%;
+    padding: 45px 6%;
   }
 
   .contact-grid {

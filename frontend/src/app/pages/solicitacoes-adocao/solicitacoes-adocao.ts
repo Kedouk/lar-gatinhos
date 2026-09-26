@@ -7,21 +7,14 @@ import {
 
 import { Header } from '../../shared/header/header';
 
-import { AdminHeader } from '../../shared/admin-header/admin-header';
-
 @Component({
   selector: 'app-solicitacoes-adocao',
-
   imports: [
-    Header,
-    AdminHeader
+    Header
   ],
-
   templateUrl: './solicitacoes-adocao.html',
-
   styleUrl: './solicitacoes-adocao.css',
 })
-
 export class SolicitacoesAdocao {
 
   private solicitacoesService =

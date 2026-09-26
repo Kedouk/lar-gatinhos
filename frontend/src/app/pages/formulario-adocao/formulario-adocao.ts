@@ -63,6 +63,8 @@ export class FormularioAdocao {
 
   sobreAdotante = '';
 
+  aceitouTermos = false;
+
   enviando = false;
 
   erroEnvio = '';
@@ -144,7 +146,9 @@ export class FormularioAdocao {
 
 
     if (form.invalid) {
+
       return;
+
     }
 
 
@@ -171,6 +175,16 @@ export class FormularioAdocao {
 
       this.erroEnvio =
         'Preencha todos os campos obrigatórios antes de enviar.';
+
+      return;
+
+    }
+
+
+    if (!this.aceitouTermos) {
+
+      this.erroEnvio =
+        'Leia e confirme as informações sobre o processo de adoção antes de enviar.';
 
       return;
 
@@ -269,6 +283,8 @@ export class FormularioAdocao {
           this.motivoAdocao = '';
 
           this.sobreAdotante = '';
+
+          this.aceitouTermos = false;
 
           form.resetForm();
 

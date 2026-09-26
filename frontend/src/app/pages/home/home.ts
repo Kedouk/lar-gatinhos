@@ -1,6 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
+
 import { RouterLink } from '@angular/router';
+
 import { Header } from '../../shared/header/header';
+
 import { Gato, GatosService } from '../../services/gatos';
 
 @Component({
@@ -20,14 +23,22 @@ export class Home {
     this.gatosService.getGatosDisponiveis().subscribe({
 
       next: (gatos) => {
-        this.gatos.set(gatos);
+
+        this.gatos.set(gatos.slice(0, 4));
+
       },
 
       error: (erro) => {
-        console.error('Erro ao buscar gatinhos:', erro);
+
+        console.error(
+          'Erro ao buscar gatinhos:',
+          erro
+        );
+
       }
 
     });
+
   }
 
 }

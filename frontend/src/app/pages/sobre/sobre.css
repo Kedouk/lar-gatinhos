@@ -3,9 +3,14 @@ main {
 }
 
 .about-header {
-  padding: 70px 8%;
+  padding: 45px 8%;
   text-align: center;
-  background-color: #f2e2cf;
+  background: linear-gradient(
+    120deg,
+    #f2e2cf 0%,
+    #e9cdb0 45%,
+    #dcb58f 100%
+  );
 }
 
 .about-header h1 {
@@ -27,7 +32,7 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 60px;
-  padding: 80px 8%;
+  padding: 45px 8%;
   background-color: #ffffff;
 }
 
@@ -59,12 +64,16 @@ main {
   height: 350px;
   object-fit: cover;
   border-radius: 24px;
-  border: 5px solid #f57c1f;
 }
 
 .mission {
-  padding: 80px 8%;
-  background-color: #f2e2cf;
+  padding: 45px 8%;
+  background: linear-gradient(
+    120deg,
+    #f2e2cf 0%,
+    #e9cdb0 45%,
+    #dcb58f 100%
+  );
 }
 
 .section-title {
@@ -113,7 +122,7 @@ main {
 }
 
 .about-help {
-  padding: 80px 8%;
+  padding: 45px 8%;
   background-color: #ffffff;
   text-align: center;
 }
@@ -160,7 +169,7 @@ main {
 @media (max-width: 768px) {
 
   .about-header {
-    padding: 50px 6%;
+    padding: 45px 6%;
   }
 
   .about-header h1 {
@@ -169,7 +178,7 @@ main {
 
   .about-story {
     flex-direction: column;
-    padding: 60px 6%;
+    padding: 45px 6%;
     text-align: center;
   }
 
@@ -187,7 +196,7 @@ main {
   }
 
   .mission {
-    padding: 60px 6%;
+    padding: 45px 6%;
   }
 
   .mission-grid {
@@ -196,7 +205,7 @@ main {
   }
 
   .about-help {
-    padding: 60px 6%;
+    padding: 45px 6%;
   }
 
 }

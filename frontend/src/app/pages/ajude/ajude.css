@@ -1,143 +1,153 @@
 main {
-    min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
 }
 
 .help-header {
-    padding: 70px 8%;
-    text-align: center;
-    background-color: #f2e2cf;
+  padding: 45px 8%;
+  text-align: center;
+  background: linear-gradient(
+    120deg,
+    #f2e2cf 0%,
+    #e9cdb0 45%,
+    #dcb58f 100%
+  );
 }
 
 .help-header h1 {
-    margin: 0 0 15px;
-    font-size: 42px;
-    color: #d8432e;
+  margin: 0 0 15px;
+  font-size: 42px;
+  color: #d8432e;
 }
 
 .help-header p {
-    max-width: 750px;
-    margin: 0 auto;
-    font-size: 18px;
-    line-height: 1.6;
-    color: #555555;
+  max-width: 750px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555555;
 }
 
 .help-options {
-    padding: 80px 8%;
-    background-color: #ffffff;
+  padding: 45px 8%;
+  background-color: #ffffff;
 }
 
 .section-title {
-    text-align: center;
-    margin-bottom: 45px;
+  text-align: center;
+  margin-bottom: 45px;
 }
 
 .section-title h2 {
-    margin: 0 0 12px;
-    font-size: 36px;
-    color: #d8432e;
+  margin: 0 0 12px;
+  font-size: 36px;
+  color: #d8432e;
 }
 
 .section-title p {
-    margin: 0;
-    font-size: 18px;
-    color: #555555;
+  margin: 0;
+  font-size: 18px;
+  color: #555555;
 }
 
 .help-grid {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
 }
 
 .help-card {
-    width: 300px;
-    padding: 30px;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    border: 3.5px solid #5fb2be;
-    border-radius: 18px;
-    text-align: center;
+  width: 300px;
+  padding: 30px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border: 3.5px solid #5fb2be;
+  border-radius: 18px;
+  text-align: center;
 }
 
 .help-card h3 {
-    margin: 0 0 15px;
-    font-size: 24px;
-    color: #555555;
+  margin: 0 0 15px;
+  font-size: 24px;
+  color: #555555;
 }
 
 .help-card p {
-    margin: 0 0 22px;
-    color: #555555;
-    line-height: 1.6;
+  margin: 0 0 22px;
+  color: #555555;
+  line-height: 1.6;
 }
 
 .help-contact {
-    padding: 80px 8%;
-    background-color: #f2e2cf;
-    text-align: center;
+  padding: 45px 8%;
+  background: linear-gradient(
+    120deg,
+    #f2e2cf 0%,
+    #e9cdb0 45%,
+    #dcb58f 100%
+  );
+  text-align: center;
 }
 
 .help-contact-content {
-    max-width: 650px;
-    margin: 0 auto;
+  max-width: 650px;
+  margin: 0 auto;
 }
 
 .help-contact h2 {
-    margin: 0 0 20px;
-    font-size: 36px;
-    color: #d8432e;
+  margin: 0 0 20px;
+  font-size: 36px;
+  color: #d8432e;
 }
 
 .help-contact p {
-    margin: 0 0 25px;
-    font-size: 18px;
-    line-height: 1.6;
-    color: #555555;
+  margin: 0 0 25px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555555;
 }
 
 .help-icon {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #e8f4f6;
-    border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e8f4f6;
+  border-radius: 50%;
 }
 
 .help-icon svg {
-    width: 34px;
-    height: 34px;
-    fill: none;
-    stroke: #3f8ea0;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: #3f8ea0;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 @media (max-width: 768px) {
 
-    .help-header {
-        padding: 50px 6%;
-    }
+  .help-header {
+    padding: 45px 6%;
+  }
 
-    .help-header h1 {
-        font-size: 36px;
-    }
+  .help-header h1 {
+    font-size: 36px;
+  }
 
-    .help-options {
-        padding: 60px 6%;
-    }
+  .help-options {
+    padding: 45px 6%;
+  }
 
-    .help-grid {
-        flex-direction: column;
-        align-items: center;
-    }
+  .help-grid {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .help-contact {
-        padding: 60px 6%;
-    }
+  .help-contact {
+    padding: 45px 6%;
+  }
 
 }
