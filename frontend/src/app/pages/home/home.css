@@ -20,6 +20,7 @@ main {
 
 .hero-content {
   max-width: 550px;
+  text-align: center;
 }
 
 .hero h1 {
@@ -234,6 +235,7 @@ main {
 
 .about-content {
   max-width: 550px;
+  text-align: center;
 }
 
 .about h2 {
@@ -368,6 +370,7 @@ main {
 
   .about-content {
     max-width: 100%;
+    text-align: center;
   }
 
   .about-image {

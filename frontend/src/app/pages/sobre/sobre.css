@@ -38,6 +38,7 @@ main {
 
 .about-story-content {
   max-width: 550px;
+  text-align: center;
 }
 
 .about-story-content h2 {
@@ -184,6 +185,7 @@ main {
 
   .about-story-content {
     max-width: 100%;
+    text-align: center;
   }
 
   .about-story-image {
