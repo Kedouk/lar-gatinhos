@@ -10,7 +10,7 @@ dotenv.config();
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 app.use(cors());
@@ -896,8 +896,8 @@ app.delete('/solicitacoes-adocao/:id', autenticar, async (req, res) => {
 
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
 
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 
 });

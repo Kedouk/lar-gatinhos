@@ -1,20 +1,37 @@
 import { Injectable, inject } from '@angular/core';
+
 import { HttpClient } from '@angular/common/http';
+
 import { Observable, map } from 'rxjs';
 
+import { environment } from '../../environments/environment';
+
 export interface Gato {
+
   id: number;
+
   nome: string;
+
   idade: string;
+
   sexo: string;
+
   descricao: string;
+
   foto: string;
+
   personalidade: string;
+
   castrado: boolean;
+
   vacinado: boolean;
+
   disponivel: boolean;
+
   fiv: string;
+
   felv: string;
+
 }
 
 @Injectable({
@@ -24,7 +41,7 @@ export class GatosService {
 
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:3000/gatos';
+  private apiUrl = `${environment.apiUrl}/gatos`;
 
   private prepararFoto(foto: string): string {
 
@@ -39,6 +56,7 @@ export class GatosService {
     }
 
     return `/${foto}`;
+
   }
 
   private prepararGatos(gatos: Gato[]): Gato[] {
@@ -50,6 +68,7 @@ export class GatosService {
       foto: this.prepararFoto(gato.foto)
 
     }));
+
   }
 
   getGatos(): Observable<Gato[]> {
@@ -59,6 +78,7 @@ export class GatosService {
       map(gatos => this.prepararGatos(gatos))
 
     );
+
   }
 
   getGatosDisponiveis(): Observable<Gato[]> {
@@ -68,6 +88,7 @@ export class GatosService {
       map(gatos => gatos.filter(gato => gato.disponivel))
 
     );
+
   }
 
   getGatoPorId(id: number): Observable<Gato> {
@@ -76,7 +97,18 @@ export class GatosService {
 
       `${this.apiUrl}/${id}`
 
+    ).pipe(
+
+      map(gato => ({
+
+        ...gato,
+
+        foto: this.prepararFoto(gato.foto)
+
+      }))
+
     );
+
   }
 
   adicionarGato(
@@ -100,6 +132,7 @@ export class GatosService {
       }))
 
     );
+
   }
 
   atualizarGato(
@@ -124,6 +157,7 @@ export class GatosService {
       }))
 
     );
+
   }
 
   excluirGato(id: number): Observable<void> {
@@ -133,6 +167,7 @@ export class GatosService {
       `${this.apiUrl}/${id}`
 
     );
+
   }
 
 }

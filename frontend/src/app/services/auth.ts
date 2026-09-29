@@ -1,20 +1,33 @@
 import { Injectable, inject } from '@angular/core';
+
 import { HttpClient } from '@angular/common/http';
+
 import { Observable, tap } from 'rxjs';
 
+import { environment } from '../../environments/environment';
+
 export interface Administrador {
+
   id: number;
+
   nome: string;
+
   email: string;
+
 }
 
 export interface LoginResposta {
+
   token: string;
+
   administrador: Administrador;
+
 }
 
 interface TokenPayload {
+
   exp?: number;
+
 }
 
 @Injectable({
@@ -24,7 +37,7 @@ export class AuthService {
 
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = environment.apiUrl;
 
   login(
     email: string,
@@ -32,25 +45,36 @@ export class AuthService {
   ): Observable<LoginResposta> {
 
     return this.http.post<LoginResposta>(
+
       `${this.apiUrl}/login`,
+
       {
         email,
         senha
       }
+
     ).pipe(
+
       tap(resposta => {
 
         localStorage.setItem(
+
           'token',
+
           resposta.token
+
         );
 
         localStorage.setItem(
+
           'administrador',
+
           JSON.stringify(resposta.administrador)
+
         );
 
       })
+
     );
 
   }
@@ -60,7 +84,9 @@ export class AuthService {
     const token = localStorage.getItem('token');
 
     if (!token) {
+
       return false;
+
     }
 
     try {
@@ -68,20 +94,33 @@ export class AuthService {
       const partes = token.split('.');
 
       if (partes.length !== 3) {
+
         this.logout();
+
         return false;
+
       }
 
       const payload: TokenPayload = JSON.parse(
-        atob(partes[1].replace(/-/g, '+').replace(/_/g, '/'))
+
+        atob(
+          partes[1]
+            .replace(/-/g, '+')
+            .replace(/_/g, '/')
+        )
+
       );
 
       if (
+
         payload.exp &&
+
         payload.exp * 1000 <= Date.now()
+
       ) {
 
         this.logout();
+
         return false;
 
       }
@@ -91,6 +130,7 @@ export class AuthService {
     } catch {
 
       this.logout();
+
       return false;
 
     }
@@ -100,6 +140,7 @@ export class AuthService {
   logout(): void {
 
     localStorage.removeItem('token');
+
     localStorage.removeItem('administrador');
 
   }

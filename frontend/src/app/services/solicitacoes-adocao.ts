@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
+import { environment } from '../../environments/environment';
+
 export interface SolicitacaoAdocao {
 
   id?: number;
@@ -59,15 +61,19 @@ export class SolicitacoesAdocaoService {
 
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:3000/solicitacoes-adocao';
+  private apiUrl =
+    `${environment.apiUrl}/solicitacoes-adocao`;
 
   enviarSolicitacao(
     solicitacao: SolicitacaoAdocao
   ): Observable<SolicitacaoAdocao> {
 
     return this.http.post<SolicitacaoAdocao>(
+
       this.apiUrl,
+
       solicitacao
+
     );
 
   }
@@ -75,7 +81,9 @@ export class SolicitacoesAdocaoService {
   getSolicitacoes(): Observable<SolicitacaoAdocao[]> {
 
     return this.http.get<SolicitacaoAdocao[]>(
+
       this.apiUrl
+
     );
 
   }
@@ -86,8 +94,11 @@ export class SolicitacoesAdocaoService {
   ): Observable<SolicitacaoAdocao> {
 
     return this.http.patch<SolicitacaoAdocao>(
+
       `${this.apiUrl}/${id}/status`,
+
       { status }
+
     );
 
   }
@@ -97,7 +108,9 @@ export class SolicitacoesAdocaoService {
   ): Observable<void> {
 
     return this.http.delete<void>(
+
       `${this.apiUrl}/${id}`
+
     );
 
   }
