@@ -12,6 +12,16 @@ header {
   height: auto;
 }
 
+.brand-name {
+  flex: 1;
+  margin-left: 40px;
+  color: #d8432e;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  text-align: left;
+}
+
 nav {
   display: flex;
   align-items: center;
@@ -54,7 +64,6 @@ nav a:active,
 }
 
 @media (max-width: 768px) {
-
   header {
     flex-direction: column;
     gap: 15px;
@@ -63,6 +72,12 @@ nav a:active,
 
   .logo img {
     width: 110px;
+  }
+
+  .brand-name {
+    margin-left: 0;
+    text-align: center;
+    font-size: 24px;
   }
 
   nav {
@@ -75,5 +90,4 @@ nav a:active,
   .logout-button {
     padding: 8px 13px;
   }
-
 }
