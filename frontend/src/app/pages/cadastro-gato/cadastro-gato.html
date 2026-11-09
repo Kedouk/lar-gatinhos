@@ -1,3 +1,4 @@
+
 <app-header></app-header>
 
 <main>
@@ -23,7 +24,6 @@
     }
 
   </section>
-
 
   <section class="form-section">
 
@@ -65,7 +65,6 @@
 
         }
 
-
         <div class="form-group">
 
           <label for="nome">
@@ -94,7 +93,6 @@
           }
 
         </div>
-
 
         <div class="form-group">
 
@@ -137,7 +135,6 @@
           }
 
         </div>
-
 
         <div class="form-group">
 
@@ -185,7 +182,6 @@
 
         </div>
 
-
         <div class="form-group">
 
           <label for="descricao">
@@ -201,7 +197,6 @@
           ></textarea>
 
         </div>
-
 
         <div class="form-group">
 
@@ -219,7 +214,6 @@
 
         </div>
 
-
         <div class="form-group">
 
           <label for="foto">
@@ -231,7 +225,7 @@
             id="foto"
             name="foto"
             type="file"
-            accept="image/*"
+            accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
             (change)="selecionarFoto($event)"
             [required]="!modoEdicao"
             ngModel
@@ -241,6 +235,22 @@
 
             <span class="file-name">
               {{ nomeArquivo }}
+            </span>
+
+          }
+
+          @if (processandoFoto()) {
+
+            <span>
+              Otimizando fotografia...
+            </span>
+
+          }
+
+          @if (erroFoto) {
+
+            <span class="field-error">
+              {{ erroFoto }}
             </span>
 
           }
@@ -267,7 +277,6 @@
           }
 
         </div>
-
 
         <div class="form-row">
 
@@ -313,7 +322,6 @@
 
           </div>
 
-
           <div class="form-group">
 
             <label for="felv">
@@ -358,7 +366,6 @@
 
         </div>
 
-
         <div class="checkbox-group">
 
           <label class="checkbox-label">
@@ -379,7 +386,6 @@
 
           </label>
 
-
           <label class="checkbox-label">
 
             <input
@@ -398,7 +404,6 @@
 
           </label>
 
-
           <label class="checkbox-label">
 
             <input
@@ -415,14 +420,17 @@
 
         </div>
 
-
         <button
           type="submit"
           class="button"
-          [disabled]="cadastrando()"
+          [disabled]="cadastrando() || processandoFoto()"
         >
 
-          @if (cadastrando()) {
+          @if (processandoFoto()) {
+
+            Otimizando fotografia...
+
+          } @else if (cadastrando()) {
 
             @if (modoEdicao) {
               Salvando...

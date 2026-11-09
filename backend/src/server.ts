@@ -1,3 +1,4 @@
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -5,6 +6,11 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { pool } from './database/database.js';
 import { autenticar } from './middleware/auth.js';
+import {
+  salvarFotoGato,
+  excluirFotoGato,
+  ErroFotoGato
+} from './services/fotos-gatos.js';
 
 dotenv.config();
 
@@ -17,65 +23,47 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
 app.get('/', (_req, res) => {
-
   res.json({
     message: 'API do Lar Gatinhos funcionando!'
   });
-
 });
 
 app.get('/teste-banco', async (_req, res) => {
-
   try {
-
     const resultado = await pool.query('select now()');
 
     res.json({
       message: 'Conexão com o banco funcionando!',
       horario: resultado.rows[0].now
     });
-
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
       message: 'Erro ao conectar com o banco de dados.'
     });
-
   }
-
 });
 
 app.post('/login', async (req, res) => {
-
   try {
-
-    const {
-      email,
-      senha
-    } = req.body;
+    const { email, senha } = req.body;
 
     if (!email?.trim() || !senha) {
-
       return res.status(400).json({
         message: 'E-mail e senha são obrigatórios.'
       });
-
     }
 
     if (!JWT_SECRET) {
-
       console.error('JWT_SECRET não configurado.');
 
       return res.status(500).json({
         message: 'Configuração de autenticação não encontrada.'
       });
-
     }
 
     const resultado = await pool.query(`
-
       select
         id,
         nome,
@@ -83,15 +71,12 @@ app.post('/login', async (req, res) => {
         senha_hash
       from administradores
       where email = $1
-
     `, [email.trim().toLowerCase()]);
 
     if (resultado.rows.length === 0) {
-
       return res.status(401).json({
         message: 'E-mail ou senha incorretos.'
       });
-
     }
 
     const administrador = resultado.rows[0];
@@ -102,11 +87,9 @@ app.post('/login', async (req, res) => {
     );
 
     if (!senhaValida) {
-
       return res.status(401).json({
         message: 'E-mail ou senha incorretos.'
       });
-
     }
 
     const token = jwt.sign(
@@ -129,25 +112,18 @@ app.post('/login', async (req, res) => {
         email: administrador.email
       }
     });
-
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
       message: 'Erro ao realizar o login.'
     });
-
   }
-
 });
 
 app.get('/gatos', async (_req, res) => {
-
   try {
-
     const resultado = await pool.query(`
-
       select
         id,
         nome,
@@ -163,39 +139,29 @@ app.get('/gatos', async (_req, res) => {
         felv
       from gatos
       order by id
-
     `);
 
     res.json(resultado.rows);
-
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
       message: 'Erro ao buscar os gatinhos.'
     });
-
   }
-
 });
 
 app.get('/gatos/:id', async (req, res) => {
-
   try {
-
     const id = Number(req.params.id);
 
     if (!Number.isInteger(id)) {
-
       return res.status(400).json({
         message: 'ID do gatinho inválido.'
       });
-
     }
 
     const resultado = await pool.query(`
-
       select
         id,
         nome,
@@ -211,35 +177,26 @@ app.get('/gatos/:id', async (req, res) => {
         felv
       from gatos
       where id = $1
-
     `, [id]);
 
     if (resultado.rows.length === 0) {
-
       return res.status(404).json({
         message: 'Gatinho não encontrado.'
       });
-
     }
 
     res.json(resultado.rows[0]);
-
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
       message: 'Erro ao buscar o gatinho.'
     });
-
   }
-
 });
 
 app.post('/gatos', autenticar, async (req, res) => {
-
   try {
-
     const {
       nome,
       idade,
@@ -262,15 +219,14 @@ app.post('/gatos', autenticar, async (req, res) => {
       !fiv ||
       !felv
     ) {
-
       return res.status(400).json({
         message: 'Nome, idade, sexo, foto, FIV e FeLV são obrigatórios.'
       });
-
     }
 
-    const resultado = await pool.query(`
+    const fotoEnviada = await salvarFotoGato(foto);
 
+    const resultado = await pool.query(`
       insert into gatos (
         nome,
         idade,
@@ -284,21 +240,10 @@ app.post('/gatos', autenticar, async (req, res) => {
         fiv,
         felv
       )
-
       values (
-        $1,
-        $2,
-        $3,
-        $4,
-        $5,
-        $6,
-        $7,
-        $8,
-        $9,
-        $10,
-        $11
+        $1, $2, $3, $4, $5, $6,
+        $7, $8, $9, $10, $11
       )
-
       returning
         id,
         nome,
@@ -312,14 +257,13 @@ app.post('/gatos', autenticar, async (req, res) => {
         disponivel,
         fiv,
         felv
-
     `, [
       nome.trim(),
       idade,
       sexo,
       descricao?.trim() || '',
       personalidade?.trim() || '',
-      foto,
+      fotoEnviada,
       castrado ?? false,
       vacinado ?? false,
       disponivel ?? true,
@@ -328,23 +272,25 @@ app.post('/gatos', autenticar, async (req, res) => {
     ]);
 
     res.status(201).json(resultado.rows[0]);
-
   } catch (error) {
-
     console.error(error);
 
-    res.status(500).json({
-      message: 'Erro ao cadastrar o gatinho.'
+    res.status(
+      error instanceof ErroFotoGato
+        ? error.statusCode
+        : 500
+    ).json({
+      message: error instanceof ErroFotoGato
+        ? error.message
+        : 'Erro ao cadastrar o gatinho.'
     });
-
   }
-
 });
 
 app.put('/gatos/:id', autenticar, async (req, res) => {
+  let novaFotoEnviada: string | null = null;
 
   try {
-
     const id = Number(req.params.id);
 
     const {
@@ -362,11 +308,9 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
     } = req.body;
 
     if (!Number.isInteger(id)) {
-
       return res.status(400).json({
         message: 'ID do gatinho inválido.'
       });
-
     }
 
     if (
@@ -377,17 +321,31 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
       !fiv ||
       !felv
     ) {
-
       return res.status(400).json({
         message: 'Nome, idade, sexo, foto, FIV e FeLV são obrigatórios.'
       });
+    }
 
+    const gatoAtual = await pool.query(
+      'select foto from gatos where id = $1',
+      [id]
+    );
+
+    if (gatoAtual.rows.length === 0) {
+      return res.status(404).json({
+        message: 'Gatinho não encontrado.'
+      });
+    }
+
+    const fotoAnterior = gatoAtual.rows[0].foto;
+    const fotoFinal = await salvarFotoGato(foto);
+
+    if (fotoFinal !== foto) {
+      novaFotoEnviada = fotoFinal;
     }
 
     const resultado = await pool.query(`
-
       update gatos
-
       set
         nome = $1,
         idade = $2,
@@ -400,9 +358,7 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
         disponivel = $9,
         fiv = $10,
         felv = $11
-
       where id = $12
-
       returning
         id,
         nome,
@@ -416,14 +372,13 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
         disponivel,
         fiv,
         felv
-
     `, [
       nome.trim(),
       idade,
       sexo,
       descricao?.trim() || '',
       personalidade?.trim() || '',
-      foto,
+      fotoFinal,
       castrado ?? false,
       vacinado ?? false,
       disponivel ?? true,
@@ -433,101 +388,113 @@ app.put('/gatos/:id', autenticar, async (req, res) => {
     ]);
 
     if (resultado.rows.length === 0) {
+      if (novaFotoEnviada) {
+        try {
+          await excluirFotoGato(novaFotoEnviada);
+          novaFotoEnviada = null;
+        } catch (erroExclusao) {
+          console.error(
+            'Não foi possível remover a nova foto após atualização sem resultado:',
+            erroExclusao
+          );
+        }
+      }
 
       return res.status(404).json({
         message: 'Gatinho não encontrado.'
       });
+    }
 
+    if (fotoAnterior && fotoAnterior !== fotoFinal) {
+      try {
+        await excluirFotoGato(fotoAnterior);
+      } catch (erroExclusao) {
+        console.error(
+          'A foto antiga não pôde ser removida do Storage:',
+          erroExclusao
+        );
+      }
     }
 
     res.json(resultado.rows[0]);
-
   } catch (error) {
-
     console.error(error);
 
-    res.status(500).json({
-      message: 'Erro ao atualizar o gatinho.'
+    res.status(
+      error instanceof ErroFotoGato
+        ? error.statusCode
+        : 500
+    ).json({
+      message: error instanceof ErroFotoGato
+        ? error.message
+        : 'Erro ao atualizar o gatinho.'
     });
-
   }
-
 });
 
 app.delete('/gatos/:id', autenticar, async (req, res) => {
-
   try {
-
     const id = Number(req.params.id);
 
     if (!Number.isInteger(id)) {
-
       return res.status(400).json({
         message: 'ID do gatinho inválido.'
       });
-
     }
 
     const gato = await pool.query(`
-
-      select id
+      select id, foto
       from gatos
       where id = $1
-
     `, [id]);
 
     if (gato.rows.length === 0) {
-
       return res.status(404).json({
         message: 'Gatinho não encontrado.'
       });
-
     }
 
     const solicitacoes = await pool.query(`
-
       select id
       from solicitacoes_adocao
       where gato_id = $1
       limit 1
-
     `, [id]);
 
     if (solicitacoes.rows.length > 0) {
-
       return res.status(409).json({
         message: 'Não é possível excluir este gatinho porque existem solicitações de adoção vinculadas a ele.'
       });
-
     }
 
     await pool.query(`
-
       delete from gatos
       where id = $1
-
     `, [id]);
+
+    try {
+      await excluirFotoGato(gato.rows[0].foto);
+    } catch (erroExclusao) {
+      console.error(
+        'O registro foi excluído, mas a foto não pôde ser removida do Storage:',
+        erroExclusao
+      );
+    }
 
     res.json({
       message: 'Gatinho excluído com sucesso.'
     });
-
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
       message: 'Erro ao excluir o gatinho.'
     });
-
   }
-
 });
 
 app.post('/solicitacoes-adocao', async (req, res) => {
-
   try {
-
     const {
       gato_id,
       nome,
@@ -557,7 +524,6 @@ app.post('/solicitacoes-adocao', async (req, res) => {
         : Number(gato_id);
 
     const idadeNumerica = Number(idade);
-
     const quantidadeMoradoresNumerica =
       Number(quantidade_moradores);
 
@@ -580,47 +546,36 @@ app.post('/solicitacoes-adocao', async (req, res) => {
       typeof compromisso_longo_prazo !== 'boolean' ||
       typeof respeita_tempo_adaptacao !== 'boolean'
     ) {
-
       return res.status(400).json({
         message: 'Preencha corretamente todos os campos obrigatórios.'
       });
-
     }
 
     const emailValido =
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
     if (!emailValido) {
-
       return res.status(400).json({
         message: 'Informe um e-mail válido.'
       });
-
     }
 
     if (gatoId !== null) {
-
       const gato = await pool.query(`
-
         select id
         from gatos
         where id = $1
           and disponivel = true
-
       `, [gatoId]);
 
       if (gato.rows.length === 0) {
-
         return res.status(404).json({
           message: 'Gatinho não encontrado ou não está disponível para adoção.'
         });
-
       }
-
     }
 
     const resultado = await pool.query(`
-
       insert into solicitacoes_adocao (
         gato_id,
         nome,
@@ -641,14 +596,12 @@ app.post('/solicitacoes-adocao', async (req, res) => {
         motivo_adocao,
         sobre_adotante
       )
-
       values (
         $1, $2, $3, $4, $5,
         $6, $7, $8, $9, $10,
         $11, $12, $13, $14, $15,
         $16, $17, $18
       )
-
       returning
         id,
         gato_id,
@@ -671,7 +624,6 @@ app.post('/solicitacoes-adocao', async (req, res) => {
         sobre_adotante,
         status,
         criada_em
-
     `, [
       gatoId,
       nome.trim(),
@@ -694,25 +646,18 @@ app.post('/solicitacoes-adocao', async (req, res) => {
     ]);
 
     res.status(201).json(resultado.rows[0]);
-
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
       message: 'Erro ao registrar a solicitação de adoção.'
     });
-
   }
-
 });
 
 app.get('/solicitacoes-adocao', autenticar, async (_req, res) => {
-
   try {
-
     const resultado = await pool.query(`
-
       select
         solicitacoes_adocao.id,
         solicitacoes_adocao.gato_id,
@@ -736,39 +681,26 @@ app.get('/solicitacoes-adocao', autenticar, async (_req, res) => {
         solicitacoes_adocao.sobre_adotante,
         solicitacoes_adocao.status,
         solicitacoes_adocao.criada_em
-
       from solicitacoes_adocao
-
       left join gatos
         on gatos.id = solicitacoes_adocao.gato_id
-
       order by solicitacoes_adocao.criada_em desc
-
     `);
 
     res.json(resultado.rows);
-
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
       message: 'Erro ao buscar as solicitações de adoção.'
     });
-
   }
-
 });
 
 app.patch('/solicitacoes-adocao/:id/status', autenticar, async (req, res) => {
-
   try {
-
     const id = Number(req.params.id);
-
-    const {
-      status
-    } = req.body;
+    const { status } = req.body;
 
     const statusPermitidos = [
       'Pendente',
@@ -778,29 +710,21 @@ app.patch('/solicitacoes-adocao/:id/status', autenticar, async (req, res) => {
     ];
 
     if (!Number.isInteger(id)) {
-
       return res.status(400).json({
         message: 'ID da solicitação inválido.'
       });
-
     }
 
     if (!statusPermitidos.includes(status)) {
-
       return res.status(400).json({
         message: 'Status inválido.'
       });
-
     }
 
     const resultado = await pool.query(`
-
       update solicitacoes_adocao
-
       set status = $1
-
       where id = $2
-
       returning
         id,
         gato_id,
@@ -823,81 +747,58 @@ app.patch('/solicitacoes-adocao/:id/status', autenticar, async (req, res) => {
         sobre_adotante,
         status,
         criada_em
-
     `, [status, id]);
 
     if (resultado.rows.length === 0) {
-
       return res.status(404).json({
         message: 'Solicitação não encontrada.'
       });
-
     }
 
     res.json(resultado.rows[0]);
-
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
       message: 'Erro ao atualizar o status da solicitação.'
     });
-
   }
-
 });
 
 app.delete('/solicitacoes-adocao/:id', autenticar, async (req, res) => {
-
   try {
-
     const id = Number(req.params.id);
 
     if (!Number.isInteger(id)) {
-
       return res.status(400).json({
         message: 'ID da solicitação inválido.'
       });
-
     }
 
     const resultado = await pool.query(`
-
       delete from solicitacoes_adocao
-
       where id = $1
-
       returning id
-
     `, [id]);
 
     if (resultado.rows.length === 0) {
-
       return res.status(404).json({
         message: 'Solicitação não encontrada.'
       });
-
     }
 
     res.json({
       message: 'Solicitação excluída com sucesso.'
     });
-
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
       message: 'Erro ao excluir a solicitação.'
     });
-
   }
-
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-
   console.log(`Servidor rodando na porta ${PORT}`);
-
 });
