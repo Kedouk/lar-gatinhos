@@ -1,3 +1,4 @@
+
 <app-header></app-header>
 
 <main>
@@ -76,6 +77,52 @@
       </div>
 
     } @else {
+
+      @if (totalPaginas() > 1) {
+
+        <div class="pagination pagination-top">
+
+          <button
+            type="button"
+            class="pagination-button"
+            [disabled]="paginaAtual() === 1"
+            (click)="irParaPagina(paginaAtual() - 1)"
+          >
+            Anterior
+          </button>
+
+
+          <div class="pagination-pages">
+
+            @for (pagina of paginas(); track pagina) {
+
+              <button
+                type="button"
+                class="pagination-number"
+                [class.active]="paginaAtual() === pagina"
+                (click)="irParaPagina(pagina)"
+              >
+                {{ pagina }}
+              </button>
+
+            }
+
+          </div>
+
+
+          <button
+            type="button"
+            class="pagination-button"
+            [disabled]="paginaAtual() === totalPaginas()"
+            (click)="irParaPagina(paginaAtual() + 1)"
+          >
+            Próxima
+          </button>
+
+        </div>
+
+      }
+
 
       <div class="cats-list">
 
